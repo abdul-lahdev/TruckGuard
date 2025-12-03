@@ -4,12 +4,24 @@ import dynamic from "next/dynamic";
 import { useState } from "react"
 import * as React from "react"
 import { Calendar } from "@/components/ui/calendar"
+
+
+import { Card, CardContent } from "@/components/ui/card";
+import { BadgeCheck, Lock, FileClock } from "lucide-react";
 import {
     Popover,
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover"
-
+import LeadCard from "@/app/component/dashboard/lead-cards";
+import { leadsData } from "@/app/constants/leads";
+import {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectValue,
+    SelectItem,
+} from "@/components/ui/select";
 
 import { Separator } from "@/components/ui/separator"
 import Link from "next/link";
@@ -22,18 +34,27 @@ const RevenueChart = dynamic(
     { ssr: false } // only render on client
 );
 
-const ReceiptChart = dynamic(
-    () => import('@/app/component/dashboard/receipt-chart'),
+const ClaimsChart = dynamic(
+    () => import('@/app/component/dashboard/claims-chart'),
+    { ssr: false } // only render on client
+);
+const LeadsOverViewChart = dynamic(
+    () => import('@/app/component/dashboard/leads-overview'),
     { ssr: false } // only render on client
 );
 
 
+
+
 function Page() {
 
-
+    const categories = ["New Business", "Renewal", "Endorsements", "Claims"];
+    const [selected, setSelected] = useState("New Business");
 
     const [open, setOpen] = React.useState(false)
     const [date, setDate] = useState(undefined)
+    const [open2, setOpen2] = React.useState(false)
+    const [date2, setDate2] = useState(undefined)
 
     const dashboardCards = [
         {
@@ -55,6 +76,27 @@ function Page() {
         },
     ]
 
+
+    const items = [
+        {
+            time: "01:23 AM",
+            title: "Claim Logged",
+            author: "Alex Will",
+            icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="28" height="28" rx="14" fill="#EAB919" fillOpacity="0.12" /> <rect x="2" y="2" width="24" height="24" rx="12" fill="#EAB919" fillOpacity="0.12" /> <path d="M13.9999 11.3334V14M13.9999 16.6667H14.0066M7.33325 11.6819V16.3182C7.33325 16.4813 7.33325 16.5628 7.35167 16.6395C7.368 16.7076 7.39494 16.7726 7.43149 16.8322C7.47272 16.8995 7.53037 16.9572 7.64567 17.0725L10.9275 20.3543C11.0428 20.4696 11.1005 20.5272 11.1677 20.5685C11.2274 20.605 11.2924 20.632 11.3604 20.6483C11.4372 20.6667 11.5187 20.6667 11.6817 20.6667H16.3181C16.4812 20.6667 16.5627 20.6667 16.6394 20.6483C16.7074 20.632 16.7725 20.605 16.8321 20.5685C16.8994 20.5272 16.957 20.4696 17.0723 20.3543L20.3542 17.0725C20.4695 16.9572 20.5271 16.8995 20.5683 16.8322C20.6049 16.7726 20.6318 16.7076 20.6482 16.6395C20.6666 16.5628 20.6666 16.4813 20.6666 16.3182V11.6819C20.6666 11.5188 20.6666 11.4373 20.6482 11.3606C20.6318 11.2925 20.6049 11.2275 20.5683 11.1679C20.5271 11.1006 20.4695 11.0429 20.3542 10.9276L17.0723 7.64579C16.957 7.53049 16.8994 7.47284 16.8321 7.43161C16.7725 7.39506 16.7074 7.36813 16.6394 7.35179C16.5627 7.33337 16.4812 7.33337 16.3181 7.33337H11.6817C11.5187 7.33337 11.4372 7.33337 11.3604 7.35179C11.2924 7.36813 11.2274 7.39506 11.1677 7.43161C11.1005 7.47284 11.0428 7.53049 10.9275 7.64579L7.64567 10.9276C7.53037 11.0429 7.47272 11.1006 7.43149 11.1679C7.39494 11.2275 7.368 11.2925 7.35167 11.3606C7.33325 11.4373 7.33325 11.5188 7.33325 11.6819Z" stroke="#EAB919" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>,
+        },
+        {
+            time: "01:23 AM",
+            title: "Added Task",
+            author: "Alex Will",
+            icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="28" height="28" rx="14" fill="#4EC483" fillOpacity="0.12" /> <rect x="2" y="2" width="24" height="24" rx="12" fill="#4EC483" fillOpacity="0.12" /> <path d="M10.9999 14L12.9999 16L16.9999 12M20.6666 14C20.6666 17.6819 17.6818 20.6667 13.9999 20.6667C10.318 20.6667 7.33325 17.6819 7.33325 14C7.33325 10.3181 10.318 7.33337 13.9999 7.33337C17.6818 7.33337 20.6666 10.3181 20.6666 14Z" stroke="#4EC483" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>,
+        },
+        {
+            time: "01:23 AM",
+            title: "Policy Locked",
+            author: "Alex Will",
+            icon: <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg"> <rect width="28" height="28" rx="14" fill="#E1F930" fillOpacity="0.12" /> <rect x="2" y="2" width="24" height="24" rx="12" fill="#E1F930" fillOpacity="0.12" /> <path d="M8 11.2C8 10.0799 8 9.51984 8.21799 9.09202C8.40973 8.71569 8.71569 8.40973 9.09202 8.21799C9.51984 8 10.0799 8 11.2 8H16.8C17.9201 8 18.4802 8 18.908 8.21799C19.2843 8.40973 19.5903 8.71569 19.782 9.09202C20 9.51984 20 10.0799 20 11.2V14.8C20 15.9201 20 16.4802 19.782 16.908C19.5903 17.2843 19.2843 17.5903 18.908 17.782C18.4802 18 17.9201 18 16.8 18H15.1225C14.7065 18 14.4984 18 14.2995 18.0408C14.123 18.0771 13.9521 18.137 13.7917 18.219C13.6108 18.3114 13.4483 18.4413 13.1235 18.7012L11.5332 19.9735C11.2558 20.1954 11.1171 20.3063 11.0004 20.3065C10.8988 20.3066 10.8028 20.2604 10.7395 20.1811C10.6667 20.0898 10.6667 19.9122 10.6667 19.557V18C10.0467 18 9.7367 18 9.48236 17.9319C8.79218 17.7469 8.25308 17.2078 8.06815 16.5176C8 16.2633 8 15.9533 8 15.3333V11.2Z" stroke="#F4EC00" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>,
+        },
+    ];
 
     const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -91,7 +133,7 @@ function Page() {
                 </span>
                 <span className="text-(--yellow3) text-[24px] font-semibold ">Your effort today becomes your success story tomorrow.</span>
             </div>
-            <div className="h-full grid grid-cols-4 justify-between gap-6 mt-8">
+            <div className="h-full grid grid-cols-1 xl:grid-cols-4 justify-between gap-6 mt-8">
                 {
                     dashboardCards.map((item, index) =>
                         <div key={index} className="bg-white border border-(--light2) p-5 rounded-3xl h-full flex items-center justify-between min-h-[165px]">
@@ -106,8 +148,8 @@ function Page() {
                     )
                 }
             </div>
-            <div className="grid grid-cols-5 gap-6 mt-6">
-                <div className="col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
+            <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 mt-6">
+                <div className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
                     <div className="flex items-center justify-between">
                         <h1 className="text-(--dark2) font-medium text-[24px]">Monthly Premium</h1>
                         <div className="flex flex-col gap-3">
@@ -136,15 +178,15 @@ function Page() {
                         </div>
 
                     </div>
-                    <Separator className='mt-3 bg-(--grey2)' />
+                    <Separator className='mt-3 bg-(--light2)' />
                     <div className="mt-3">
                         <RevenueChart />
                     </div>
                 </div>
-                <div className="col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
+                <div className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
                     <div className="flex items-center justify-between">
                         <h1 className="text-(--dark2) font-medium text-[24px]">Tasks</h1>
-                        <Link href=''>
+                        <Link href='' className="underline">
                             View All
                         </Link>
 
@@ -152,7 +194,7 @@ function Page() {
                     <Separator className='mt-3 bg-(--grey2)' />
 
 
-                    <div>
+                    <div className="flex flex-col gap-3 mt-8">
                         <TaskCard
                             defaultStatus="done"
                             title="Follow up with ABC Company"
@@ -176,6 +218,123 @@ function Page() {
                             title="Follow up with ABC Company"
                             date="12/02/2023"
                         />
+                    </div>
+                </div>
+
+
+                <div className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
+                    <div>
+                        <div className="flex justify-between items-center">
+                            <h1 className="text-(--dark2) font-medium text-[24px]">Recent Leads</h1>
+
+                            <Select defaultValue="New Business" onValueChange={setSelected}>
+                                <SelectTrigger className="w-48">
+                                    <SelectValue placeholder="Select Type" />
+                                </SelectTrigger>
+
+                                <SelectContent>
+                                    {categories.map((item) => (
+                                        <SelectItem key={item} value={item}>
+                                            {item}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </div>
+                        <Separator className='mt-3 bg-(--light2)' />
+
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
+                            {leadsData[selected]?.map((lead, i) => (
+                                <LeadCard key={i} {...lead} />
+                            ))}
+
+                        </div>
+                    </div>
+                </div>
+
+                <div className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
+                    <h1 className="text-(--dark2) font-medium text-[24px]">Recent Leads</h1>
+
+                    <Separator className='mt-3 bg-(--light2)' />
+
+                    <div className="mt-5">
+                        <ClaimsChart />
+                    </div>
+                </div>
+
+                <div className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
+                    <div className="flex items-center justify-between">
+
+                        <h1 className="text-(--dark2) font-medium text-[24px]">Leads Overview</h1>
+                        <Popover open={open2} onOpenChange={setOpen2}>
+                            <PopoverTrigger asChild>
+                                <div className="w-10 h-10 rounded-xl bg-[#FFFFFF14] flex items-center justify-center cursor-pointer">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M21 10H3M16 2V6M8 2V6M7.8 22H16.2C17.8802 22 18.7202 22 19.362 21.673C19.9265 21.3854 20.3854 20.9265 20.673 20.362C21 19.7202 21 18.8802 21 17.2V8.8C21 7.11984 21 6.27976 20.673 5.63803C20.3854 5.07354 19.9265 4.6146 19.362 4.32698C18.7202 4 17.8802 4 16.2 4H7.8C6.11984 4 5.27976 4 4.63803 4.32698C4.07354 4.6146 3.6146 5.07354 3.32698 5.63803C3 6.27976 3 7.11984 3 8.8V17.2C3 18.8802 3 19.7202 3.32698 20.362C3.6146 20.9265 4.07354 21.3854 4.63803 21.673C5.27976 22 6.11984 22 7.8 22Z" stroke="#1C1C1C" strokeOpacity="0.7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                    {/* {date ? date.toLocaleDateString() : "Select date"} */}
+                                </div>
+
+                            </PopoverTrigger>
+                            <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                                <Calendar
+                                    mode="single"
+                                    selected={date2}
+                                    captionLayout="dropdown"
+                                    onSelect={(date) => {
+                                        setDate2(date)
+                                        setOpen2(false)
+                                    }}
+
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+
+                    <Separator className='mt-3 bg-(--light2)' />
+                    <div className="mt-5">
+                        <LeadsOverViewChart />
+                    </div>
+                </div>
+
+
+                <div className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
+                    <h1 className="text-(--dark2) font-medium text-[24px]">Activity Log</h1>
+
+                    <Separator className='mt-3 bg-(--light2)' />
+
+
+                    <div className="space-y-8 mt-5">
+                        {items.map((item, index) => (
+                            <div className="flex gap-4 relative" key={index}>
+                                {/* Dot + Line */}
+                                <div className="flex flex-col items-center">
+                                    <div className="flex flex-col gap-2 items-center justify-center">
+                                        <div className="w-4 h-4 bg-[#22886B] rounded-full border-2 border-[#22886B52] shadow" >
+                                        </div>
+                                        <span className="text-[#333333B2] text-[10px]/[12px] font-medium whitespace-nowrap">
+                                            {item.time}
+                                        </span>
+                                    </div>
+                                    {index !== items.length - 1 && (
+                                        <div className="h-full w-0.5 bg-gray-300 mt-1"></div>
+                                    )}
+                                </div>
+
+                                {/* Card */}
+                                <div className="w-full min-h-[94px] bg-[#FFFFFF] border border-[#D0D5DD] rounded-xl shadow-[0_1px_2px_0_#1018280D] flex items-center ">
+                                    <div className="p-3 w-full">
+                                        <div className="flex bg-(--grey4) items-center border border-[#EAECF0A3] gap-2 rounded-xl p-1">
+
+                                            {item.icon}
+
+                                            <p className="text-[#202E2DA8] font-semibold text-[12px]">{item.title}</p>
+                                        </div>
+
+                                        <p className="text-[#202E2D99] text-[14px] mt-2 font-medium italic">By {item.author}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
 

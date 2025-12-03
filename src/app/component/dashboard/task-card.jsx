@@ -8,35 +8,35 @@ export default function TaskCard({ defaultStatus, title, date }) {
 
     const statusStyles = {
         done: {
-            bg: "bg-[#E8FFE9]",
+            bg: "bg-[#EAFFF1]",
             border: "border-[#4CAF50]",
             icon: "text-[#4CAF50]",
-            pillBg: "bg-[#C5F7CB]",
-            pillText: "text-[#1B7D2D]",
+            pillBg: "bg-[#22C55E1A]",
+            pillText: "text-[#16A34A]",
             label: "Done",
         },
         inprogress: {
-            bg: "bg-[#EFF5FF]",
+            bg: "bg-[#EEF5FF]",
             border: "border-[#4A90E2]",
             icon: "text-[#4A90E2]",
-            pillBg: "bg-[#D9E8FF]",
-            pillText: "text-[#2F6DD5]",
+            pillBg: "bg-[#4A96FD3B]",
+            pillText: "text-[#155DFC]",
             label: "In Progress",
         },
         added: {
-            bg: "bg-[#FFFBDB]",
+            bg: "bg-[#FCFFE9]",
             border: "border-[#F2C94C]",
             icon: "text-[#F2C94C]",
-            pillBg: "bg-[#FDECB2]",
-            pillText: "text-[#CE9A1B]",
+            pillBg: "bg-[#FFEED3]",
+            pillText: "text-[#F0B350]",
             label: "Added",
         },
         notcomplete: {
-            bg: "bg-[#FFE5E5]",
+            bg: "bg-[#FFEDED]",
             border: "border-[#EB5757]",
             icon: "text-[#EB5757]",
-            pillBg: "bg-[#FFCCCC]",
-            pillText: "text-[#C53030]",
+            pillBg: "bg-[#FFE4E4]",
+            pillText: "text-[#FF383C]",
             label: "Not Complete",
         },
     };
@@ -71,7 +71,7 @@ export default function TaskCard({ defaultStatus, title, date }) {
 
                 <div>
                     <h2 className="font-medium text-lg text-black/80">{title}</h2>
-                    <p className="text-xs mt-2 bg-white/70 px-3 py-1 rounded-full inline-block">
+                    <p className="bg-white border border-[#EBEEF2] h-5 px-3 text-[#606C80] font-bold text-[12px]/[12px] w-max flex items-center justify-center">
                         {date}
                     </p>
                 </div>

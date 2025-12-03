@@ -30,26 +30,30 @@ const RevenueChart = () => {
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: "80%",
-                    borderRadius: 10,
+                    columnWidth: "65%",       // tighter like screenshot
+                    borderRadius: 12,
                     borderRadiusApplication: "around",
+                    dataLabels: {
+                        position: "bottom",     // keeps label inside bar bottom
+                    },
                 },
             },
 
-            colors: ["#78B3FF"],
+            colors: ["#46B987"],
 
             fill: {
                 type: "gradient",
                 gradient: {
                     shade: "light",
                     type: "vertical",
-                    shadeIntensity: 0.3,
-                    gradientToColors: ["#3290FF"],
+                    shadeIntensity: 0.2,
+                    gradientToColors: ["#20A27D"],
                     opacityFrom: 1,
                     opacityTo: 1,
                     stops: [0, 100],
                 },
             },
+
             dataLabels: {
                 enabled: true,
                 formatter: (value) => {
@@ -57,13 +61,14 @@ const RevenueChart = () => {
                     return `${percentage}%`;
                 },
                 style: {
-                    colors: ["#FFFFFF"],
+                    colors: ["#F0F0F0"],      // softer white like screenshot
                     fontSize: "12px",
                     fontWeight: 600,
-                    position: 'bottom',
                 },
-                position: 'bottom',
-                offsetY: -20, // move label upward
+                background: {
+                    enabled: false,           // remove box around label
+                },
+                offsetY: 2,                 // push INTO bar slightly
             },
 
             stroke: {
@@ -77,8 +82,9 @@ const RevenueChart = () => {
                 ],
                 labels: {
                     style: {
-                        colors: "#D0D0D0",
+                        colors: "#1C1C1CB2",
                         fontSize: "12px",
+                        fontWeight: '400'
                     },
                 },
                 axisBorder: { show: false },
@@ -91,15 +97,16 @@ const RevenueChart = () => {
                 tickAmount: 5,
                 labels: {
                     style: {
-                        colors: "#A8A8A8",
+                        colors: "#1C1C1CB2",
                         fontSize: "12px",
+                        fontWeight: '400'
                     },
                     formatter: (value) => value / 1000 + "k",
                 },
             },
 
             grid: {
-                borderColor: "#4A4A4A",
+                borderColor: "#D1DDE2",
                 strokeDashArray: 3,
                 xaxis: { lines: { show: false } },
                 yaxis: { lines: { show: true } },
@@ -116,6 +123,7 @@ const RevenueChart = () => {
             },
         },
     });
+
 
 
     return (
