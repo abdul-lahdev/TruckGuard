@@ -85,7 +85,6 @@
 
   
     --dark2:#232528;
-    --dark3:#24282F;
     --dark4:#2B2E33;
     --dark5:#1D1F22;
     --dark6:#212224;
@@ -99,6 +98,7 @@
     --green1:#22886B;
     --green2:#DFFFEA;
     --green3:#46B987;
+    --green4:#047857;
     --grey1:#6F807B;
     --grey2:#606C80;
     --grey3:#ECF0F4;
@@ -106,6 +106,7 @@
     --grey5:#E2E8F0;
     --dark1:#1C1C1C;
     --dark2:#1C1C1CB2;
+    --dark3:#45556C;
     --yellow1:#FFFFC9;
     --yellow2:#E8E86A;
     --yellow3:#A67931;
@@ -190,16 +191,19 @@ body{
 }
 
 .btn-primary{
-  border: 1px solid #FFFFFF3D;
-  box-shadow: 0px 0px 8px 0px #FFFFFF3D;
-  background-color: #FFFFFF29;
-  height: 48px;
-  border-radius: 12px;
+  background-color: #22886B;
+  height: 44px;
+  border-radius: 8px;
   cursor: pointer;
-
-
+  color:white;
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   &:hover{
-  background-color: #e4e4e429;
+  background-color: #1b6e57;
 
   }
 }
@@ -321,4 +325,16 @@ button[data-dialog-close] {
 }
 .react-select__indicator-separator{
   display: none;
+}
+
+
+
+
+.currentClassAdd{
+    background-color:#22886B !important;
+  color:white !important;
+}
+.submitedClass{
+  background-color:#DFFFEA !important;
+  color:#166534 !important;
 }
