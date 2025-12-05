@@ -85,7 +85,6 @@
 
   
     --dark2:#232528;
-    --dark4:#2B2E33;
     --dark5:#1D1F22;
     --dark6:#212224;
     --dark7:#17191B;
@@ -104,9 +103,11 @@
     --grey3:#ECF0F4;
     --grey4:#FAFAFA;
     --grey5:#E2E8F0;
+    --grey6:#FCFCFC;
     --dark1:#1C1C1C;
     --dark2:#1C1C1CB2;
     --dark3:#45556C;
+    --dark4:#0A0A0A;
     --yellow1:#FFFFC9;
     --yellow2:#E8E86A;
     --yellow3:#A67931;
@@ -180,14 +181,15 @@ body{
   background-color: #F8FAFC !important;
 }
 .form-control{
-  height: 40px;
-  border-radius: 10px;
-  border: 1px solid #373737;
-  background-color: #232528;
-  padding: 12px;
+  height: 26px;
+  border-radius: 8px;
+  border: 1px solid #BFCAD252;
+  background-color: #FCFCFC;
+  padding-left: 12px;
+  padding-right: 12px;
   font-weight: 400;
   font-size: 12px;
-  color: white;
+  color: black;
 }
 
 .btn-primary{
@@ -204,6 +206,26 @@ body{
   gap: 8px;
   &:hover{
   background-color: #1b6e57;
+
+  }
+}
+
+.btn-secondary{
+   background-color: white;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid #22886B;
+  cursor: pointer;
+  color:#22886B;
+  padding-left: 12px;
+  padding-right: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  &:hover{
+  background-color: #1b6e57;
+  color:white;
 
   }
 }
@@ -311,7 +333,7 @@ button[data-dialog-close] {
   background-color: transparent !important;
 }
 .react-select__option:hover {
-  background-color: #323436 !important;
+  background-color: rgb(232, 232, 232) !important;
 }
 
 /* remove focus highlight */
@@ -321,12 +343,46 @@ button[data-dialog-close] {
   outline: none !important;
 }
 .react-select__option--is-selected {
-  background-color: #323436 !important; /* or transparent */
+  /* background-color: #323436 !important; or transparent */
+  color:black !important;   
+  background-color: rgb(232, 232, 232) !important;
+
 }
 .react-select__indicator-separator{
   display: none;
 }
 
+
+.reactSingleSelect{
+  .react-select__control{
+    background-color: #FCFCFC;
+    min-height: 26px !important;
+    height: 26px !important;
+    border-radius: 8px;
+    border: 1px solid #BFCAD252;
+    /* #FCFCFC */
+  }
+  .react-select__indicators{
+    height: 26px !important;
+
+  }
+
+  .react-select__value-container{
+     display: flex;
+    align-items: start;
+    color: red;
+  }
+  .react-select__single-value{
+color:#9CA3AF;
+font-size: 12px;
+}
+
+.react-select__placeholder{
+  color:#9CA3AF;
+font-size: 12px;
+}
+
+}
 
 
 

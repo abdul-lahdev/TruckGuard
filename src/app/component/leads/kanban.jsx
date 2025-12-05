@@ -48,7 +48,7 @@ const STATUS_MAPPING = {
     'Issue Policy': 'Issue Policy',
 };
 
-const KanvanCard = () => {
+const KanvanCard = ({ newLead, dispatch }) => {
 
 
 
@@ -110,10 +110,10 @@ const KanvanCard = () => {
                         <SelectItem value="Claims">Claims</SelectItem>
                     </SelectContent>
                 </Select>
-                <button className='btn-primary'>
+                <button className='btn-primary' onClick={() => dispatch({ type: 'setNewLead', payload: !newLead })}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 5V19M5 12H19" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
                     Add New</button>
-            </div>
+            </div >
 
             <div className='bg-white border border-(--grey5) px-4 pt-6 rounded-3xl mt-4   '>
 
