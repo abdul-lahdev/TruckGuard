@@ -66,6 +66,15 @@ const KanvanCard = ({ newLead, dispatch }) => {
             statusType: "New Lead",
             column: firstColumnId,
         },
+        {
+            id: faker.string.uuid(),
+            name: "Swift Logistics",
+            email: "abc@mail.com",
+            phone: "(633) 789-8880",
+            amount: "$45,222",
+            statusType: "New Lead",
+            column: firstColumnId,
+        },
     ]);
 
     // Add New Task to first column only
@@ -138,7 +147,7 @@ const KanvanCard = ({ newLead, dispatch }) => {
                         <KanbanBoard id={column.id} key={column.id} className='border-none bg-white shadow-none '>
                             {/* Column Header */}
 
-                            <KanbanHeader className={`border-none rounded-[12px]   ${column.name === 'New Lead' ? 'bg-[#F3F8FF] text-[#155DFC]' : column.name === 'Incomplete File' ? 'bg-[#F9F2FF] text-[#842ED1]' : column.name === 'Application Ready' ? 'bg-[#F2F5FF] text-[#4338CA]' : column.name === 'Application Submitted' ? 'bg-[#FFFEF3] text-[#A4660E]' : column.name === 'Quote Received' ? 'bg-[#FFF9F2] text-[#C2410C]' : column.name === 'Proposal Sent' ? 'bg-[#FFF4F4] text-[#F94747]' : 'bg-[#F3FFF8] text-[#22886B]'}`}>
+                            <KanbanHeader className={`border-none rounded-[12px] mb-3   ${column.name === 'New Lead' ? 'bg-[#F3F8FF] text-[#155DFC]' : column.name === 'Incomplete File' ? 'bg-[#F9F2FF] text-[#842ED1]' : column.name === 'Application Ready' ? 'bg-[#F2F5FF] text-[#4338CA]' : column.name === 'Application Submitted' ? 'bg-[#FFFEF3] text-[#A4660E]' : column.name === 'Quote Received' ? 'bg-[#FFF9F2] text-[#C2410C]' : column.name === 'Proposal Sent' ? 'bg-[#FFF4F4] text-[#F94747]' : 'bg-[#F3FFF8] text-[#22886B]'}`}>
                                 <div className="flex items-center justify-between w-full">
                                     <div className="flex items-center gap-2 px-2">
                                         {/* <div className="h-2 w-2 rounded-full" style={{ backgroundColor: column.color }} /> */}

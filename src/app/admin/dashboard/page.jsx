@@ -191,7 +191,7 @@ function Page() {
                         </Link>
 
                     </div>
-                    <Separator className='mt-3 bg-(--grey2)' />
+                    <Separator className='mt-3 bg-(--light2)' />
 
 
                     <div className="flex flex-col gap-3 mt-8">
