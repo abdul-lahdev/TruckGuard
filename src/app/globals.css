@@ -111,6 +111,7 @@
     --yellow1:#FFFFC9;
     --yellow2:#E8E86A;
     --yellow3:#A67931;
+    --yellow4:#FDFFED;
 
 }
 
@@ -182,6 +183,7 @@ body{
 }
 .form-control{
   height: 26px;
+  /* height: 32px; */
   border-radius: 8px;
   border: 1px solid #BFCAD252;
   background-color: #FCFCFC;
@@ -412,4 +414,17 @@ font-size: 12px;
 .submitedClass{
   background-color:#DFFFEA !important;
   color:#166534 !important;
+}
+
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
 }

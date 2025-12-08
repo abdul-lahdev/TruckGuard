@@ -5,7 +5,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@radix-ui/react-popover
 import { Calendar } from '@/components/ui/calendar';
 
 import KanvanCard from '@/app/component/leads/kanban';
-
 import Select from 'react-select'
 
 import {
@@ -13,6 +12,8 @@ import {
     NativeSelectOption,
 } from "@/components/ui/native-select"
 import { Checkbox } from '@/components/ui/checkbox';
+import { Separator } from "@/components/ui/separator"
+
 
 export default function Page() {
 
@@ -49,8 +50,36 @@ export default function Page() {
             { value: 'llc', label: 'LLC (Limited Liability Company)' }
         ],
         newLead: false,
-
+        nonTrucking: false,
+        physicalDamage: false,
+        autoLiability: false,
+        workCompensation: false,
+        generalLiability: false,
+        motorTruckCargo: false,
+        occupationalAccident: false,
+        trailerInterchange: false,
+        pricingData: [
+            { value: '$ 750,000', label: '$ 750,000' },
+            { value: '$ 750,500', label: '$ 750,500' },
+        ],
+        makeData: [
+            {
+                value: 'VNL', label: 'VNL'
+            },
+        ],
+        modelData: [
+            {
+                value: 'Volvo', label: 'Volvo'
+            },
+            {
+                value: 'Suzuki', label: 'Suzuki'
+            },
+            {
+                value: 'Honda', label: 'Honda'
+            },
+        ]
     }
+
 
     function reducer(state, action) {
 
@@ -82,15 +111,24 @@ export default function Page() {
                     ...state,
                     newLead: action.payload
                 }
+            case "TOGGLE":
+                return {
+                    ...state,
+                    [action.payload]: !state[action.payload]
+                };
             default:
                 throw new Error('Unknown action type')
         }
 
     }
 
-    const [{ openDate, dateVal, stateData, businessType, dateAuthority, dateAuthorityVal, newLead }, dispatch] = useReducer(reducer, initialState)
+    const [{ openDate, dateVal, stateData, pricingData, modelData, makeData, businessType, dateAuthority, dateAuthorityVal, newLead, nonTrucking, physicalDamage, autoLiability, workCompensation, generalLiability, motorTruckCargo, occupationalAccident, trailerInterchange }, dispatch] = useReducer(reducer, initialState)
 
 
+    const handleToggle = (field) => {
+        dispatch({ type: "TOGGLE", payload: field });
+
+    };
 
     const steps = [
         { id: 'applicationInformation', label: 'Application Information' },
@@ -101,7 +139,7 @@ export default function Page() {
     ]
 
     const [stepIndex, setStepIndex] = useState(0)
-
+    // const [checkboxVal, setCheckboxVal] = useState(false)
     const currForm = steps[stepIndex].id
 
     const goNext = () => {
@@ -115,6 +153,9 @@ export default function Page() {
             setStepIndex(prev => prev - 1)
         }
     }
+
+
+
 
     return (
         <div className='pt-5 h-full'>
@@ -491,8 +532,326 @@ export default function Page() {
 
                                             </div>
                                         </>}
-                                        {currForm === 'coverage' && <>Coverage Fields...</>}
-                                        {currForm === 'equipment' && <>Equipment Fields...</>}
+                                        {currForm === 'coverage' && <>
+                                            <div className='grid grid-cols-4 gap-5'>
+                                                <label
+                                                    htmlFor="nonTrucking"
+                                                    onClick={() => handleToggle("nonTrucking")}
+                                                    className='bg-(--yellow4) border border-[#CFCF5A] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer'
+                                                >
+                                                    <div className='bg-[url(/images/leads/coverage1.png)] bg-contain bg-center w-full h-20 bg-no-repeat'></div>
+
+                                                    <div className='flex flex-col'>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            Non-Trucking Liability
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px] text-center'>
+                                                            Protects when not under dispatch
+                                                        </h2>
+                                                    </div>
+
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={nonTrucking}
+                                                        onChange={() => handleToggle("nonTrucking")}
+                                                        className="hidden"
+                                                        id="nonTrucking"
+                                                    />
+                                                </label>
+
+                                                <label htmlFor="physicalDamage" onClick={() => handleToggle("physicalDamage")} className={`bg-[#EAF9FF] border border-[#67DAEE] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                    <div className='bg-[url(/images/leads/coverage2.png)] bg-contain bg-center w-full h-20 bg-no-repeat'></div>
+
+
+                                                    <div className='flex flex-col '>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            Physical Damage
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px] text-center '>
+                                                            Vehicle damage protection
+                                                        </h2>
+                                                    </div>
+                                                    <input type="checkbox"
+                                                        checked={physicalDamage}
+                                                        onChange={() => handleToggle("physicalDamage")}
+                                                        className='hidden' id='physicalDamage' />
+                                                </label>
+                                                <label htmlFor="autoLiability" onClick={() => handleToggle("autoLiability")} className={`bg-[#F2FFE5] border-[#C2E86A] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer ${autoLiability ? 'border-2' : 'border'} `}>
+                                                    <div className='bg-[url(/images/leads/coverage3.png)] bg-contain bg-center w-full h-20 bg-no-repeat'></div>
+
+
+                                                    <div className='flex flex-col '>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            Auto Liability
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px]  text-center'>
+                                                            Primary liability coverage
+                                                        </h2>
+                                                    </div>
+                                                    <input type="checkbox"
+                                                        checked={autoLiability}
+                                                        onChange={() => handleToggle("autoLiability")}
+                                                        className='hidden' id='autoLiability' />
+                                                </label>
+                                                <label htmlFor="workCompensation" onClick={() => handleToggle("workCompensation")} className={`bg-[#F8EAFF] border border-[#DD88FF] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                    <div className='bg-[url(/images/leads/coverage4.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
+
+
+                                                    <div className='flex flex-col '>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            Workers Compensation
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px] text-center'>
+                                                            Employee injury coverage
+                                                        </h2>
+                                                    </div>
+                                                    <input type="checkbox"
+                                                        checked={workCompensation}
+                                                        onChange={() => handleToggle("workCompensation")}
+                                                        className='hidden' id='workCompensation' />
+                                                </label>
+                                                <label htmlFor="generalLiability" onClick={() => handleToggle("generalLiability")} className={`bg-[#FFF7EA] border border-[#F0B350] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                    <div className='bg-[url(/images/leads/coverage5.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
+
+
+                                                    <div className='flex flex-col '>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            General Liability
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px] text-center'>
+                                                            Business liability protection
+                                                        </h2>
+                                                    </div>
+                                                    <input type="checkbox"
+                                                        checked={generalLiability}
+                                                        onChange={() => handleToggle("generalLiability")}
+                                                        className='hidden' id='generalLiability' />
+                                                </label>
+                                                <label htmlFor="motorTruckCargo" onClick={() => handleToggle("motorTruckCargo")} className={`bg-[#FFF8EF] border border-[#B29367] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                    <div className='bg-[url(/images/leads/coverage6.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
+
+
+                                                    <div className='flex flex-col '>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            Motor Truck Cargo
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px] text-center'>
+                                                            Cargo in transit coverage
+                                                        </h2>
+                                                    </div>
+                                                    <input type="checkbox"
+                                                        checked={motorTruckCargo}
+                                                        onChange={() => handleToggle("motorTruckCargo")}
+                                                        className='hidden' id='motorTruckCargo' />
+                                                </label>
+                                                <label htmlFor="occupationalAccident" onClick={() => handleToggle("occupationalAccident")} className={`bg-[#F4F7FF] border border-[#899DFF] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                    <div className='bg-[url(/images/leads/coverage7.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
+
+
+                                                    <div className='flex flex-col '>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            Occupational Accident
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px] text-center'>
+                                                            Driver injury protection
+                                                        </h2>
+                                                    </div>
+                                                    <input type="checkbox"
+                                                        checked={occupationalAccident}
+                                                        onChange={() => handleToggle("occupationalAccident")}
+                                                        className='hidden' id='occupationalAccident' />
+                                                </label>
+                                                <label htmlFor="trailerInterchange" onClick={() => handleToggle("trailerInterchange")} className={`bg-[#FFF0ED] border border-[#FF5A32] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                    <div className='bg-[url(/images/leads/coverage8.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
+
+
+                                                    <div className='flex flex-col '>
+                                                        <h1 className='text-[22px] font-medium text-(--dark4) text-center'>
+                                                            Trailer Interchange
+                                                        </h1>
+                                                        <h2 className='text-(--dark4) font-medium text-[14px] text-center'>
+                                                            Non-owned trailer coverage
+                                                        </h2>
+                                                    </div>
+                                                    <input type="checkbox"
+                                                        checked={trailerInterchange}
+                                                        onChange={() => handleToggle("trailerInterchange")}
+                                                        className='hidden' id='trailerInterchange' />
+                                                </label>
+                                            </div>
+
+
+                                            <div className='bg-white border border-(--light2) p-4 rounded-3xl mt-4'>
+
+                                                <h2 className='text-(--dark4) font-semibold text-[18px]'>
+                                                    Coverage Limits
+                                                </h2>
+
+
+                                                {nonTrucking && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+                                                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clipPath="url(#clip0_2_13259)"> <path fillRule="evenodd" clipRule="evenodd" d="M2.97949 14.5488C-0.237311 12.9141 0.131829 11.0918 3.36327 11.2822L4.08691 12.6387L5.57812 8.00098C6.16406 6.17578 7.13964 4.52051 9.05273 4.52051H28.125C30.0381 4.52051 31.1396 6.14355 31.6025 7.99805L32.7217 12.4951L33.3662 11.2822C36.6885 11.0889 36.9844 13.0195 33.4687 14.6865L34.04 15.5625C36.3516 17.9385 36.1348 22.1396 35.7744 28.0078V30.3926C35.7744 30.9902 35.2851 31.4795 34.6875 31.4795H30.0498C29.4521 31.4795 28.9629 30.9902 28.9629 30.3926V29.0625H7.04296V30.3926C7.04296 30.9902 6.5537 31.4795 5.95605 31.4795H1.31835C0.720697 31.4795 0.231439 30.9902 0.231439 30.3926V27.4307C0.231439 27.3721 0.237298 27.3164 0.243158 27.2607C-0.108405 22.7578 -0.603522 16.8691 2.97949 14.5488ZM8.90038 21.7178L4.78124 21.1992C3.80859 21.0908 3.54784 21.501 3.8789 22.3389L4.32421 23.4199C4.46777 23.6982 4.6582 23.9004 4.88085 24.041C5.14159 24.2021 5.45507 24.2812 5.8037 24.2959L9.47753 24.3252C10.3652 24.3223 10.749 23.9678 10.4707 23.1533C10.2422 22.3887 9.7207 21.9082 8.90038 21.7178ZM15.9316 19.9863H20.1504C20.3994 19.9863 20.6045 20.1914 20.6045 20.4404C20.6045 20.6895 20.3994 20.8945 20.1504 20.8945H15.9316C15.6826 20.8945 15.4775 20.6895 15.4775 20.4404C15.4746 20.1914 15.6797 19.9863 15.9316 19.9863ZM26.3555 25.9512H30.5742C30.8232 25.9512 31.0283 26.1562 31.0283 26.4053C31.0283 26.6543 30.8232 26.8594 30.5742 26.8594H26.3555C26.1064 26.8594 25.9014 26.6543 25.9014 26.4053C25.9014 26.1562 26.1035 25.9512 26.3555 25.9512ZM27.0996 21.7178L31.2187 21.1992C32.1914 21.0908 32.4521 21.501 32.1211 22.3389L31.6758 23.4199C31.5322 23.6982 31.3418 23.9004 31.1191 24.041C30.8584 24.2021 30.5449 24.2812 30.1963 24.2959L26.5225 24.3252C25.6348 24.3223 25.251 23.9678 25.5293 23.1533C25.7578 22.3887 26.2793 21.9082 27.0996 21.7178ZM5.39355 25.9512H9.6123C9.86132 25.9512 10.0664 26.1562 10.0664 26.4053C10.0664 26.6543 9.86132 26.8594 9.6123 26.8594H5.39355C5.14452 26.8594 4.93945 26.6543 4.93945 26.4053C4.93945 26.1562 5.14452 25.9512 5.39355 25.9512ZM5.63378 13.6611H31.0693L29.9473 8.99707C29.6396 7.57617 28.7549 6.3457 27.2959 6.3457H9.68554C8.22949 6.3457 7.48242 7.6084 7.03417 8.99707L5.63378 13.6611Z" fill="#ACE035" /> </g> <defs> <clipPath id="clip0_2_13259"> <rect width="36" height="36" fill="white" /> </clipPath> </defs> </svg>
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            Non -Trucking Liability
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+                                                {physicalDamage && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+                                                        <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M30.24 20.88L27.6 15.6C27.3733 15.2313 27.0555 14.9273 26.6772 14.7171C26.2989 14.5069 25.8728 14.3977 25.44 14.4H10.56C10.1272 14.3977 9.70117 14.5069 9.32285 14.7171C8.94453 14.9273 8.62671 15.2313 8.40002 15.6L5.76002 20.88L2.78402 23.6448C2.66308 23.757 2.56657 23.8929 2.5005 24.044C2.43443 24.1951 2.40022 24.3583 2.40002 24.5232V34.8C2.40002 35.1183 2.52645 35.4235 2.7515 35.6485C2.97654 35.8736 3.28176 36 3.60002 36H8.40002C8.88002 36 9.60002 35.52 9.60002 35.04V33.6H26.4V34.8C26.4 35.28 26.88 36 27.36 36H32.4C32.7183 36 33.0235 35.8736 33.2486 35.6485C33.4736 35.4235 33.6 35.1183 33.6 34.8V24.5232C33.5998 24.3583 33.5656 24.1951 33.4995 24.044C33.4335 23.8929 33.337 23.757 33.216 23.6448L30.24 20.88ZM10.8 16.8H25.2L27.6 21.6H8.40002L10.8 16.8ZM12 27.84C12 28.32 11.28 28.8 10.8 28.8H5.76002C5.28002 28.8 4.80002 28.08 4.80002 27.6V24.96C5.04002 24.24 5.52002 23.76 6.24002 24L11.04 24.96C11.52 24.96 12 25.68 12 26.16V27.84ZM31.2 27.6C31.2 28.08 30.72 28.8 30.24 28.8H25.2C24.72 28.8 24 28.32 24 27.84V26.16C24 25.68 24.48 24.96 24.96 24.96L29.76 24C30.48 23.76 30.96 24.24 31.2 24.96V27.6ZM19.2 9.6H16.8L14.4 0H21.6L19.2 9.6ZM2.64002 4.32L8.88002 0.72L11.52 10.32L9.60002 11.28L2.64002 4.32ZM27.12 0.72L33.36 4.32L26.4 11.52L24.24 10.32L27.12 0.72Z" fill="#39CCE5" /> </svg>
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            Physical Damage
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+                                                {autoLiability && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            Auto Liability
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+
+                                                {workCompensation && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            Workers Compensation
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+                                                {generalLiability && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            General Liability
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+                                                {motorTruckCargo && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            Motor Truck Cargo
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+                                                {occupationalAccident && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            Occupational Accident
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+                                                {trailerInterchange && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                    <span>
+
+                                                    </span>
+                                                    <div className='w-full xl:w-[50%] '>
+                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                            Trailer Interchange
+                                                        </h3>
+
+                                                        <div className='mt-3'>
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        </div>
+
+                                                    </div>
+                                                </div>}
+
+                                            </div>
+
+                                            {/* <h1 className='text-black'>
+                                                {!checkboxVal ? 'false' : 'true'}
+                                            </h1> */}
+                                        </>}
+                                        {currForm === 'equipment' && <>
+
+                                            <label htmlFor="" className='text-[14px] font-medium text-(--dark4) '>
+                                                Power Units:
+                                            </label>
+                                            <Separator className='mt-3 bg-(--green1)' />
+                                            <div className='relative flex justify-end mt-4'>
+                                                <svg className='absolute translate-y-6.5 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]' placeholder='VIN Number' />
+                                            </div>
+
+                                            <div className='grid grid-cols-6 gap-4 mt-4'>
+                                                <div >
+                                                    <Select options={makeData} classNamePrefix="react-select w-full" placeholder='Make' />
+
+                                                </div>
+                                                <div>
+                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='Model' />
+
+                                                </div>
+                                                <div>
+                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='GVW Class' />
+
+                                                </div>
+                                                <div>
+                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='Truck Type' />
+                                                </div>
+                                                <div className='reactSingleSelect'>
+                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='ZIP Code' />
+                                                </div>
+                                                <div>
+                                                    <input type="text" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]' placeholder='yyyy' />
+                                                </div>
+                                            </div>
+
+                                        </>}
                                         {currForm === 'drivers' && <>Driver Fields...</>}
                                         {currForm === 'documents' && <>Documents Fields...</>}
                                     </div>
