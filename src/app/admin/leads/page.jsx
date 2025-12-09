@@ -15,12 +15,17 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from "@/components/ui/separator"
 
 
+import FileUpload from '@/app/component/leads/file-upload';
+
+
 export default function Page() {
 
 
     const initialState = {
         openDate: false,
         dateVal: undefined,
+        dobDate: false,
+        dobVal: undefined,
         dateAuthority: false,
         dateAuthorityVal: undefined,
         stateData: [
@@ -58,27 +63,53 @@ export default function Page() {
         motorTruckCargo: false,
         occupationalAccident: false,
         trailerInterchange: false,
-        pricingData: [
-            { value: '$ 750,000', label: '$ 750,000' },
-            { value: '$ 750,500', label: '$ 750,500' },
-        ],
-        makeData: [
+        powerUnitData: [
             {
-                value: 'VNL', label: 'VNL'
+                vin: '4323763',
+                year: '2015',
+                model: 'Volvo',
+                make: 'VNL',
+                class: 'Class 8',
+                truckType: 'Truck Tractor',
+                zipCode: '90001',
+            },
+            {
+                vin: '4323763',
+                year: '2015',
+                model: 'Volvo',
+                make: 'VNL',
+                class: 'Class 8',
+                truckType: 'Truck Tractor',
+                zipCode: '90001',
             },
         ],
-        modelData: [
+        trailersData: [
             {
-                value: 'Volvo', label: 'Volvo'
-            },
+                vin: '4323763',
+                ownedTrailer: 'Dry Van/Box',
+                year: '2002',
+                make: 'Wabash National',
+                model: 'Van-Kingpin',
+                value: '50000',
+                zipCode: '98723'
+            }
+        ],
+        driversData: [
             {
-                value: 'Suzuki', label: 'Suzuki'
-            },
-            {
-                value: 'Honda', label: 'Honda'
-            },
-        ]
+                name: 'John Lewis',
+                dob: '12/02/1985',
+                type: 'Owner Operator',
+                license: '643894',
+                licenseType: 'Commercial',
+                issuedDate: '23/03/2012',
+                dateHired: '12/02/2013',
+                exp: '2yrs 2mths'
+            }
+        ],
     }
+
+
+
 
 
     function reducer(state, action) {
@@ -116,13 +147,19 @@ export default function Page() {
                     ...state,
                     [action.payload]: !state[action.payload]
                 };
+            case "SET_FIELD":
+                return {
+                    ...state,
+                    [action.field]: action.value,
+                };
+
             default:
                 throw new Error('Unknown action type')
         }
 
     }
 
-    const [{ openDate, dateVal, stateData, pricingData, modelData, makeData, businessType, dateAuthority, dateAuthorityVal, newLead, nonTrucking, physicalDamage, autoLiability, workCompensation, generalLiability, motorTruckCargo, occupationalAccident, trailerInterchange }, dispatch] = useReducer(reducer, initialState)
+    const [{ openDate, dateVal, stateData, trailersData, businessType, dateAuthority, dateAuthorityVal, newLead, nonTrucking, physicalDamage, autoLiability, workCompensation, generalLiability, motorTruckCargo, occupationalAccident, trailerInterchange, powerUnitData }, dispatch] = useReducer(reducer, initialState)
 
 
     const handleToggle = (field) => {
@@ -131,16 +168,87 @@ export default function Page() {
     };
 
     const steps = [
-        { id: 'applicationInformation', label: 'Application Information' },
-        { id: 'coverage', label: 'Coverage' },
-        { id: 'equipment', label: 'Equipment' },
-        { id: 'drivers', label: 'Drivers' },
-        { id: 'documents', label: 'Documents' },
+        { id: 'applicationInformation', label: 'Application Information', name: 'Application Information' },
+        { id: 'coverage', label: 'Coverage', name: 'Coverage' },
+        { id: 'equipment', label: 'Equipment', name: 'Scheduled Equipment' },
+        { id: 'drivers', label: 'Drivers', name: 'Scheduled Drivers' },
+        { id: 'documents', label: 'Documents', name: 'Documents' },
+    ]
+
+    const documentTypes = [
+        { value: "owner-cdl", label: "Owner's CDL" },
+        { value: "ifta", label: "Last 4 Quarter's IFTA" },
+        { value: "loss-runs", label: "Last 3 Year Loss Runs" },
+    ]
+
+    const initialDocumentSections = [
+        {
+            title: "Owner's CDL",
+            key: "owner-cdl",
+            files: [
+                { name: "abc.docx", size: "16 MB" },
+                { name: "abc.docx", size: "16 MB" },
+            ],
+        },
+        {
+            title: "Last 4 Quarter's IFTA",
+            key: "ifta",
+            files: [
+                { name: "abc.docx", size: "16 MB" },
+                { name: "abc.docx", size: "16 MB" },
+            ],
+        },
+        {
+            title: "Last 3 Year Loss Runs",
+            key: "loss-runs",
+            files: [
+                { name: "abc.docx", size: "16 MB" },
+                { name: "abc.docx", size: "16 MB" },
+            ],
+        },
     ]
 
     const [stepIndex, setStepIndex] = useState(0)
     // const [checkboxVal, setCheckboxVal] = useState(false)
     const currForm = steps[stepIndex].id
+    const [selectedDocType, setSelectedDocType] = useState(documentTypes[0]?.value || "")
+    const [documentLists, setDocumentLists] = useState(initialDocumentSections)
+    const [uploadQueue, setUploadQueue] = useState([])
+    const [isDragging, setIsDragging] = useState(false)
+
+    const formatFileSize = (size) => {
+        if (!size && size !== 0) return ""
+        const kb = size / 1024
+        const mb = kb / 1024
+        if (mb >= 1) return `${mb.toFixed(1)} MB`
+        return `${Math.max(kb, 1).toFixed(0)} KB`
+    }
+
+    const handleFilesSelected = (fileList) => {
+        const incoming = Array.from(fileList || []).map((file) => ({
+            name: file.name,
+            size: formatFileSize(file.size),
+        }))
+        if (!incoming.length) return
+        setUploadQueue((prev) => [...prev, ...incoming])
+        setIsDragging(false)
+    }
+
+    const handleAddDocuments = () => {
+        if (!selectedDocType || !uploadQueue.length) return
+        setDocumentLists((prev) =>
+            prev.map((section) =>
+                section.key === selectedDocType
+                    ? { ...section, files: [...section.files, ...uploadQueue] }
+                    : section
+            )
+        )
+        setUploadQueue([])
+    }
+
+
+
+    // Functions
 
     const goNext = () => {
         if (stepIndex < steps.length - 1) {
@@ -153,6 +261,55 @@ export default function Page() {
             setStepIndex(prev => prev - 1)
         }
     }
+
+    // Select Objects
+    const classData = [
+        {
+            value: 'Class 8', label: 'Class 8'
+        },
+        {
+            value: 'Class 2', label: 'Class 2'
+        },
+    ]
+
+    const pricingData = [
+        { value: '$ 750,000', label: '$ 750,000' },
+        { value: '$ 750,500', label: '$ 750,500' },
+    ]
+    const makeData = [
+        {
+            value: 'VNL', label: 'VNL'
+        },
+    ]
+    const modelData = [
+        {
+            value: 'Volvo', label: 'Volvo'
+        },
+        {
+            value: 'Suzuki', label: 'Suzuki'
+        },
+        {
+            value: 'Honda', label: 'Honda'
+        },
+    ]
+
+    const truckType = [
+        {
+            value: 'Truck Tractor', label: 'Truck Tractor'
+        },
+        {
+            value: 'Sleeper Truck', label: 'Sleeper Truck'
+        },
+    ]
+    const zipCode = [
+        {
+            value: '75600', label: '75600'
+        },
+        {
+            value: '98723', label: '98723'
+        },
+    ]
+
 
 
 
@@ -299,7 +456,7 @@ export default function Page() {
                                     {/* Header Box */}
                                     <div className='bg-[#EDFFF5] w-full rounded-[12px] flex items-center gap-2 min-h-[52px] px-3'>
                                         <span className='text-[#22886B] font-semibold text-[16px]'>
-                                            {stepIndex + 1}. {steps[stepIndex].label}
+                                            {stepIndex + 1}. {steps[stepIndex].name}
                                         </span>
                                     </div>
 
@@ -827,33 +984,370 @@ export default function Page() {
                                                 <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]' placeholder='VIN Number' />
                                             </div>
 
-                                            <div className='grid grid-cols-6 gap-4 mt-4'>
+                                            <div className='grid grid-cols-1 md:grid-col-2 xl:grid-cols-6 gap-4 mt-4'>
+                                                <div className='leadReactSelectSetting' >
+                                                    <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+
+                                                </div>
+                                                <div className='leadReactSelectSetting'>
+                                                    <Select options={modelData} classNamePrefix="react-select" placeholder='Model' />
+
+                                                </div>
+                                                <div className='leadReactSelectSetting'>
+                                                    <Select options={classData} classNamePrefix="react-select" placeholder='GVW Class' />
+
+                                                </div>
+                                                <div className='leadReactSelectSetting'>
+                                                    <Select options={truckType} classNamePrefix="react-select" placeholder='Truck Type' />
+                                                </div>
+                                                <div className='leadReactSelectSetting'>
+                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='ZIP Code' />
+                                                </div>
                                                 <div >
-                                                    <Select options={makeData} classNamePrefix="react-select w-full" placeholder='Make' />
-
-                                                </div>
-                                                <div>
-                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='Model' />
-
-                                                </div>
-                                                <div>
-                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='GVW Class' />
-
-                                                </div>
-                                                <div>
-                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='Truck Type' />
-                                                </div>
-                                                <div className='reactSingleSelect'>
-                                                    <Select options={modelData} classNamePrefix="react-select w-full" placeholder='ZIP Code' />
-                                                </div>
-                                                <div>
                                                     <input type="text" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]' placeholder='yyyy' />
+                                                </div>
+                                            </div>
+                                            <div className='flex justify-end mt-6'>
+                                                <button className='px-8 btn-primary'>Add</button>
+                                            </div>
+
+                                            <div className='mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'>
+
+                                                {
+                                                    powerUnitData.map((item, index) => (
+                                                        <div key={index} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3'>
+                                                            <div className='flex items-center justify-between'>
+                                                                <h2 className='text-(--dark4) text-[16px] font-normal'><span className='font-semibold'>VIN:</span> {item.vin}</h2>
+                                                                <div className='flex items-center gap-2'>
+                                                                    <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M2.87604 18.1156C2.92198 17.7021 2.94496 17.4954 3.00751 17.3022C3.06301 17.1307 3.14143 16.9676 3.24064 16.8171C3.35246 16.6475 3.49955 16.5005 3.79373 16.2063L17 3C18.1046 1.89543 19.8955 1.89543 21 3C22.1046 4.10457 22.1046 5.89543 21 7L7.79373 20.2063C7.49955 20.5005 7.35245 20.6475 7.18289 20.7594C7.03245 20.8586 6.86929 20.937 6.69785 20.9925C6.5046 21.055 6.29786 21.078 5.88437 21.124L2.5 21.5L2.87604 18.1156Z" fill="#22886B" /> <path d="M18 10L14 6M2.5 21.5L5.88437 21.124C6.29786 21.078 6.5046 21.055 6.69785 20.9925C6.86929 20.937 7.03245 20.8586 7.18289 20.7594C7.35245 20.6475 7.49955 20.5005 7.79373 20.2063L21 7C22.1046 5.89543 22.1046 4.10457 21 3C19.8955 1.89543 18.1046 1.89543 17 3L3.79373 16.2063C3.49955 16.5005 3.35246 16.6475 3.24064 16.8171C3.14143 16.9676 3.06301 17.1307 3.00751 17.3022C2.94496 17.4954 2.92198 17.7021 2.87604 18.1156L2.5 21.5Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                    <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M3 6H21H3Z" fill="#22886B" /> <path d="M16 6V5.2C16 4.0799 16 3.51984 15.782 3.09202C15.5903 2.71569 15.2843 2.40973 14.908 2.21799C14.4802 2 13.9201 2 12.8 2H11.2C10.0799 2 9.51984 2 9.09202 2.21799C8.71569 2.40973 8.40973 2.71569 8.21799 3.09202C8 3.51984 8 4.0799 8 5.2V6M10 11.5V16.5M14 11.5V16.5M3 6H21M19 6V17.2C19 18.8802 19 19.7202 18.673 20.362C18.3854 20.9265 17.9265 21.3854 17.362 21.673C16.7202 22 15.8802 22 14.2 22H9.8C8.11984 22 7.27976 22 6.63803 21.673C6.07354 21.3854 5.6146 20.9265 5.32698 20.362C5 19.7202 5 18.8802 5 17.2V6" stroke="#ED3333" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                </div>
+                                                            </div>
+                                                            <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Year</span>
+                                                                <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                    {item.year}
+                                                                </span>
+
+                                                            </div>
+                                                            <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Model</span>
+                                                                <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                    {item.model}
+                                                                </span>
+
+                                                            </div>
+                                                            <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Make</span>
+                                                                <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                    {item.make}
+                                                                </span>
+
+                                                            </div>
+                                                            <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>GVW Class</span>
+                                                                <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                    {item.class}
+                                                                </span>
+
+                                                            </div>
+                                                            <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Truck Type</span>
+                                                                <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                    {item.truckType}
+                                                                </span>
+
+                                                            </div>
+                                                            <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>ZIP Code</span>
+                                                                <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                    {item.zipCode}
+                                                                </span>
+
+                                                            </div>
+
+                                                        </div>
+                                                    ))
+                                                }
+
+
+                                            </div>
+
+                                            <div className='mt-6 bg-[#EDFFF5] min-h-12 rounded-[12px] text-(--green1) font-semibold text-[16px] flex items-center px-4 '>
+                                                Equipment Scheduled: Trailer Information
+
+                                            </div>
+
+                                            <div className='mt-4'>
+
+
+                                                <div className='grid grid-cols-5 gap-4 mt-4 items-center'>
+                                                    <div className='relative flex justify-end col-span-3'>
+                                                        <svg className='absolute translate-y-6.5 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                        <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]' placeholder='VIN Number' />
+                                                    </div>
+
+                                                    <div className='flex items-center gap-3 justify-center'>
+                                                        <input type="checkbox" />
+                                                        <label htmlFor="" className='text-[#656A73] font-semibold text-[14px]'> Non-Owned Trailer</label>
+                                                    </div>
+
+                                                    <div className='leadReactSelectSetting' >
+                                                        <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+
+                                                    </div>
+                                                    <div >
+                                                        <input type="text" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]' placeholder='yyyy' />
+                                                    </div>
+                                                    <div className='leadReactSelectSetting' >
+                                                        <Select options={modelData} classNamePrefix="react-select" placeholder='Model' />
+
+                                                    </div>
+                                                    <div className='leadReactSelectSetting' >
+                                                        <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+
+                                                    </div>
+                                                    <div className='leadReactSelectSetting' >
+                                                        <Select options={pricingData} classNamePrefix="react-select" placeholder='Value' />
+
+                                                    </div>
+                                                    <div className='leadReactSelectSetting' >
+                                                        <Select options={zipCode} classNamePrefix="react-select" placeholder='zip Code' />
+
+                                                    </div>
+
+
+
+                                                </div>
+
+                                                <div className='flex justify-end mt-6'>
+                                                    <button className='px-8 btn-primary'>Add</button>
+                                                </div>
+
+
+                                                <label htmlFor="" className='text-[14px] font-medium text-(--dark4) '>
+                                                    Trailers
+                                                </label>
+                                                <Separator className='mt-3 bg-(--green1)' />
+
+                                                <div className='mt-8 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'>
+
+                                                    {
+                                                        trailersData.map((item, index) => (
+                                                            <div key={index} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3'>
+                                                                <div className='flex items-center justify-between'>
+                                                                    <h2 className='text-(--dark4) text-[16px] font-normal'><span className='font-semibold'>VIN:</span> {item.vin}</h2>
+                                                                    <div className='flex items-center gap-2'>
+                                                                        <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M2.87604 18.1156C2.92198 17.7021 2.94496 17.4954 3.00751 17.3022C3.06301 17.1307 3.14143 16.9676 3.24064 16.8171C3.35246 16.6475 3.49955 16.5005 3.79373 16.2063L17 3C18.1046 1.89543 19.8955 1.89543 21 3C22.1046 4.10457 22.1046 5.89543 21 7L7.79373 20.2063C7.49955 20.5005 7.35245 20.6475 7.18289 20.7594C7.03245 20.8586 6.86929 20.937 6.69785 20.9925C6.5046 21.055 6.29786 21.078 5.88437 21.124L2.5 21.5L2.87604 18.1156Z" fill="#22886B" /> <path d="M18 10L14 6M2.5 21.5L5.88437 21.124C6.29786 21.078 6.5046 21.055 6.69785 20.9925C6.86929 20.937 7.03245 20.8586 7.18289 20.7594C7.35245 20.6475 7.49955 20.5005 7.79373 20.2063L21 7C22.1046 5.89543 22.1046 4.10457 21 3C19.8955 1.89543 18.1046 1.89543 17 3L3.79373 16.2063C3.49955 16.5005 3.35246 16.6475 3.24064 16.8171C3.14143 16.9676 3.06301 17.1307 3.00751 17.3022C2.94496 17.4954 2.92198 17.7021 2.87604 18.1156L2.5 21.5Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                        <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M3 6H21H3Z" fill="#22886B" /> <path d="M16 6V5.2C16 4.0799 16 3.51984 15.782 3.09202C15.5903 2.71569 15.2843 2.40973 14.908 2.21799C14.4802 2 13.9201 2 12.8 2H11.2C10.0799 2 9.51984 2 9.09202 2.21799C8.71569 2.40973 8.40973 2.71569 8.21799 3.09202C8 3.51984 8 4.0799 8 5.2V6M10 11.5V16.5M14 11.5V16.5M3 6H21M19 6V17.2C19 18.8802 19 19.7202 18.673 20.362C18.3854 20.9265 17.9265 21.3854 17.362 21.673C16.7202 22 15.8802 22 14.2 22H9.8C8.11984 22 7.27976 22 6.63803 21.673C6.07354 21.3854 5.6146 20.9265 5.32698 20.362C5 19.7202 5 18.8802 5 17.2V6" stroke="#ED3333" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                    </div>
+                                                                </div>
+                                                                <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'> Non-Owned Trailer</span>
+                                                                    <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                        {item.ownedTrailer}
+                                                                    </span>
+
+                                                                </div>
+                                                                <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Year</span>
+                                                                    <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                        {item.year}
+                                                                    </span>
+
+                                                                </div>
+                                                                <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Make</span>
+                                                                    <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                        {item.make}
+                                                                    </span>
+
+                                                                </div>
+                                                                <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Model</span>
+                                                                    <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                        {item.model}
+                                                                    </span>
+
+                                                                </div>
+                                                                <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Value</span>
+                                                                    <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                        {item.value}
+                                                                    </span>
+
+                                                                </div>
+                                                                <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>ZIP Code</span>
+                                                                    <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                        {item.zipCode}
+                                                                    </span>
+
+                                                                </div>
+
+                                                            </div>
+                                                        ))
+                                                    }
+
+
+                                                </div>
+
+                                                <div className='mt-8 bg-[#FFFFDA] border border-l-4 border-[#FACA7B] p-3 rounded-[12px]'>
+                                                    <h1 className='text-(--dark1) text-[14px] font-semibold'>
+                                                        Important Note:
+                                                    </h1>
+                                                    <p className='text-(--dark1) text-[14px] font-medium'>
+                                                        The rate indication will not be formalized until all serial numbers (VIN) are entered and verified. All rate indications are subject to underwriting review and final rate approval.
+
+                                                    </p>
                                                 </div>
                                             </div>
 
                                         </>}
-                                        {currForm === 'drivers' && <>Driver Fieldssss...</>}
-                                        {currForm === 'documents' && <>Documents Fields...</>}
+                                        {currForm === 'drivers' && <>
+
+
+                                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5'>
+                                                <div>
+                                                    <input type="text" name='firstName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='First Name' />
+                                                </div>
+                                                <div>
+                                                    <input type="text" name='lastName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='Last Name' />
+                                                </div>
+
+                                                <div>
+                                                    <Popover open={openDate} onOpenChange={() => dispatch({ type: "setOpdenDate", payload: (!openDate) })}>
+                                                        <PopoverTrigger className='w-full' asChild>
+                                                            <Button
+                                                                variant="outline"
+                                                                id="date"
+                                                                className="w-full justify-between font-normal bg-(--grey6) border border-[#BFCAD252] h-[35px] rounded-[8px]"
+                                                            >
+                                                                {dateVal ? dateVal.toLocaleDateString() : "Select date"}
+                                                                <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                            </Button>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-auto overflow-hidden p-0 z-30" align="start">
+                                                            <Calendar
+                                                                mode="single"
+                                                                selected={dateVal}
+                                                                captionLayout="dropdown"
+                                                                onSelect={(date) => {
+                                                                    dispatch({ type: 'setDateVal', payload: (date) })
+                                                                    dispatch({ type: 'setOpdenDate', payload: false })
+                                                                }}
+                                                            />
+                                                        </PopoverContent>
+                                                    </Popover>
+                                                </div>
+                                                <div className='leadReactSelectSetting'>
+                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='Driver Type' />
+                                                </div>
+                                                <div>
+                                                    <input type="text" name='licenseNo' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='License Number' />
+                                                </div>
+                                                <div className='leadReactSelectSetting'>
+                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='State' />
+                                                </div>
+                                                <div className='leadReactSelectSetting'>
+                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='License Type' />
+                                                </div>
+                                                <div>
+                                                    Date Hired
+                                                </div>
+                                                <div>
+                                                    Experience:
+                                                </div>
+                                                <div>
+                                                    <input type="text" name='dateHired' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='Date Hired' />
+                                                </div>
+                                                <div>
+                                                    <input type="text" name='operatingExp' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='Operating Experience' />
+                                                </div>
+
+
+                                            </div>
+
+                                            <div className='flex justify-end mt-6'>
+                                                <button className='px-8 btn-primary'>Add</button>
+                                            </div>
+
+
+                                            <div className='flex justify-between items-center mt-6'>
+                                                <label htmlFor="" className='text-[14px] font-medium text-(--dark4) '>
+                                                    Power Units:
+                                                </label>
+                                                <div className='relative flex justify-end '>
+                                                    <svg className='absolute translate-y-3 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                    <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 h-[35px]' placeholder='VIN Number' />
+                                                </div>
+
+                                            </div>
+                                            <Separator className='mt-3 bg-(--green1)' />
+
+
+                                            <div className='mt-6 grid grid-cols-4 gap-4'>
+                                                <div className='shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-2xl bg-(--grey4) overflow-hidden '>
+
+                                                    <div className='bg-(--green3) px-3'>
+                                                        <div className='flex justify-end '>
+                                                            <span>ss</span>
+                                                        </div>
+                                                        <div className='flex justify-center'>
+                                                            <div className='shadow-[0_0_4px_0_#46B987] rounded-full bg-[#EDFFF5] h-[62px] w-[62px] flex items-center justify-center text-[#1C1C1CB2] font-semibold text-[24px] translate-y-5 '>
+                                                                JS
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className='mt-5 px-5 flex flex-col gap-3 py-4'>
+                                                        <h1 className='text-center text-(--green1) text-[20px] font-semibold '>John Lewis</h1>
+                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>DOB</span>
+                                                            <span className='text-(--grey7) font-medium text-[14px]'>12/02/1985</span>
+                                                        </div>
+                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Driver Type</span>
+                                                            <span className='text-(--grey7) font-medium text-[14px]'>Owner Operator</span>
+                                                        </div>
+                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License No.</span>
+                                                            <span className='text-(--grey7) font-medium text-[14px]'>643894</span>
+                                                        </div>
+                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License Type</span>
+                                                            <span className='text-(--grey7) font-medium text-[14px]'>Commercial</span>
+                                                        </div>
+                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Issued Date</span>
+                                                            <span className='text-(--grey7) font-medium text-[14px]'>23/03/2012</span>
+                                                        </div>
+                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Date Hired</span>
+                                                            <span className='text-(--grey7) font-medium text-[14px]'>12/02/2013</span>
+                                                        </div>
+                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Experience</span>
+                                                            <span className='text-(--grey7) font-medium text-[14px]'>2 yrs 2 mths</span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div className='mt-8 bg-[#FFFFDA] border border-l-4 border-[#FACA7B] p-3 rounded-[12px]'>
+                                                <h1 className='text-(--dark1) text-[14px] font-semibold'>
+                                                    Important Note:
+                                                </h1>
+                                                <p className='text-(--dark1) text-[14px] font-medium'>
+                                                    The rate indication will not be formalized until all serial numbers (VIN) are entered and verified. All rate indications are subject to underwriting review and final rate approval.
+
+                                                </p>
+                                            </div>
+
+                                        </>}
+                                        {currForm === 'documents' && <>
+                                            <FileUpload />
+                                        </>}
                                     </div>
                                 </div>
 
