@@ -322,6 +322,8 @@ export default function Page() {
     const goNext = () => {
         if (stepIndex < steps.length - 1) {
             setStepIndex(prev => prev + 1)
+        } else {
+            console.log('Submit the form')
         }
     }
 
@@ -1355,10 +1357,10 @@ export default function Page() {
 
                                             <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5'>
                                                 <div>
-                                                    <input type="text" name='firstName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='First Name' />
+                                                    <input type="text" name='firstName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='First Name' />
                                                 </div>
                                                 <div>
-                                                    <input type="text" name='lastName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='Last Name' />
+                                                    <input type="text" name='lastName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Last Name' />
                                                 </div>
 
                                                 <div>
@@ -1367,7 +1369,7 @@ export default function Page() {
                                                             <Button
                                                                 variant="outline"
                                                                 id="date"
-                                                                className="w-full justify-between font-normal bg-(--grey6) border border-[#BFCAD252] h-[35px] rounded-[8px] text-[#656A73]"
+                                                                className="w-full justify-between bg-(--grey6) font-normal border border-[#BFCAD252] h-[35px] rounded-[8px] shadow-none text-[12px] text-[#656A73]"
                                                                 placeholder="DOB"
                                                             >
                                                                 {dateVal ? dateVal.toLocaleDateString() : "Select date"}
@@ -1391,7 +1393,7 @@ export default function Page() {
                                                     <Select options={dDriverType} classNamePrefix="react-select" placeholder='Driver Type' />
                                                 </div>
                                                 <div>
-                                                    <input type="text" name='licenseNo' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='License Number' />
+                                                    <input type="text" name='licenseNo' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='License Number' />
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
                                                     <Select options={dStateType} classNamePrefix="react-select" placeholder='State' />
@@ -1402,9 +1404,9 @@ export default function Page() {
                                                 <div className="flex flex-col gap-2">
                                                     <Popover open={driverDateHiredOpen} onOpenChange={(val) => dispatch({ type: 'setDriverDateHiredOpen', payload: val })}>
                                                         <PopoverTrigger asChild>
-                                                            <Button variant="outline" className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left text-[14px] font-normal text-[#656A73] cursor-pointer ">
+                                                            <button className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer ">
                                                                 {driverDateHiredVal ? driverDateHiredVal.toLocaleDateString() : 'Date Hired'}
-                                                            </Button>
+                                                            </button>
                                                         </PopoverTrigger>
                                                         <PopoverContent className="w-auto p-0 z-5" align="start">
                                                             <Calendar
@@ -1424,9 +1426,9 @@ export default function Page() {
                                                         <span className='text-[14px] font-medium text-(--dark4)'>Experience</span>
                                                         <Popover open={driverExperienceOpen} onOpenChange={(val) => dispatch({ type: 'setDriverExperienceOpen', payload: val })}>
                                                             <PopoverTrigger asChild>
-                                                                <Button variant="outline" className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left text-[14px] font-normal text-[#656A73] cursor-pointer">
+                                                                <button className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer">
                                                                     {driverExperienceVal ? driverExperienceVal.toLocaleDateString() : 'Issued Date'}
-                                                                </Button>
+                                                                </button>
                                                             </PopoverTrigger>
                                                             <PopoverContent className="w-auto p-0 z-5" align="start">
                                                                 <Calendar
@@ -1444,10 +1446,10 @@ export default function Page() {
                                                 </div>
 
                                                 <div>
-                                                    <input type="text" name='dateHired' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='Date Hired' />
+                                                    <input type="text" name='dateHired' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Date Hired' />
                                                 </div>
                                                 <div>
-                                                    <input type="text" name='operatingExp' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='Operating Experience' />
+                                                    <input type="text" name='operatingExp' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Operating Experience' />
                                                 </div>
 
 
@@ -1460,7 +1462,7 @@ export default function Page() {
 
                                             <div className='flex justify-between items-center mt-6'>
                                                 <label htmlFor="" className='text-[14px] font-medium text-(--dark4) '>
-                                                    Power Units:
+                                                    Driver’s List
                                                 </label>
                                                 <div className='relative flex justify-end '>
                                                     <svg className='absolute translate-y-3 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>

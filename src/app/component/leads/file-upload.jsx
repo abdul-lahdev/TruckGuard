@@ -86,7 +86,7 @@ const FileUpload = () => {
                     className="mt-2"
                 />
 
-                <div className="mt-4 space-y-2">
+                {/* <div className="mt-4 space-y-2">
                     <h4 className="font-semibold">Ready to add</h4>
 
                     {files.length === 0 && (
@@ -104,7 +104,7 @@ const FileUpload = () => {
                             </span>
                         </div>
                     ))}
-                </div>
+                </div> */}
 
                 <button onClick={handleAdd} className="btn-primary ms-auto mt-8 px-8">
                     Add
