@@ -121,6 +121,17 @@ export default function Page() {
                 exp: '2yrs 2mths'
             }
         ],
+        powerUnitForm: {
+            vin: '',
+            year: '',
+            model: '',
+            make: '',
+            class: '',
+            truckType: '',
+            zipCode: '',
+        },
+        powerUnitEditIndex: null,
+        powerUnitModalOpen: false,
     }
 
 
@@ -172,6 +183,31 @@ export default function Page() {
                     ...state,
                     driverExperienceVal: action.payload
                 }
+            case 'setPowerUnitField':
+                return {
+                    ...state,
+                    powerUnitForm: {
+                        ...state.powerUnitForm,
+                        [action.field]: action.value,
+                    }
+                }
+            case 'addPowerUnit':
+                return {
+                    ...state,
+                    powerUnitData: [
+                        ...state.powerUnitData,
+                        { ...state.powerUnitForm },
+                    ],
+                    powerUnitForm: {
+                        vin: '',
+                        year: '',
+                        model: '',
+                        make: '',
+                        class: '',
+                        truckType: '',
+                        zipCode: '',
+                    }
+                }
             case 'setNewLead':
                 return {
                     ...state,
@@ -194,7 +230,7 @@ export default function Page() {
 
     }
 
-    const [{ openDate, dateVal, stateData, trailersData, businessType, dateAuthority, dateAuthorityVal, driverDateHiredOpen, driverDateHiredVal, driverExperienceOpen, driverExperienceVal, newLead, nonTrucking, physicalDamage, autoLiability, workCompensation, generalLiability, motorTruckCargo, occupationalAccident, trailerInterchange, powerUnitData }, dispatch] = useReducer(reducer, initialState)
+    const [{ openDate, dateVal, stateData, trailersData, businessType, dateAuthority, dateAuthorityVal, driverDateHiredOpen, driverDateHiredVal, driverExperienceOpen, driverExperienceVal, powerUnitForm, newLead, nonTrucking, physicalDamage, autoLiability, workCompensation, generalLiability, motorTruckCargo, occupationalAccident, trailerInterchange, powerUnitData }, dispatch] = useReducer(reducer, initialState)
 
 
     const handleToggle = (field) => {
@@ -1016,34 +1052,82 @@ export default function Page() {
                                             <Separator className='mt-3 bg-(--green1)' />
                                             <div className='relative flex justify-end mt-4'>
                                                 <svg className='absolute translate-y-6.5 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
-                                                <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]' placeholder='VIN Number' />
+                                                <input
+                                                    type="text"
+                                                    value={powerUnitForm.vin}
+                                                    onChange={(e) => dispatch({ type: 'setPowerUnitField', field: 'vin', value: e.target.value })}
+                                                    className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]'
+                                                    placeholder='VIN Number'
+                                                />
                                             </div>
 
                                             <div className='grid grid-cols-1 md:grid-col-2 xl:grid-cols-6 gap-4 mt-4'>
                                                 <div className='leadReactSelectSetting' >
-                                                    <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+                                                    <Select
+                                                        options={makeData}
+                                                        classNamePrefix="react-select"
+                                                        placeholder='Make'
+                                                        value={powerUnitForm.make ? makeData.find(m => m.value === powerUnitForm.make) : null}
+                                                        onChange={(opt) => dispatch({ type: 'setPowerUnitField', field: 'make', value: opt?.value || '' })}
+                                                    />
 
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
-                                                    <Select options={modelData} classNamePrefix="react-select" placeholder='Model' />
+                                                    <Select
+                                                        options={modelData}
+                                                        classNamePrefix="react-select"
+                                                        placeholder='Model'
+                                                        value={powerUnitForm.model ? modelData.find(m => m.value === powerUnitForm.model) : null}
+                                                        onChange={(opt) => dispatch({ type: 'setPowerUnitField', field: 'model', value: opt?.value || '' })}
+                                                    />
 
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
-                                                    <Select options={classData} classNamePrefix="react-select" placeholder='GVW Class' />
+                                                    <Select
+                                                        options={classData}
+                                                        classNamePrefix="react-select"
+                                                        placeholder='GVW Class'
+                                                        value={powerUnitForm.class ? classData.find(m => m.value === powerUnitForm.class) : null}
+                                                        onChange={(opt) => dispatch({ type: 'setPowerUnitField', field: 'class', value: opt?.value || '' })}
+                                                    />
 
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
-                                                    <Select options={truckType} classNamePrefix="react-select" placeholder='Truck Type' />
+                                                    <Select
+                                                        options={truckType}
+                                                        classNamePrefix="react-select"
+                                                        placeholder='Truck Type'
+                                                        value={powerUnitForm.truckType ? truckType.find(m => m.value === powerUnitForm.truckType) : null}
+                                                        onChange={(opt) => dispatch({ type: 'setPowerUnitField', field: 'truckType', value: opt?.value || '' })}
+                                                    />
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
-                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='ZIP Code' />
+                                                    <Select
+                                                        options={zipCode}
+                                                        classNamePrefix="react-select"
+                                                        placeholder='ZIP Code'
+                                                        value={powerUnitForm.zipCode ? zipCode.find(m => m.value === powerUnitForm.zipCode) : null}
+                                                        onChange={(opt) => dispatch({ type: 'setPowerUnitField', field: 'zipCode', value: opt?.value || '' })}
+                                                    />
                                                 </div>
                                                 <div >
-                                                    <input type="text" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]' placeholder='yyyy' />
+                                                    <input
+                                                        type="text"
+                                                        value={powerUnitForm.year}
+                                                        onChange={(e) => dispatch({ type: 'setPowerUnitField', field: 'year', value: e.target.value })}
+                                                        className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]'
+                                                        placeholder='yyyy'
+                                                    />
                                                 </div>
                                             </div>
                                             <div className='flex justify-end mt-6'>
-                                                <button className='px-8 btn-primary'>Add</button>
+                                                <button
+                                                    type='button'
+                                                    onClick={() => dispatch({ type: 'addPowerUnit' })}
+                                                    className='px-8 btn-primary'
+                                                >
+                                                    Add
+                                                </button>
                                             </div>
 
                                             <div className='mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'>
