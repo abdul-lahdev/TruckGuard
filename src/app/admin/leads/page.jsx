@@ -961,21 +961,22 @@ export default function Page() {
 
                                                     </div>
                                                 </div>}
-                                                {autoLiability && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
-                                                    <span>
+                                                {autoLiability &&
+                                                    <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
+                                                        <span>
 
-                                                    </span>
-                                                    <div className='w-full xl:w-[50%] '>
-                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
-                                                            Auto Liability
-                                                        </h3>
+                                                        </span>
+                                                        <div className='w-full xl:w-[50%] '>
+                                                            <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                                Auto Liability
+                                                            </h3>
 
-                                                        <div className='mt-3'>
-                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                            <div className='mt-3'>
+                                                                <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                            </div>
+
                                                         </div>
-
-                                                    </div>
-                                                </div>}
+                                                    </div>}
 
                                                 {workCompensation && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
                                                     <span>
