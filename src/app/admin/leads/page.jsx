@@ -379,6 +379,21 @@ export default function Page() {
         },
     ]
 
+    const dDriverType = [
+        { value: 'Hourly', label: 'Hourly' },
+    ]
+    const dLicenseType = [
+        { value: 'learning', label: 'learning' },
+        { value: 'Permanent', label: 'Permanent' },
+    ]
+    const dStateType = [
+        { value: 'california', label: 'California' },
+        { value: 'texas', label: 'Texas' },
+        { value: 'florida', label: 'Florida' },
+        { value: 'new_york', label: 'New York' },
+    ]
+
+
 
 
 
@@ -1373,16 +1388,16 @@ export default function Page() {
                                                     </Popover>
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
-                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='Driver Type' />
+                                                    <Select options={dDriverType} classNamePrefix="react-select" placeholder='Driver Type' />
                                                 </div>
                                                 <div>
                                                     <input type="text" name='licenseNo' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='License Number' />
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
-                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='State' />
+                                                    <Select options={dStateType} classNamePrefix="react-select" placeholder='State' />
                                                 </div>
                                                 <div className='leadReactSelectSetting'>
-                                                    <Select options={zipCode} classNamePrefix="react-select" placeholder='License Type' />
+                                                    <Select options={dLicenseType} classNamePrefix="react-select" placeholder='License Type' />
                                                 </div>
                                                 <div className="flex flex-col gap-2">
                                                     <Popover open={driverDateHiredOpen} onOpenChange={(val) => dispatch({ type: 'setDriverDateHiredOpen', payload: val })}>
