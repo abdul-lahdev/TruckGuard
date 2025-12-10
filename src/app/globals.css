@@ -84,16 +84,12 @@
     /* my define Colors */
 
   
-    --dark2:#232528;
-    --dark5:#1D1F22;
-    --dark6:#212224;
-    --dark7:#17191B;
-    
-    
+
     
     --light1:#F8FAFC;
     --light2:#DDE6ED;
     --light3:#EFF2F5;
+    --light4:#EAECF0;
     --green1:#22886B;
     --green2:#DFFFEA;
     --green3:#46B987;
@@ -105,10 +101,13 @@
     --grey5:#E2E8F0;
     --grey6:#FCFCFC;
     --grey7:#5F6369;
+    --grey8:#202E2D;
     --dark1:#1C1C1C;
     --dark2:#1C1C1CB2;
     --dark3:#45556C;
     --dark4:#0A0A0A;
+    --dark5:#101828;
+    --dark6:#475467;
     --yellow1:#FFFFC9;
     --yellow2:#E8E86A;
     --yellow3:#A67931;
@@ -465,4 +464,49 @@ input[type=number] {
 
 .filepond--credits{
   display: none !important;
+}
+
+
+.uploader-box-design{
+.filepond--root{
+    box-shadow: 0px 1px 2px 0px #1C1C1CB2;
+  border: 1px dashed #1C1C1CB2;
+  background-color: #F2F3F7;
+  box-shadow: none;
+  border-radius: 8px;
+  cursor: pointer;
+  overflow: hidden !important;
+}
+
+.filepond--drop-label{
+  label{
+    display: none !important;
+  }
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  gap:10px;
+  &:before{
+    /* content: 'sss' !important;
+        display: block;
+    color: #5F6369;
+    font-size: 14px;
+    font-weight: 400;
+    */
+      content: "";
+  display: block;
+  width: 21px;
+  height: 21px;
+  background-image: url("data:image/svg+xml;utf8,<svg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'><path d='M14.5 10.5L10.5 6.5M10.5 6.5L6.5 10.5M10.5 6.5V15.7C10.5 17.0907 10.5 17.7861 11.0505 18.5646C11.4163 19.0819 12.4694 19.7203 13.0972 19.8054C14.0421 19.9334 14.4009 19.7462 15.1186 19.3719C18.3167 17.7036 20.5 14.3568 20.5 10.5C20.5 4.97715 16.0228 0.5 10.5 0.5C4.97715 0.5 0.5 4.97715 0.5 10.5C0.5 14.2014 2.51099 17.4331 5.5 19.1622' stroke='%231C1C1C' stroke-opacity='0.7' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+  background-size: contain;
+  } 
+  &:after{
+    content: "Drag & drop or click to upload files here.";
+    display: block;
+    color: #5F6369;
+    font-size: 14px;
+    font-weight: 400;
+  }
+}
+
 }

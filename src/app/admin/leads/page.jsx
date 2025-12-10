@@ -13,12 +13,23 @@ import {
 } from "@/components/ui/native-select"
 import { Checkbox } from '@/components/ui/checkbox';
 import { Separator } from "@/components/ui/separator"
-
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 import FileUpload from '@/app/component/leads/file-upload';
 
 
 export default function Page() {
+
+
+
+
 
 
     const initialState = {
@@ -28,6 +39,10 @@ export default function Page() {
         dobVal: undefined,
         dateAuthority: false,
         dateAuthorityVal: undefined,
+        driverDateHiredOpen: false,
+        driverDateHiredVal: undefined,
+        driverExperienceOpen: false,
+        driverExperienceVal: undefined,
         stateData: [
             { value: 'california', label: 'California' },
             { value: 'texas', label: 'Texas' },
@@ -137,6 +152,26 @@ export default function Page() {
                     ...state,
                     dateAuthorityVal: action.payload
                 }
+            case 'setDriverDateHiredOpen':
+                return {
+                    ...state,
+                    driverDateHiredOpen: action.payload
+                }
+            case 'setDriverDateHiredVal':
+                return {
+                    ...state,
+                    driverDateHiredVal: action.payload
+                }
+            case 'setDriverExperienceOpen':
+                return {
+                    ...state,
+                    driverExperienceOpen: action.payload
+                }
+            case 'setDriverExperienceVal':
+                return {
+                    ...state,
+                    driverExperienceVal: action.payload
+                }
             case 'setNewLead':
                 return {
                     ...state,
@@ -159,7 +194,7 @@ export default function Page() {
 
     }
 
-    const [{ openDate, dateVal, stateData, trailersData, businessType, dateAuthority, dateAuthorityVal, newLead, nonTrucking, physicalDamage, autoLiability, workCompensation, generalLiability, motorTruckCargo, occupationalAccident, trailerInterchange, powerUnitData }, dispatch] = useReducer(reducer, initialState)
+    const [{ openDate, dateVal, stateData, trailersData, businessType, dateAuthority, dateAuthorityVal, driverDateHiredOpen, driverDateHiredVal, driverExperienceOpen, driverExperienceVal, newLead, nonTrucking, physicalDamage, autoLiability, workCompensation, generalLiability, motorTruckCargo, occupationalAccident, trailerInterchange, powerUnitData }, dispatch] = useReducer(reducer, initialState)
 
 
     const handleToggle = (field) => {
@@ -1088,8 +1123,22 @@ export default function Page() {
                                                     </div>
 
                                                     <div className='flex items-center gap-3 justify-center'>
-                                                        <input type="checkbox" />
-                                                        <label htmlFor="" className='text-[#656A73] font-semibold text-[14px]'> Non-Owned Trailer</label>
+                                                        <div className='w-full col-span-4'>
+                                                            <div className='flex items-center gap-3'>
+                                                                <Checkbox
+                                                                    id="nonTrailer"
+                                                                    className="
+        h-5 w-5 
+        rounded-[6px] 
+        border-2
+        border-[#22886B] 
+        data-[state=checked]:bg-white
+        data-[state=checked]:text-[#22886B]
+        data-[state=checked]:border-[#22886B]
+      "
+                                                                /> <span className='text-[14px] font-semibold text-[#656A73]'> Non-Owned Trailer</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
 
                                                     <div className='leadReactSelectSetting' >
@@ -1221,7 +1270,8 @@ export default function Page() {
                                                             <Button
                                                                 variant="outline"
                                                                 id="date"
-                                                                className="w-full justify-between font-normal bg-(--grey6) border border-[#BFCAD252] h-[35px] rounded-[8px]"
+                                                                className="w-full justify-between font-normal bg-(--grey6) border border-[#BFCAD252] h-[35px] rounded-[8px] text-[#656A73]"
+                                                                placeholder="DOB"
                                                             >
                                                                 {dateVal ? dateVal.toLocaleDateString() : "Select date"}
                                                                 <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
@@ -1252,12 +1302,50 @@ export default function Page() {
                                                 <div className='leadReactSelectSetting'>
                                                     <Select options={zipCode} classNamePrefix="react-select" placeholder='License Type' />
                                                 </div>
-                                                <div>
-                                                    Date Hired
+                                                <div className="flex flex-col gap-2">
+                                                    <Popover open={driverDateHiredOpen} onOpenChange={(val) => dispatch({ type: 'setDriverDateHiredOpen', payload: val })}>
+                                                        <PopoverTrigger asChild>
+                                                            <Button variant="outline" className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left text-[14px] font-normal text-[#656A73] cursor-pointer ">
+                                                                {driverDateHiredVal ? driverDateHiredVal.toLocaleDateString() : 'Date Hired'}
+                                                            </Button>
+                                                        </PopoverTrigger>
+                                                        <PopoverContent className="w-auto p-0 z-5" align="start">
+                                                            <Calendar
+                                                                mode="single"
+                                                                selected={driverDateHiredVal}
+                                                                onSelect={(date) => {
+                                                                    dispatch({ type: 'setDriverDateHiredVal', payload: date })
+                                                                    dispatch({ type: 'setDriverDateHiredOpen', payload: false })
+                                                                }}
+                                                                initialFocus
+                                                            />
+                                                        </PopoverContent>
+                                                    </Popover>
                                                 </div>
-                                                <div>
-                                                    Experience:
+                                                <div className="col-span-2 w-full">
+                                                    <div className="grid grid-cols-[1fr_3fr] items-center">
+                                                        <span className='text-[14px] font-medium text-(--dark4)'>Experience</span>
+                                                        <Popover open={driverExperienceOpen} onOpenChange={(val) => dispatch({ type: 'setDriverExperienceOpen', payload: val })}>
+                                                            <PopoverTrigger asChild>
+                                                                <Button variant="outline" className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left text-[14px] font-normal text-[#656A73] cursor-pointer">
+                                                                    {driverExperienceVal ? driverExperienceVal.toLocaleDateString() : 'Issued Date'}
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-auto p-0 z-5" align="start">
+                                                                <Calendar
+                                                                    mode="single"
+                                                                    selected={driverExperienceVal}
+                                                                    onSelect={(date) => {
+                                                                        dispatch({ type: 'setDriverExperienceVal', payload: date })
+                                                                        dispatch({ type: 'setDriverExperienceOpen', payload: false })
+                                                                    }}
+                                                                    initialFocus
+                                                                />
+                                                            </PopoverContent>
+                                                        </Popover>
+                                                    </div>
                                                 </div>
+
                                                 <div>
                                                     <input type="text" name='dateHired' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px]' placeholder='Date Hired' />
                                                 </div>
@@ -1289,9 +1377,16 @@ export default function Page() {
                                             <div className='mt-6 grid grid-cols-4 gap-4'>
                                                 <div className='shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-2xl bg-(--grey4) overflow-hidden '>
 
-                                                    <div className='bg-(--green3) px-3'>
-                                                        <div className='flex justify-end '>
-                                                            <span>ss</span>
+                                                    <div className='bg-(--green3) px-3 relative'>
+                                                        <div className='flex justify-end absolute w-full px-6 bottom-0 -translate-y-3 '>
+                                                            <DropdownMenu>
+                                                                <DropdownMenuTrigger className='cursor-pointer'>
+                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" fill="white" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" fill="white" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" fill="white" /> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                </DropdownMenuTrigger>
+                                                                <DropdownMenuContent>
+                                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                                </DropdownMenuContent>
+                                                            </DropdownMenu>
                                                         </div>
                                                         <div className='flex justify-center'>
                                                             <div className='shadow-[0_0_4px_0_#46B987] rounded-full bg-[#EDFFF5] h-[62px] w-[62px] flex items-center justify-center text-[#1C1C1CB2] font-semibold text-[24px] translate-y-5 '>
