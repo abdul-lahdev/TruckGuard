@@ -129,9 +129,7 @@ export default function Page() {
             class: '',
             truckType: '',
             zipCode: '',
-        },
-        powerUnitEditIndex: null,
-        powerUnitModalOpen: false,
+        }
     }
 
 
