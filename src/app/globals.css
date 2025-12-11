@@ -468,6 +468,12 @@ input[type=number] {
 
 
 .uploader-box-design{
+
+
+  .filepond--root .filepond--drop-label {
+    background-color: #F2F3F7 !important;
+  }
+
 .filepond--root{
     box-shadow: 0px 1px 2px 0px #1C1C1CB2;
   border: 1px dashed #1C1C1CB2;
