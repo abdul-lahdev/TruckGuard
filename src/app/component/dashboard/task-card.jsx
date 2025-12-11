@@ -44,7 +44,7 @@ export default function TaskCard({ defaultStatus, title, date }) {
     const style = statusStyles[status];
 
     return (
-        <div className={`w-full p-5 rounded-xl flex items-center justify-between ${style.bg}`}>
+        <div className={`w-full p-5 rounded-xl flex flex-col md:flex-row items-start gap-3 md:gap-0 md:items-center justify-between ${style.bg}`}>
             <div className="flex items-center gap-4">
 
                 {/* CLICKABLE CHECKBOX */}
@@ -70,14 +70,14 @@ export default function TaskCard({ defaultStatus, title, date }) {
                 </button>
 
                 <div>
-                    <h2 className="font-medium text-lg text-black/80">{title}</h2>
+                    <h2 className="font-medium text-[15px] md:text-lg text-black/80">{title}</h2>
                     <p className="bg-white border border-[#EBEEF2] h-5 px-3 text-[#606C80] font-bold text-[12px]/[12px] w-max flex items-center justify-center">
                         {date}
                     </p>
                 </div>
             </div>
 
-            <span className={`px-4 py-1 rounded-full text-sm font-medium ${style.pillBg} ${style.pillText}`}>
+            <span className={`px-4 py-1 rounded-full text-sm mt-2 font-medium ${style.pillBg} ${style.pillText}`}>
                 {style.label}
             </span>
         </div>

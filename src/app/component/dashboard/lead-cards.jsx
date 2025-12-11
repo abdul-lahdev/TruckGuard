@@ -12,17 +12,17 @@ export default function LeadCard({ dot, name, email, phone, amount, status }) {
                 </span>
             </div>
 
-            <div className="flex items-center justify-between mt-1">
-                <h2 className="text-(--dark2) font-semibold text-[18px]/[20px]">{name}</h2>
+            <div className="flex items-center justify-between mt-3">
+                <h2 className="text-(--dark2) font-semibold text-[16px]/[18px] xl:text-[18px]/[20px]">{name}</h2>
 
             </div>
 
             <div className="mt-2 space-y-2 text-sm">
                 <p className="flex items-center gap-2">
-                    <Mail className="w-4 h-4 stroke-[#606C80]" /> <span className="text-[14px]/[12px] font-medium text-(--grey2)">{email}</span>
+                    <Mail className="w-4 h-4 stroke-[#606C80]" /> <span className="text-[12px]/[10px] xl:text-[14px]/[12px] font-medium text-(--grey2)">{email}</span>
                 </p>
                 <p className="flex items-center gap-2">
-                    <Phone className="w-4 h-4 stroke-[#606C80]" /> <span className="text-[14px]/[12px] font-medium text-(--grey2)">{phone}</span>
+                    <Phone className="w-4 h-4 stroke-[#606C80]" /> <span className="text-[12px]/[10px] xl:text-[14px]/[12px] font-medium text-(--grey2)">{phone}</span>
                 </p>
                 <p className="text-(--grey2) text-[16px]/[12px] font-medium mt-3">${amount}</p>
             </div>

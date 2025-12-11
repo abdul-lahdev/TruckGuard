@@ -1,5 +1,6 @@
 'use client'
-import { Button } from "@/components/ui/button"
+import { useMediaQuery } from 'react-responsive'
+import { usePathname } from 'next/navigation'
 
 import {
     DropdownMenu,
@@ -17,14 +18,31 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 
+import MobileNav from "./mobile-nav"
+
 
 export default function Header() {
 
+    const pathname = usePathname()
+    // console.log(pathname)
+    const result = pathname.replace("/admin/", "");
+
+
+    const isDesktopOrLaptop = useMediaQuery({
+        query: '(max-width: 1024px)'
+    })
+
 
     return (
-        <div className="h-[98px] p-3 flex justify-between items-center rounded-t-2xl flex-row">
-            <h1 className="text-(--dark1) text-[32px] font-semibold">
-                Dashboard
+        <div className=" h-[70px] md:h-[98px] p-3 flex justify-between items-center rounded-t-2xl flex-row">
+
+            {
+                isDesktopOrLaptop &&
+                < MobileNav />
+            }
+
+            <h1 className="text-(--dark1) text-[25px] md:text-[32px] font-semibold capitalize">
+                {result}
             </h1>
             <div className="flex items-center gap-3">
 

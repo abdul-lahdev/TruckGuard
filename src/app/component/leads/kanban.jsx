@@ -101,7 +101,7 @@ const KanvanCard = ({ newLead, dispatch }) => {
                 HEHE add Meow
             </button> */}
 
-            <div className='bg-white p-3 rounded-2xl flex justify-between items-center'>
+            <div className='bg-white p-3 rounded-2xl flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center'>
                 {/* <select name="" id="" onChange={(val) => console.log(val.target.value)}>
                     <option value="New Business">New Business</option>
                     <option value="Renewal">Renewal</option>
@@ -109,7 +109,7 @@ const KanvanCard = ({ newLead, dispatch }) => {
                     <option value="Claims">Claims</option>
                 </select> */}
                 <Select className='cursor-pointer'>
-                    <SelectTrigger className="w-[180px]">
+                    <SelectTrigger className="w-full md:w-[180px]">
                         <SelectValue placeholder="Select Leads" />
                     </SelectTrigger>
                     <SelectContent>
@@ -119,7 +119,7 @@ const KanvanCard = ({ newLead, dispatch }) => {
                         <SelectItem value="Claims">Claims</SelectItem>
                     </SelectContent>
                 </Select>
-                <button className='btn-primary px-8' onClick={() => dispatch({ type: 'setNewLead', payload: !newLead })}>
+                <button className='btn-primary px-8 w-full md:w-max ' onClick={() => dispatch({ type: 'setNewLead', payload: !newLead })}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 5V19M5 12H19" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
                     Add New</button>
             </div >

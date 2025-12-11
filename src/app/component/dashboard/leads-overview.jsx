@@ -29,9 +29,9 @@ export default function LeadsOverViewChart() {
     const total = 1293;
 
     return (
-        <div className="flex items-center gap-10">
+        <div className="flex flex-col lg:flex-row items-center gap-10">
             {/* Doughnut Chart */}
-            <div className="relative w-[362px] h-[362px]">
+            <div className="relative w-[300px] h-[300px] md:w-[362px] md:h-[362px]">
                 <Doughnut data={data} options={options} />
 
                 {/* Center Text */}

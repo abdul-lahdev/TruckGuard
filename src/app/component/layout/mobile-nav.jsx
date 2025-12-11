@@ -1,22 +1,25 @@
-'use client'
-
-import Image from 'next/image'
-import Link from 'next/link'
-
-import { usePathname } from 'next/navigation'
-import { useHotels } from '@/context/HotelContext'
-
-
+import { Button } from "@/components/ui/button"
+import { DialogTitle } from "@/components/ui/dialog"
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip"
+import Image from "next/image"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
 
-export default function LeftBar() {
+export default function MobileNav() {
 
 
-    const { setStep, setHotel, hotelData } = useHotels();
+    const pathname = usePathname()
+    const result = pathname.replace("/admin/", "");
 
 
     const menuItems = [
@@ -55,69 +58,82 @@ export default function LeftBar() {
     ]
 
 
-    const pathname = usePathname()
-    // console.log(pathname)
-    const result = pathname.replace("/admin/", "");
-    // console.log(result)
-
     return (
-        <div className="flex flex-col justify-between h-full items-center w-full">
-            <div className='w-full'>
-                <div className='px-4 pt-2 flex justify-start'>
-                    <Image src="/images/layout/mainLogo.svg" alt="logo" width='100' height='100' className=' h-[52px] w-[155px]' />
+        <Drawer direction="left">
+            <DrawerTrigger asChild>
+                <Button className='p-0 bg-[#e8e8e8]'>
+                    <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M4 18L20 18" stroke="#000000" strokeWidth="2" strokeLinecap="round" /> <path d="M4 12L20 12" stroke="#000000" strokeWidth="2" strokeLinecap="round" /> <path d="M4 6L20 6" stroke="#000000" strokeWidth="2" strokeLinecap="round" /> </svg>
+                </Button>
+            </DrawerTrigger>
 
-                </div>
-                <ul className='mt-10 flex flex-col items-center w-full'>
-
-                    {menuItems.map((item, index) => (
-                        <li className='w-full' key={index} onClick={() => {
-                            setStep('categories')
-                            setHotel(hotelData[0].name)
-                        }}>
-                            <Tooltip placement="right">
-                                <TooltipTrigger asChild>
-                                    <Link href={item.href} className={` ${result === item.name ? 'bg-[linear-gradient(90deg,#007B58_0%,#138C6A_208.33%)] border-[#FFFFFF29] ' : `${item.name}`} hover:bg-[linear-gradient(90deg,#007B58_0%,#138C6A_208.33%)] hover:border-[#FFFFFF29] border border-transparent h-12 rounded-xl w-full flex justify-start gap-3 px-4 items-center mb-4 `}>
-                                        <span>
-                                            {item.icon}
-                                        </span>
-                                        <span className='text-white font-semibold text-[20px] capitalize'>
-                                            {item.name}
-                                        </span>
-                                    </Link>
-
-                                </TooltipTrigger>
-                                <TooltipContent side="right" align="center" >
-                                    <p>{item.tooltip}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                        </li>
-                    ))}
-
-
-
-                </ul>
-            </div>
-            <Tooltip placement="right">
-                <div className='bg-white w-full flex items-center justify-between min-h-[84px] shadow-[0_0_8px_0_#FFFFFF52] border border-[#FFFFFF1F] rounded-2xl p-4'>
-                    <div className='flex items-center gap-3'>
-                        <div className='w-[52px] h-[52px] rounded-full bg-[url(/images/layout/profile.webp)] bg-center bg-cover bg-no-repeat shadow-[0_2px_8px_0_#FFFFFF66_inset] border border-[#46B9874D]  '></div>
-                        <div>
-                            <h1 className='text-[14px]/[20px] font-semibold text-(--green1)'>John Lewis</h1>
-                            <p className='text-[10px]/[12px] font-normal text-(--grey1)'>Admin</p>
+            <DrawerContent className='bg-[linear-gradient(184.03deg,#024733_0%,#1CA37D_225.25%)] border-none ' autoFocus={false}>
+                <DialogTitle></DialogTitle>
+                <div className="flex flex-col justify-between h-full items-center w-full px-5 py-3 overflow-y-scroll">
+                    <div className='w-full'>
+                        <div className='px-4 pt-2 flex justify-start'>
+                            <Image src="/images/layout/mainLogo.svg" alt="logo" width='100' height='100' className=' h-[52px] w-[155px]' />
 
                         </div>
+                        <ul className='mt-7 flex flex-col items-center w-full'>
 
+                            {menuItems.map((item, index) => (
+                                <li className='w-full' key={index} onClick={() => {
+                                    setStep('categories')
+                                    setHotel(hotelData[0].name)
+                                }}>
+                                    <Tooltip placement="right">
+                                        <TooltipTrigger asChild>
+                                            <Link href={item.href} className={` ${result === item.name ? 'bg-[linear-gradient(90deg,#007B58_0%,#138C6A_208.33%)] border-[#FFFFFF29] ' : `${item.name}`} hover:bg-[linear-gradient(90deg,#007B58_0%,#138C6A_208.33%)] hover:border-[#FFFFFF29] border border-transparent h-12 rounded-xl w-full flex justify-start gap-3 px-4 items-center mb-4 `}>
+                                                <span>
+                                                    {item.icon}
+                                                </span>
+                                                <span className='text-white font-semibold text-[20px] capitalize'>
+                                                    {item.name}
+                                                </span>
+                                            </Link>
+
+                                        </TooltipTrigger>
+                                        <TooltipContent side="right" align="center" >
+                                            <p>{item.tooltip}</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </li>
+                            ))}
+
+
+
+                        </ul>
                     </div>
-                    <TooltipTrigger asChild>
-                        <Link href='#' className=''>
-                            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M15.5 25.5H12.1667C11.7246 25.5 11.3007 25.3244 10.9882 25.0118C10.6756 24.6993 10.5 24.2754 10.5 23.8333V12.1667C10.5 11.7246 10.6756 11.3007 10.9882 10.9882C11.3007 10.6756 11.7246 10.5 12.1667 10.5H15.5M21.3333 22.1667L25.5 18M25.5 18L21.3333 13.8333M25.5 18H15.5" stroke="#22886B" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" /> </svg>
-                        </Link>
-                    </TooltipTrigger>
-                </div>
-                <TooltipContent side="right" align="center" >
-                    <p>Logout</p>
-                </TooltipContent>
-            </Tooltip>
-        </div >
-    );
+                    <Tooltip placement="right">
+                        <div className='bg-white w-full flex items-center justify-between min-h-[84px] shadow-[0_0_8px_0_#FFFFFF52] border border-[#FFFFFF1F] rounded-2xl p-4'>
+                            <div className='flex items-center gap-3'>
+                                <div className='w-[52px] h-[52px] rounded-full bg-[url(/images/layout/profile.webp)] bg-center bg-cover bg-no-repeat shadow-[0_2px_8px_0_#FFFFFF66_inset] border border-[#46B9874D]  '></div>
+                                <div>
+                                    <h1 className='text-[14px]/[20px] font-semibold text-(--green1)'>John Lewis</h1>
+                                    <p className='text-[10px]/[12px] font-normal text-(--grey1)'>Admin</p>
+
+                                </div>
+
+                            </div>
+                            <TooltipTrigger asChild>
+                                <Link href='#' className=''>
+                                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M15.5 25.5H12.1667C11.7246 25.5 11.3007 25.3244 10.9882 25.0118C10.6756 24.6993 10.5 24.2754 10.5 23.8333V12.1667C10.5 11.7246 10.6756 11.3007 10.9882 10.9882C11.3007 10.6756 11.7246 10.5 12.1667 10.5H15.5M21.3333 22.1667L25.5 18M25.5 18L21.3333 13.8333M25.5 18H15.5" stroke="#22886B" strokeWidth="1.67" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                </Link>
+                            </TooltipTrigger>
+                        </div>
+                        <TooltipContent side="right" align="center" >
+                            <p>Logout</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </div >
+                <DrawerHeader className='hidden'>
+                    <DrawerDescription className='hidden'>
+
+                    </DrawerDescription>
+                </DrawerHeader>
+
+
+            </DrawerContent>
+        </Drawer>
+    )
 }

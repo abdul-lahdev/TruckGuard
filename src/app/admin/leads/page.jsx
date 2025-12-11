@@ -412,7 +412,7 @@ export default function Page() {
 
                     <>
                         <form onSubmit={(e) => { e.preventDefault(); /* handle save */ }}>
-                            <div className='flex justify-between items-center mb-5'>
+                            <div className='flex flex-col md:flex-row justify-between items-start gap-3 md:gap-0 md:items-center mb-5'>
                                 <div className='flex items-center gap-3' >
                                     {stepIndex <= 0 ? <span onClick={() => dispatch({ type: 'setNewLead', payload: !newLead })}>
                                         <svg className='cursor-pointer' width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M20 24L12 16L20 8" stroke="#0A0A0A" strokeOpacity="0.7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> </svg>
@@ -454,7 +454,7 @@ export default function Page() {
                             </div>
 
 
-                            <div className='grid grid-cols-[335px_1fr] gap-4'>
+                            <div className='grid grid-cols-1 xl:grid-cols-[335px_1fr] gap-4'>
 
                                 {/* Left Steps */}
 
@@ -554,7 +554,7 @@ export default function Page() {
                                     {/* Step Content */}
                                     <div className='mt-5'>
                                         {currForm === 'applicationInformation' && <>
-                                            <div className='grid grid-cols-5 gap-3'>
+                                            <div className='grid grid-cols-1 xl:grid-cols-5 gap-3'>
                                                 <div className='col-span-1' >
                                                     <label htmlFor="" className='text-[14px] font-medium text-(--dark4)'>Request Effective Date</label>
                                                 </div>
@@ -583,10 +583,10 @@ export default function Page() {
                                                         </PopoverContent>
                                                     </Popover>
                                                 </div>
-                                                <div className='mt-5 col-span-1' >
+                                                <div className='mt-0 xl:mt-5 col-span-1' >
                                                     <label htmlFor="" className='col-span-1 text-[14px] font-medium text-(--dark4) mt-3'>Request Effective Date</label>
                                                 </div>
-                                                <div className='w-full mt-5 col-span-4'>
+                                                <div className='w-full mt-0 xl:mt-5 col-span-4'>
                                                     <input type="text" name='requestEffectiveDate' className='form-control w-full' />
                                                 </div>
                                                 <div className='col-span-1'>
@@ -602,7 +602,7 @@ export default function Page() {
                                                 </div>
                                                 <div className='w-full col-span-4'>
                                                     <input type="text" placeholder='Enter Address' name='mailAddress' className='form-control w-full' />
-                                                    <div className='grid grid-cols-[3fr_1fr_1fr] gap-3 reactSingleSelect mt-3'>
+                                                    <div className='grid grid-cols-1 md:grid-cols-[3fr_1fr_1fr] gap-3 reactSingleSelect mt-3'>
                                                         <input type="text" name='City' placeholder='City' className='form-control w-full' />
                                                         <Select options={stateData} classNamePrefix="react-select" placeholder='State' />
                                                         <input type="number" name='zipCode' placeholder='ZIP Code' className='form-control w-full' />
@@ -615,10 +615,10 @@ export default function Page() {
                                                     <input type="text" name='country' placeholder='Enter Country' className='form-control w-full' />
                                                 </div>
 
-                                                <div className='col-span-1 mt-5'>
+                                                <div className='col-span-1 mt-0 xl:mt-5'>
                                                     <label htmlFor="" className='col-span-1 text-[14px] font-medium text-(--dark4) mt-3'>Business Owner</label>
                                                 </div>
-                                                <div className='w-full col-span-4 mt-5'>
+                                                <div className='w-full col-span-4 mt-0 xl:mt-5'>
                                                     <input type="text" name='businessOwner' placeholder='Enter name' className='form-control w-full' />
                                                 </div>
                                                 <div className='col-span-1 '>
@@ -633,10 +633,10 @@ export default function Page() {
                                                 <div className='w-full col-span-4 '>
                                                     <input type="number" name='number' placeholder='Enter number' className='form-control w-full' />
                                                 </div>
-                                                <div className='col-span-1 mt-5'>
+                                                <div className='col-span-1 mt-0 xl:mt-5'>
                                                     <label htmlFor="" className='col-span-1 text-[14px] font-medium text-(--dark4) mt-3'>Business Type</label>
                                                 </div>
-                                                <div className='w-full col-span-4 mt-5 reactSingleSelect'>
+                                                <div className='w-full col-span-4 mt-0 xl:mt-5 reactSingleSelect'>
                                                     <Select options={businessType} classNamePrefix="react-select" placeholder='Select' />
                                                 </div>
 
@@ -703,10 +703,10 @@ export default function Page() {
                                                 </div>
 
 
-                                                <div className='col-span-1 mt-5'>
+                                                <div className='col-span-1 mt-0 xl:mt-5'>
                                                     <label htmlFor="" className='col-span-1 text-[16px] font-medium text-(--dark4) mt-3'>Total Garage Locations:</label>
                                                 </div>
-                                                <div className='w-full col-span-4 mt-5 relative'>
+                                                <div className='w-full col-span-4 mt-0 xl:mt-5 relative'>
                                                     <svg className='absolute right-0 top-0 -translate-x-3.5 translate-y-1.5' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clipPath="url(#clip0_1_4857)"> <path d="M7.00002 9.33335V7.00002M7.00002 4.66669H7.00585M12.8334 7.00002C12.8334 10.2217 10.2217 12.8334 7.00002 12.8334C3.77836 12.8334 1.16669 10.2217 1.16669 7.00002C1.16669 3.77836 3.77836 1.16669 7.00002 1.16669C10.2217 1.16669 12.8334 3.77836 12.8334 7.00002Z" stroke="#F0B350" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </g> <defs> <clipPath id="clip0_1_4857"> <rect width="14" height="14" fill="white" /> </clipPath> </defs> </svg>
                                                     <input type="number" name='totalGarage' placeholder='1' className='form-control w-full pl-3 pr-8' />
                                                 </div>
@@ -731,7 +731,7 @@ export default function Page() {
       "
                                                         /> <span className='text-[#22886B] font-medium text-[14px]'>Same as Mailing Address</span>
                                                     </div>
-                                                    <div className='grid grid-cols-[3fr_1fr_1fr] gap-3 reactSingleSelect mt-3'>
+                                                    <div className='grid grid-cols-1 md:grid-cols-[3fr_1fr_1fr] gap-3 reactSingleSelect mt-3'>
                                                         <input type="text" name='garageCity' placeholder='City' className='form-control w-full' />
                                                         <Select options={stateData} classNamePrefix="react-select" placeholder='State' />
                                                         <input type="number" name='garageZipCode' placeholder='ZIP Code' className='form-control w-full' />
@@ -744,13 +744,10 @@ export default function Page() {
                                                 <div className='w-full col-span-4  '>
                                                     <input type="number" name='garageCountry' placeholder='Enter Country' className='form-control w-full' />
                                                 </div>
-
-
-
-                                                <div className='col-span-1 mt-5'>
+                                                <div className='col-span-1 mt-0 xl:mt-5'>
                                                     <label htmlFor="" className='col-span-1 text-[16px] font-medium text-(--dark4) mt-3'>Total Owned Trailers</label>
                                                 </div>
-                                                <div className='w-full col-span-4 mt-5 relative'>
+                                                <div className='w-full col-span-4 mt-0 xl:mt-5 relative'>
                                                     <svg className='absolute right-0 top-0 -translate-x-3.5 translate-y-1.5' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <g clipPath="url(#clip0_1_4857)"> <path d="M7.00002 9.33335V7.00002M7.00002 4.66669H7.00585M12.8334 7.00002C12.8334 10.2217 10.2217 12.8334 7.00002 12.8334C3.77836 12.8334 1.16669 10.2217 1.16669 7.00002C1.16669 3.77836 3.77836 1.16669 7.00002 1.16669C10.2217 1.16669 12.8334 3.77836 12.8334 7.00002Z" stroke="#F0B350" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </g> <defs> <clipPath id="clip0_1_4857"> <rect width="14" height="14" fill="white" /> </clipPath> </defs> </svg>
                                                     <input type="number" name='garageTrailers' placeholder='1' className='form-control w-full pl-3 pr-8' />
                                                 </div>
@@ -781,11 +778,11 @@ export default function Page() {
                                             </div>
                                         </>}
                                         {currForm === 'coverage' && <>
-                                            <div className='grid grid-cols-4 gap-5'>
+                                            <div className='grid grid-cols-[repeat(8,max-content)] overflow-x-scroll md:overflow-x-hidden md:grid-cols-3 lg:grid-cols-4 gap-5'>
                                                 <label
                                                     htmlFor="nonTrucking"
                                                     onClick={() => handleToggle("nonTrucking")}
-                                                    className='bg-(--yellow4) border border-[#CFCF5A] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer'
+                                                    className='bg-(--yellow4) border border-[#CFCF5A] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3'
                                                 >
                                                     <div className='bg-[url(/images/leads/coverage1.png)] bg-contain bg-center w-full h-20 bg-no-repeat'></div>
 
@@ -807,7 +804,7 @@ export default function Page() {
                                                     />
                                                 </label>
 
-                                                <label htmlFor="physicalDamage" onClick={() => handleToggle("physicalDamage")} className={`bg-[#EAF9FF] border border-[#67DAEE] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                <label htmlFor="physicalDamage" onClick={() => handleToggle("physicalDamage")} className={`bg-[#EAF9FF] border border-[#67DAEE] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3 `}>
                                                     <div className='bg-[url(/images/leads/coverage2.png)] bg-contain bg-center w-full h-20 bg-no-repeat'></div>
 
 
@@ -824,7 +821,7 @@ export default function Page() {
                                                         onChange={() => handleToggle("physicalDamage")}
                                                         className='hidden' id='physicalDamage' />
                                                 </label>
-                                                <label htmlFor="autoLiability" onClick={() => handleToggle("autoLiability")} className={`bg-[#F2FFE5] border-[#C2E86A] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer ${autoLiability ? 'border-2' : 'border'} `}>
+                                                <label htmlFor="autoLiability" onClick={() => handleToggle("autoLiability")} className={`bg-[#F2FFE5] border-[#C2E86A] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3 ${autoLiability ? 'border-2' : 'border'} `}>
                                                     <div className='bg-[url(/images/leads/coverage3.png)] bg-contain bg-center w-full h-20 bg-no-repeat'></div>
 
 
@@ -841,7 +838,7 @@ export default function Page() {
                                                         onChange={() => handleToggle("autoLiability")}
                                                         className='hidden' id='autoLiability' />
                                                 </label>
-                                                <label htmlFor="workCompensation" onClick={() => handleToggle("workCompensation")} className={`bg-[#F8EAFF] border border-[#DD88FF] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                <label htmlFor="workCompensation" onClick={() => handleToggle("workCompensation")} className={`bg-[#F8EAFF] border border-[#DD88FF] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3`}>
                                                     <div className='bg-[url(/images/leads/coverage4.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
 
 
@@ -858,7 +855,7 @@ export default function Page() {
                                                         onChange={() => handleToggle("workCompensation")}
                                                         className='hidden' id='workCompensation' />
                                                 </label>
-                                                <label htmlFor="generalLiability" onClick={() => handleToggle("generalLiability")} className={`bg-[#FFF7EA] border border-[#F0B350] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                <label htmlFor="generalLiability" onClick={() => handleToggle("generalLiability")} className={`bg-[#FFF7EA] border border-[#F0B350] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3`}>
                                                     <div className='bg-[url(/images/leads/coverage5.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
 
 
@@ -875,7 +872,7 @@ export default function Page() {
                                                         onChange={() => handleToggle("generalLiability")}
                                                         className='hidden' id='generalLiability' />
                                                 </label>
-                                                <label htmlFor="motorTruckCargo" onClick={() => handleToggle("motorTruckCargo")} className={`bg-[#FFF8EF] border border-[#B29367] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                <label htmlFor="motorTruckCargo" onClick={() => handleToggle("motorTruckCargo")} className={`bg-[#FFF8EF] border border-[#B29367] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3`}>
                                                     <div className='bg-[url(/images/leads/coverage6.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
 
 
@@ -892,7 +889,7 @@ export default function Page() {
                                                         onChange={() => handleToggle("motorTruckCargo")}
                                                         className='hidden' id='motorTruckCargo' />
                                                 </label>
-                                                <label htmlFor="occupationalAccident" onClick={() => handleToggle("occupationalAccident")} className={`bg-[#F4F7FF] border border-[#899DFF] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                <label htmlFor="occupationalAccident" onClick={() => handleToggle("occupationalAccident")} className={`bg-[#F4F7FF] border border-[#899DFF] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3`}>
                                                     <div className='bg-[url(/images/leads/coverage7.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
 
 
@@ -909,7 +906,7 @@ export default function Page() {
                                                         onChange={() => handleToggle("occupationalAccident")}
                                                         className='hidden' id='occupationalAccident' />
                                                 </label>
-                                                <label htmlFor="trailerInterchange" onClick={() => handleToggle("trailerInterchange")} className={`bg-[#FFF0ED] border border-[#FF5A32] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer `}>
+                                                <label htmlFor="trailerInterchange" onClick={() => handleToggle("trailerInterchange")} className={`bg-[#FFF0ED] border border-[#FF5A32] rounded-2xl min-h-[234px] justify-center items-center flex flex-col gap-2 cursor-pointer w-[300px] md:w-full px-3`}>
                                                     <div className='bg-[url(/images/leads/coverage8.png)]  bg-center w-full h-20 bg-contain bg-no-repeat'></div>
 
 
@@ -1230,13 +1227,13 @@ export default function Page() {
                                             <div className='mt-4'>
 
 
-                                                <div className='grid grid-cols-5 gap-4 mt-4 items-center'>
-                                                    <div className='relative flex justify-end col-span-3'>
+                                                <div className='grid grid-cols-1 lg:grid-cols-5 gap-4 mt-4 items-center'>
+                                                    <div className='relative flex justify-end col-span-1 lg:col-span-3'>
                                                         <svg className='absolute translate-y-6.5 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
                                                         <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]' placeholder='VIN Number' />
                                                     </div>
 
-                                                    <div className='flex items-center gap-3 justify-center'>
+                                                    <div className='flex items-center gap-3 justify-center col-span-1'>
                                                         <div className='w-full col-span-4'>
                                                             <div className='flex items-center gap-3'>
                                                                 <Checkbox
@@ -1255,26 +1252,26 @@ export default function Page() {
                                                         </div>
                                                     </div>
 
-                                                    <div className='leadReactSelectSetting' >
+                                                    <div className='leadReactSelectSetting col-span-1' >
                                                         <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
 
                                                     </div>
-                                                    <div >
+                                                    <div className='col-span-1' >
                                                         <input type="text" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]' placeholder='yyyy' />
                                                     </div>
-                                                    <div className='leadReactSelectSetting' >
+                                                    <div className='leadReactSelectSetting col-span-1' >
                                                         <Select options={modelData} classNamePrefix="react-select" placeholder='Model' />
 
                                                     </div>
-                                                    <div className='leadReactSelectSetting' >
+                                                    <div className='leadReactSelectSetting col-span-1' >
                                                         <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
 
                                                     </div>
-                                                    <div className='leadReactSelectSetting' >
+                                                    <div className='leadReactSelectSetting col-span-1' >
                                                         <Select options={pricingData} classNamePrefix="react-select" placeholder='Value' />
 
                                                     </div>
-                                                    <div className='leadReactSelectSetting' >
+                                                    <div className='leadReactSelectSetting col-span-1' >
                                                         <Select options={zipCode} classNamePrefix="react-select" placeholder='zip Code' />
 
                                                     </div>
@@ -1438,7 +1435,7 @@ export default function Page() {
                                                         </PopoverContent>
                                                     </Popover>
                                                 </div>
-                                                <div className="col-span-2 w-full">
+                                                <div className="md:col-span-2 w-full">
                                                     <div className="grid grid-cols-[1fr_3fr] items-center">
                                                         <span className='text-[14px] font-medium text-(--dark4)'>Experience</span>
                                                         <Popover open={driverExperienceOpen} onOpenChange={(val) => dispatch({ type: 'setDriverExperienceOpen', payload: val })}>
@@ -1492,7 +1489,7 @@ export default function Page() {
                                             <Separator className='mt-3 bg-(--green1)' />
 
 
-                                            <div className='mt-6 grid grid-cols-4 gap-4'>
+                                            <div className='mt-6 grid grid-col-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
                                                 <div className='shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-2xl bg-(--grey4) overflow-hidden '>
 
                                                     <div className='bg-(--green3) px-3 relative'>
