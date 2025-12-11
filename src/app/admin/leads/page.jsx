@@ -321,10 +321,13 @@ export default function Page() {
     // Functions
 
     const goNext = () => {
+
         if (stepIndex < steps.length - 1) {
             setStepIndex(prev => prev + 1)
         } else {
             console.log('Submit the form')
+            dispatch({ type: 'setNewLead', payload: false })
+            setStepIndex(0)
         }
     }
 
@@ -444,7 +447,8 @@ export default function Page() {
                                         onClick={goNext}
                                         className='px-8 btn-primary '
                                     >
-                                        Next
+
+                                        {stepIndex < steps.length - 1 ? 'Next' : 'Submit'}
                                     </button>
                                 </div>
                             </div>
@@ -1380,7 +1384,7 @@ export default function Page() {
                                                             <Button
                                                                 variant="outline"
                                                                 id="date"
-                                                                className="w-full justify-between bg-(--grey6) font-normal border border-[#BFCAD252] h-[35px] rounded-[8px] shadow-none text-[12px] text-[#656A73]"
+                                                                className="w-full justify-between bg-(--grey6) font-normal border border-[#BFCAD252] h-[35px] rounded-[8px] shadow-none text-[12px] text-[#98a1af]"
                                                                 placeholder="DOB"
                                                             >
                                                                 {dateVal ? dateVal.toLocaleDateString() : "Select date"}
@@ -1415,8 +1419,10 @@ export default function Page() {
                                                 <div className="flex flex-col gap-2">
                                                     <Popover open={driverDateHiredOpen} onOpenChange={(val) => dispatch({ type: 'setDriverDateHiredOpen', payload: val })}>
                                                         <PopoverTrigger asChild>
-                                                            <button className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer ">
+                                                            <button className="w-full flex flex-row items-center justify-between bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer ">
                                                                 {driverDateHiredVal ? driverDateHiredVal.toLocaleDateString() : 'Date Hired'}
+                                                                <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+
                                                             </button>
                                                         </PopoverTrigger>
                                                         <PopoverContent className="w-auto p-0 z-5" align="start">
@@ -1437,8 +1443,10 @@ export default function Page() {
                                                         <span className='text-[14px] font-medium text-(--dark4)'>Experience</span>
                                                         <Popover open={driverExperienceOpen} onOpenChange={(val) => dispatch({ type: 'setDriverExperienceOpen', payload: val })}>
                                                             <PopoverTrigger asChild>
-                                                                <button className="w-full justify-start bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer">
+                                                                <button className="w-full flex flex-row items-center justify-between bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer">
                                                                     {driverExperienceVal ? driverExperienceVal.toLocaleDateString() : 'Issued Date'}
+                                                                    <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+
                                                                 </button>
                                                             </PopoverTrigger>
                                                             <PopoverContent className="w-auto p-0 z-5" align="start">
