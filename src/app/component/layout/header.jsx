@@ -2,6 +2,9 @@
 import { useMediaQuery } from 'react-responsive'
 import { usePathname } from 'next/navigation'
 
+
+import NoData from '../global/no-data'
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -19,8 +22,11 @@ import {
 
 
 import MobileNav from "./mobile-nav"
+import { Item } from '@radix-ui/react-dropdown-menu'
 
+const notification = [
 
+]
 export default function Header() {
 
     const pathname = usePathname()
@@ -55,30 +61,28 @@ export default function Header() {
                             </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent
-                            className="z-50 w-80 bg-(--dark1) text-white border border-(--grey1) rounded-lg shadow-lg p-2 overflow-hidden"
+                            className="z-50 w-80 bg-(--light1) text-white border border-[#d7d7d7] rounded-lg shadow-lg p-2 overflow-hidden"
                             side="bottom"
                             align="end"
                         >
-                            <div className="flex justify-between items-center px-3 py-2 border-b border-(--grey2)">
-                                <span className="font-semibold text-sm">Notifications</span>
-                                <button className="text-(--grey2) hover:text-white text-sm cursor-pointer">Clear all</button>
+                            <div className="flex justify-between items-center px-3 py-2 border-b border-[#d9d9d9]">
+                                <span className="font-semibold text-black text-sm">Notifications</span>
+                                <button className=" text-sm cursor-pointer text-black">Clear all</button>
                             </div>
 
                             <div className="max-h-64 overflow-y-auto py-2">
-                                <DropdownMenuItem className="flex flex-col items-start gap-1 py-3 px-3 hover:bg-[#ffffff10] rounded-lg">
-                                    <span className="text-sm font-medium">New comment on your post</span>
-                                    <span className="text-xs text-(--grey2)">2 min ago</span>
-                                </DropdownMenuItem>
 
-                                <DropdownMenuItem className="flex flex-col items-start gap-1 py-3 px-3 hover:bg-[#ffffff10] rounded-lg">
-                                    <span className="text-sm font-medium">Your order has been shipped</span>
-                                    <span className="text-xs text-(--grey2)">1 hr ago</span>
-                                </DropdownMenuItem>
+                                {
+                                    notification.length === 0 ? <div className='flex flex-col items-center gap-3 mt-8'><NoData size='100' /> <p className='text-black text-center capitalize'>No notification to Show</p></div> : notification.map((item, index) => (
+                                        <DropdownMenuItem DropdownMenuItem key={index} className="flex flex-col cursor-pointer items-start text-black gap-1 py-3 px-3  rounded-lg" >
+                                            <span className="text-sm font-medium text-inherit">{item.title}</span>
+                                            <span className="text-xs text-inherit ">{item.time}</span>
+                                        </DropdownMenuItem>
+                                    ))
+                                }
 
-                                <DropdownMenuItem className="flex flex-col items-start gap-1 py-3 px-3 hover:bg-[#ffffff10] rounded-lg">
-                                    <span className="text-sm font-medium">New friend request</span>
-                                    <span className="text-xs text-(--grey2)">3 hr ago</span>
-                                </DropdownMenuItem>
+
+
                             </div>
 
 
