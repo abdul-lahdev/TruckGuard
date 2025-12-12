@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import Layout from "./component/layout/layout";
-
+import ClientLoader from "./ClientLoader";
 
 
 
@@ -18,27 +18,16 @@ export default function RootLayout({ children }) {
         // className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
 
+        <ClientLoader>
+
+
 
         <Layout>
           {children}
         </Layout>
 
-     {/* <div className="flex">
+        </ClientLoader>
 
- <div className="h-screen">
-   <div className="bg-(--dark1) w-[97px] min-w-[97px] h-[96%] 
-                  rounded-[20px] text-white p-3 mt-4 ms-4">
-    <LeftBar />
-  </div>
- </div>
-
-  <div className="flex-1 border border-(--grey1) rounded-2xl 
-                  mt-4 ml-4 mr-4 pb-6 mb-4 ">
-    <Header />
-    {children}
-  </div>
-
-</div> */}
 
 
       </body>

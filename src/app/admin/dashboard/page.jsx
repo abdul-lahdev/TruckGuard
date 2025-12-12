@@ -5,9 +5,9 @@ import { useState } from "react"
 import * as React from "react"
 import { Calendar } from "@/components/ui/calendar"
 
+// import { motion } from "motion/react"
+import { motion } from "framer-motion"
 
-import { Card, CardContent } from "@/components/ui/card";
-import { BadgeCheck, Lock, FileClock } from "lucide-react";
 import {
     Popover,
     PopoverContent,
@@ -116,27 +116,27 @@ function Page() {
 
 
     // ---------------- Pagination State ----------------
-
-
-
-
-
-
-
-
     return (
         <div className=" pt-4">
 
-            <div className="bg-[url(/images/dashboard/motivation.png)] bg-cover bg-center bg-no-repeat border border-(--yellow2) rounded-xl min-h-[72px] flex justify-center items-center gap-3 p-3">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="bg-[url(/images/dashboard/motivation.png)] bg-cover bg-center bg-no-repeat border border-(--yellow2) rounded-xl min-h-[72px] flex justify-center items-center gap-3 p-3">
                 <span>
                     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M10.6665 18.6667C10.6665 18.6667 12.6665 21.3333 15.9998 21.3333C19.3332 21.3333 21.3332 18.6667 21.3332 18.6667M19.9998 12H20.0132M11.9998 12H12.0132M29.3332 16C29.3332 23.3638 23.3636 29.3333 15.9998 29.3333C8.63604 29.3333 2.6665 23.3638 2.6665 16C2.6665 8.63621 8.63604 2.66667 15.9998 2.66667C23.3636 2.66667 29.3332 8.63621 29.3332 16ZM20.6665 12C20.6665 12.3682 20.368 12.6667 19.9998 12.6667C19.6316 12.6667 19.3332 12.3682 19.3332 12C19.3332 11.6318 19.6316 11.3333 19.9998 11.3333C20.368 11.3333 20.6665 11.6318 20.6665 12ZM12.6665 12C12.6665 12.3682 12.368 12.6667 11.9998 12.6667C11.6316 12.6667 11.3332 12.3682 11.3332 12C11.3332 11.6318 11.6316 11.3333 11.9998 11.3333C12.368 11.3333 12.6665 11.6318 12.6665 12Z" stroke="#A67931" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /> </svg>
                 </span>
                 <span className="text-(--yellow3) text-[16px]/[18px] lg:text-[18px] xl:text-[24px] font-semibold ">Your effort today becomes your success story tomorrow.</span>
-            </div>
+            </motion.div>
             <div className="h-full grid grid-cols-1 xl:grid-cols-4 justify-between gap-6 mt-8">
                 {
                     dashboardCards.map((item, index) =>
-                        <div key={index} className="bg-white border border-(--light2) p-5 rounded-3xl h-full flex items-center justify-between min-h-[165px]">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.6 }}
+                            key={index} className="bg-white border border-(--light2) p-5 rounded-3xl h-full flex items-center justify-between min-h-[165px]">
                             <div className="flex flex-col justify-between h-full">
                                 <h2 className="text-[#1C1C1CB2] font-medium text-[18px] md:text-[22px]">{item.title}</h2>
                                 <h1 className="text-[#1C1C1CB2] font-medium text-[35px] md:text-[40px]">{item.value}</h1>
@@ -144,12 +144,17 @@ function Page() {
                             <div >
                                 {item.icon}
                             </div>
-                        </div>
+                        </motion.div>
                     )
                 }
             </div>
             <div className="grid grid-cols-1 xl:grid-cols-5 gap-6 mt-6">
-                <div className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
                     <div className="flex items-center justify-between">
                         <h1 className="text-(--dark2) text-[17px] xl:text-[24px] font-medium ">Monthly Premium</h1>
                         <div className="flex flex-col gap-3">
@@ -182,8 +187,13 @@ function Page() {
                     <div className="mt-3">
                         <RevenueChart />
                     </div>
-                </div>
-                <div className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
+                </motion.div>
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
                     <div className="flex items-center justify-between">
                         <h1 className="text-(--dark2) font-medium text-[17px] xl:text-[24px]">Tasks</h1>
                         <Link href='' className="underline">
@@ -219,11 +229,16 @@ function Page() {
                             date="12/02/2023"
                         />
                     </div>
-                </div>
+                </motion.div>
 
 
                 <div className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
-                    <div>
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6 }}
+                        viewport={{ once: true, amount: 0.2 }}
+                    >
                         <div className="flex justify-between items-center">
                             <h1 className="text-(--dark2) font-medium text-[17px] xl:text-[24px]">Recent Leads</h1>
 
@@ -250,10 +265,15 @@ function Page() {
                             ))}
 
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
-                <div className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
                     <h1 className="text-(--dark2) font-medium text-[17px] xl:text-[24px]">Claims Overview</h1>
 
                     <Separator className='mt-3 bg-(--light2)' />
@@ -261,9 +281,14 @@ function Page() {
                     <div className="mt-5">
                         <ClaimsChart />
                     </div>
-                </div>
+                </motion.div>
 
-                <div className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="xl:col-span-3 bg-white border border-(--light2) p-5 rounded-[20px]">
                     <div className="flex items-center justify-between">
 
                         <h1 className="text-(--dark2) font-medium text-[17px] xl:text-[24px]">Leads Overview</h1>
@@ -294,10 +319,16 @@ function Page() {
                     <div className="mt-5">
                         <LeadsOverViewChart />
                     </div>
-                </div>
+                </motion.div>
 
 
-                <div className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
+                <motion.div
+
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="xl:col-span-2 bg-white border border-(--light2) p-5 rounded-[20px]">
                     <h1 className="text-(--dark2) font-medium text-[17px] xl:text-[24px]">Activity Log</h1>
 
                     <Separator className='mt-3 bg-(--light2)' />
@@ -336,7 +367,7 @@ function Page() {
                             </div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
 
             </div>
         </div >
