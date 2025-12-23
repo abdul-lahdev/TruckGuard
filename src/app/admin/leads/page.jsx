@@ -278,6 +278,110 @@ export default function Page() {
         },
     ]
 
+
+    const generalDryOpt = [
+        // Previous items
+        { id: 1, label: "Appliances – Major", value: "APPLIANCES_MAJOR" },
+        { id: 2, label: "Appliances – Small", value: "APPLIANCES_SMALL" },
+        { id: 3, label: "ATVs, Snowmobiles & Waverunners", value: "ATVS_SNOWMOBILES_WAVERUNNERS" },
+        { id: 4, label: "Audio, Video & Studio Equipment", value: "AUDIO_VIDEO_STUDIO_EQUIPMENT" },
+        { id: 5, label: "Auto Parts & Accessories (not Tires)", value: "AUTO_PARTS_ACCESSORIES" },
+        { id: 6, label: "Bakery Goods & Products", value: "BAKERY_GOODS_PRODUCTS" },
+        { id: 7, label: "Batteries", value: "BATTERIES" },
+        { id: 8, label: "Beverage – Beer", value: "BEVERAGE_BEER" },
+        { id: 9, label: "Beverage – Liquor", value: "BEVERAGE_LIQUOR" },
+        { id: 10, label: "Beverage – Non-Alcoholic", value: "BEVERAGE_NON_ALCOHOLIC" },
+        { id: 11, label: "Beverage – Wine", value: "BEVERAGE_WINE" },
+        { id: 12, label: "Bicycles, Segways & Hoverboards", value: "BICYCLES_SEGWAYS_HOVERBOARDS" },
+        { id: 13, label: "Books", value: "BOOKS" },
+        { id: 14, label: "Bottles – Glass", value: "BOTTLES_GLASS" },
+        { id: 15, label: "Bottles – Plastic", value: "BOTTLES_PLASTIC" },
+        { id: 16, label: "Building Materials (non-flatbed)", value: "BUILDING_MATERIALS" },
+        { id: 17, label: "Cable & Wire (not Copper/Fiber Optics)", value: "CABLE_WIRE" },
+        { id: 18, label: "Cable & Wire – Fiber Optics", value: "CABLE_WIRE_FIBER_OPTICS" },
+        { id: 19, label: "Camera Supplies & Accessories", value: "CAMERA_SUPPLIES_ACCESSORIES" },
+        { id: 20, label: "Cameras & Photographic Equipment", value: "CAMERAS_PHOTOGRAPHIC_EQUIPMENT" },
+        { id: 21, label: "Candy & Confectionary", value: "CANDY_CONFECTIONARY" },
+        { id: 22, label: "Canned Goods", value: "CANNED_GOODS" },
+
+        // Newly added items
+        { id: 23, label: "General Merchandise/Dry Freight", value: "GENERAL_MERCHANDISE_DRY_FREIGHT" },
+        { id: 24, label: "Glass", value: "GLASS" },
+        { id: 25, label: "Groceries (other than produce)", value: "GROCERIES_OTHER_THAN_PRODUCE" },
+        { id: 26, label: "Hardware", value: "HARDWARE" },
+        { id: 27, label: "Hazardous Materials (Placards)", value: "HAZARDOUS_MATERIALS" },
+        { id: 28, label: "Household Goods (Movers)", value: "HOUSEHOLD_GOODS_MOVERS" },
+        { id: 29, label: "Jewelry & Watches", value: "JEWELRY_WATCHES" },
+        { id: 30, label: "Lawn and Garden Equipment", value: "LAWN_GARDEN_EQUIPMENT" },
+        { id: 31, label: "Leather and Leather Goods", value: "LEATHER_GOODS" },
+        { id: 32, label: "Machinery (Light & Non-precision)", value: "MACHINERY_LIGHT_NON_PRECISION" },
+        { id: 33, label: "Medical Diagnostic Equipment", value: "MEDICAL_DIAGNOSTIC_EQUIPMENT" },
+        { id: 34, label: "Medical Supplies (not Medicine or Drugs)", value: "MEDICAL_SUPPLIES" },
+        { id: 35, label: "Memorabilia & Collectibles", value: "MEMORABILIA_COLLECTIBLES" },
+        { id: 36, label: "Metal Products (finished – not precious)", value: "METAL_PRODUCTS" },
+        { id: 37, label: "Money & Securities", value: "MONEY_SECURITIES" },
+        { id: 38, label: "Motorcycles", value: "MOTORCYCLES" },
+        { id: 39, label: "Office Equipment", value: "OFFICE_EQUIPMENT" },
+        { id: 40, label: "Office Supplies", value: "OFFICE_SUPPLIES" },
+        { id: 41, label: "Optical Goods", value: "OPTICAL_GOODS" },
+        { id: 42, label: "Oriental Rugs", value: "ORIENTAL_RUGS" },
+        { id: 43, label: "Paint", value: "PAINT" },
+        { id: 44, label: "Paper, Paper Products & Printed Matter", value: "PAPER_PRODUCTS_PRINTED_MATTER" },
+    ];
+    const refrigerateOpt = [
+        { id: 1, label: "Butter", value: "BUTTER" },
+        { id: 2, label: "Cheese", value: "CHEESE" },
+        { id: 3, label: "Dairy Products", value: "DAIRY_PRODUCTS" },
+        { id: 4, label: "Eggs", value: "EGGS" },
+        { id: 5, label: "Frozen Food (other than Meat & Seafood)", value: "FROZEN_FOOD_OTHER_THAN_MEAT_SEAFOOD" },
+        { id: 6, label: "Ice Cream", value: "ICE_CREAM" },
+        { id: 7, label: "Juice", value: "JUICE" },
+        { id: 8, label: "Meat – Boxed", value: "MEAT_BOXED" },
+        { id: 9, label: "Meat – Hanging/Swinging", value: "MEAT_HANGING_SWINGING" },
+        { id: 10, label: "Milk", value: "MILK" },
+        { id: 11, label: "Plants – Cut Flowers", value: "PLANTS_CUT_FLOWERS" },
+        { id: 12, label: "Plants – Trees & Shrubs", value: "PLANTS_TREES_SHRUBS" },
+        { id: 13, label: "Poultry", value: "POULTRY" },
+        { id: 14, label: "Produce", value: "PRODUCE" },
+        { id: 15, label: "Reefer processed foods (other than frozen)", value: "REEFER_PROCESSED_FOODS" },
+        { id: 16, label: "Seafood – Fresh (other than Canned Seafood)", value: "SEAFOOD_FRESH" },
+        { id: 17, label: "Seafood – Frozen (other than Canned Seafood)", value: "SEAFOOD_FROZEN" },
+    ];
+
+
+    const flatBedOpt = [
+        { id: 1, label: "Agricultural Equipment", value: "AGRICULTURAL_EQUIPMENT" },
+        { id: 2, label: "Building Materials", value: "BUILDING_MATERIALS" },
+        { id: 3, label: "Coiled Steel", value: "COILED_STEEL" },
+        { id: 4, label: "Contractors Equipment", value: "CONTRACTORS_EQUIPMENT" },
+        { id: 5, label: "Copper and Copper Products (Flatbed)", value: "COPPER_PRODUCTS_FLATBED" },
+        { id: 6, label: "Flatbed Cable & Wire (not Copper/Fiber Optics)", value: "FLATBED_CABLE_WIRE" },
+        { id: 7, label: "Flatbed Cable & Wire – Fiber Optics", value: "FLATBED_CABLE_WIRE_FIBER_OPTICS" },
+        { id: 8, label: "Landscaping Products", value: "LANDSCAPING_PRODUCTS" },
+        { id: 9, label: "Logs, Timber & Pulpwood (Logging)", value: "LOGS_TIMBER_PULPWOOD" },
+        { id: 10, label: "Lumber, Pallets & Wood (processed)", value: "LUMBER_PALLETS_WOOD" },
+        { id: 11, label: "Machinery – Heavy > 10,000 lbs (flatbed)", value: "MACHINERY_HEAVY_OVER_10000_LBS" },
+        { id: 12, label: "Machinery – Light < 10,000 lbs (flatbed)", value: "MACHINERY_LIGHT_UNDER_10000_LBS" },
+        { id: 13, label: "Metal (other than Copper)", value: "METAL_OTHER_THAN_COPPER" },
+
+        { id: 14, label: "Mobile Homes (no motor)", value: "MOBILE_HOMES_NO_MOTOR" },
+        { id: 15, label: "Oil Field – Pipe & Valves", value: "OIL_FIELD_PIPE_VALVES" },
+        { id: 16, label: "Oil Field – Heavy Equipment", value: "OIL_FIELD_HEAVY_EQUIPMENT" },
+        { id: 17, label: "Oversized/Overweight Loads", value: "OVERSIZED_OVERWEIGHT_LOADS" },
+        { id: 18, label: "Pipe (other than Copper)", value: "PIPE_OTHER_THAN_COPPER" },
+        { id: 19, label: "Printing Presses", value: "PRINTING_PRESSES" },
+        { id: 20, label: "Rigging (any property requiring)", value: "RIGGING_REQUIRED" },
+        { id: 21, label: "Solar Panels", value: "SOLAR_PANELS" },
+        { id: 22, label: "Stone Slab/Products (Marble, etc.)", value: "STONE_SLAB_PRODUCTS" },
+        { id: 23, label: "Swimming Pools, Spas & Hot Tubs", value: "SWIMMING_POOLS_SPAS_HOT_TUBS" },
+        { id: 24, label: "Trailers (New for delivery)", value: "TRAILERS_NEW_DELIVERY" },
+        { id: 25, label: "Transformers", value: "TRANSFORMERS" },
+        { id: 26, label: "Turbines", value: "TURBINES" },
+    ];
+
+
+
+
     const [stepIndex, setStepIndex] = useState(0)
     // const [checkboxVal, setCheckboxVal] = useState(false)
     const currForm = steps[stepIndex].id
@@ -285,6 +389,7 @@ export default function Page() {
     const [documentLists, setDocumentLists] = useState(initialDocumentSections)
     const [uploadQueue, setUploadQueue] = useState([])
     const [isDragging, setIsDragging] = useState(false)
+    const [comodities, setComodities] = useState([])
 
     const formatFileSize = (size) => {
         if (!size && size !== 0) return ""
@@ -583,16 +688,11 @@ export default function Page() {
                                                         </PopoverContent>
                                                     </Popover>
                                                 </div>
-                                                <div className='mt-0 xl:mt-5 col-span-1' >
-                                                    <label htmlFor="" className='col-span-1 text-[14px] font-medium text-(--dark4) mt-3'>Request Effective Date</label>
-                                                </div>
-                                                <div className='w-full mt-0 xl:mt-5 col-span-4'>
-                                                    <input type="text" name='requestEffectiveDate' className='form-control w-full' />
-                                                </div>
-                                                <div className='col-span-1'>
+
+                                                <div className='col-span-1 mt-3'>
                                                     <label htmlFor="" className='col-span-1 text-[14px] font-medium text-(--dark4) mt-3'>MC Number</label>
                                                 </div>
-                                                <div className='w-full col-span-4'>
+                                                <div className='w-full col-span-4 mt-3'>
                                                     <input type="text" name='mcNo' className='form-control w-full' />
                                                 </div>
 
@@ -942,8 +1042,11 @@ export default function Page() {
                                                             Non -Trucking Liability
                                                         </h3>
 
-                                                        <div className='mt-3'>
-                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        <div className='mt-3 leadSelectContainer'>
+                                                            <Select options={[
+                                                                { value: '$750K', label: '$750K' },
+                                                                { value: '$1M', label: '$1M' },
+                                                            ]} classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                         </div>
 
                                                     </div>
@@ -965,7 +1068,7 @@ export default function Page() {
                                                             Physical Damage
                                                         </h3>
 
-                                                        <div className='mt-3'>
+                                                        <div className='mt-3 leadSelectContainer'>
                                                             <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                         </div>
 
@@ -981,8 +1084,13 @@ export default function Page() {
                                                                 Auto Liability
                                                             </h3>
 
-                                                            <div className='mt-3'>
-                                                                <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                            <div className='mt-3 leadSelectContainer'>
+                                                                <Select options={
+                                                                    [
+                                                                        { value: '$750K', label: '$750K' },
+                                                                        { value: '$1M', label: '$1M' },
+                                                                    ]
+                                                                } classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                             </div>
 
                                                         </div>
@@ -998,7 +1106,7 @@ export default function Page() {
                                                             Workers Compensation
                                                         </h3>
 
-                                                        <div className='mt-3'>
+                                                        <div className='mt-3 leadSelectContainer'>
                                                             <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                         </div>
 
@@ -1013,27 +1121,160 @@ export default function Page() {
                                                             General Liability
                                                         </h3>
 
-                                                        <div className='mt-3'>
-                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                        <div className='mt-3 leadSelectContainer'>
+                                                            <Select options={
+                                                                [
+                                                                    { value: '$1,000,000 / $1,000,000 AGGREGATE', label: '$1,000,000 / $1,000,000 AGGREGATE' },
+                                                                    { value: '$1,000,000 / $2,000,000 AGGREGATE', label: '$1,000,000 / $2,000,000 AGGREGATE' },
+                                                                ]
+                                                            } classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                         </div>
 
                                                     </div>
                                                 </div>}
-                                                {motorTruckCargo && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
-                                                    <span>
-                                                        <svg width="36" height="36" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M64.4516 16.2489L57.1183 12.4005C50.6811 9.0224 47.4625 7.33331 44.0001 7.33331C40.5376 7.33331 37.319 9.0224 30.8818 12.4005L29.7021 13.0196L62.4199 31.7154L77.1478 24.3515C74.7784 21.6681 70.9556 19.6619 64.4516 16.2489Z" fill="#B29367" /> <path d="M79.7441 29.2026L65.0833 36.5329V47.6667C65.0833 49.1854 63.8521 50.4167 62.3333 50.4167C60.8146 50.4167 59.5833 49.1854 59.5833 47.6667V39.2828L46.75 45.6995V80.3147C49.3823 79.6591 52.3776 78.0872 57.1182 75.5993L64.4516 71.7512C72.3411 67.6108 76.2857 65.5409 78.4762 61.8211C80.6667 58.1013 80.6667 53.4721 80.6667 44.2145V43.7855C80.6667 36.846 80.6667 32.5071 79.7441 29.2026Z" fill="#B29367" /> <path d="M41.25 80.3147V45.6995L8.25605 29.2026C7.33337 32.5071 7.33337 36.846 7.33337 43.7855V44.2145C7.33337 53.4721 7.33337 58.1013 9.52384 61.8211C11.7143 65.5409 15.659 67.6108 23.5484 71.7512L30.8818 75.5993C35.6226 78.0872 38.6177 79.6591 41.25 80.3147Z" fill="#B29367" /> <path d="M10.8522 24.3515L44 40.9255L56.5077 34.6716L23.9234 16.0521L23.5484 16.2489C17.0447 19.6619 13.2216 21.6681 10.8522 24.3515Z" fill="#B29367" /> </svg>
-                                                    </span>
-                                                    <div className='w-full xl:w-[50%] '>
-                                                        <h3 className='text-(--dark4) font-medium text-[18px]'>
-                                                            Motor Truck Cargo
-                                                        </h3>
+                                                {motorTruckCargo &&
 
-                                                        <div className='mt-3'>
-                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                    <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 mt-4'>
+
+
+                                                        <div className=' flex items-start gap-3 '>
+                                                            <span>
+                                                                <svg width="36" height="36" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M64.4516 16.2489L57.1183 12.4005C50.6811 9.0224 47.4625 7.33331 44.0001 7.33331C40.5376 7.33331 37.319 9.0224 30.8818 12.4005L29.7021 13.0196L62.4199 31.7154L77.1478 24.3515C74.7784 21.6681 70.9556 19.6619 64.4516 16.2489Z" fill="#B29367" /> <path d="M79.7441 29.2026L65.0833 36.5329V47.6667C65.0833 49.1854 63.8521 50.4167 62.3333 50.4167C60.8146 50.4167 59.5833 49.1854 59.5833 47.6667V39.2828L46.75 45.6995V80.3147C49.3823 79.6591 52.3776 78.0872 57.1182 75.5993L64.4516 71.7512C72.3411 67.6108 76.2857 65.5409 78.4762 61.8211C80.6667 58.1013 80.6667 53.4721 80.6667 44.2145V43.7855C80.6667 36.846 80.6667 32.5071 79.7441 29.2026Z" fill="#B29367" /> <path d="M41.25 80.3147V45.6995L8.25605 29.2026C7.33337 32.5071 7.33337 36.846 7.33337 43.7855V44.2145C7.33337 53.4721 7.33337 58.1013 9.52384 61.8211C11.7143 65.5409 15.659 67.6108 23.5484 71.7512L30.8818 75.5993C35.6226 78.0872 38.6177 79.6591 41.25 80.3147Z" fill="#B29367" /> <path d="M10.8522 24.3515L44 40.9255L56.5077 34.6716L23.9234 16.0521L23.5484 16.2489C17.0447 19.6619 13.2216 21.6681 10.8522 24.3515Z" fill="#B29367" /> </svg>
+                                                            </span>
+                                                            <div className='w-full xl:w-[50%] '>
+                                                                <h3 className='text-(--dark4) font-medium text-[18px]'>
+                                                                    Motor Truck Cargo
+                                                                </h3>
+
+                                                                <div className='mt-3 multiReactSelectContainer'>
+                                                                    {/* <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' /> */}
+                                                                    <label htmlFor="" className='text-[#0A0A0A] text-[14px] font-medium'>
+                                                                        Select Commodities Hauled
+                                                                    </label>
+                                                                    <Select
+                                                                        closeMenuOnSelect={false}
+                                                                        isMulti
+                                                                        classNamePrefix="react-select"
+                                                                        options={
+                                                                            [
+                                                                                { value: 'GeneralDryVan', label: 'General/Dry Van' },
+                                                                                { value: 'Flatbed', label: 'Flatbed' },
+                                                                                { value: 'Refrigerated', label: 'Refrigerated' },
+                                                                            ]
+                                                                        }
+                                                                        onChange={(selected) => {
+                                                                            setComodities((selected ?? []).map(o => o.value));
+
+                                                                        }}
+
+                                                                    />
+                                                                </div>
+
+                                                                <div className='mt-3 leadSelectContainer'>
+                                                                    <label htmlFor="" className='text-[#0A0A0A] text-[14px] font-medium'>
+                                                                        Amount
+                                                                    </label>
+                                                                    <Select options={
+                                                                        [
+                                                                            { value: '100,000', label: '100,000' },
+                                                                        ]
+                                                                    } classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                                </div>
+                                                            </div>
                                                         </div>
 
+                                                        <div className=' grid grid-cols-2 gap-7 mt-4'>
+                                                            {
+                                                                comodities.includes('Refrigerated') ?
+                                                                    <div className='col-span-2 xl:col-span-1 bg-white border border-(--grey5) rounded-3xl p-4'>
+                                                                        <div className='bg-(--grey4) rounded-[12px] p-3 text-(--green1) text-[16px] font-medium'>
+                                                                            Refrigerated
+                                                                        </div>
+
+                                                                        <div className='w-full'>
+                                                                            <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-5'>
+                                                                                {
+                                                                                    refrigerateOpt.map((item) => (
+                                                                                        <div key={item.id} className='flex items-center gap-3'>
+                                                                                            <Checkbox
+                                                                                                className=" h-5 w-5 rounded-[6px] border-2 border-[#22886B] data-[state=checked]:bg-white data-[state=checked]:text-[#22886B] data-[state=checked]:border-[#22886B]"
+                                                                                            />
+                                                                                            <span className='text-(--dark4) text-[16px] font-medium'>{item.label}</span>
+                                                                                        </div>
+                                                                                    ))
+                                                                                }
+
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    : null
+                                                            }
+                                                            {
+                                                                comodities.includes('Flatbed') ?
+                                                                    <div className='col-span-2 xl:col-span-1 bg-white border border-(--grey5) rounded-3xl p-4'>
+                                                                        <div className='bg-(--grey4) rounded-[12px] p-3 text-(--green1) text-[16px] font-medium'>
+                                                                            Flatbed
+                                                                        </div>
+
+                                                                        <div className='w-full'>
+                                                                            <div className='grid grid-cols-1 md:grid-cols-2 gap-3 mt-5'>
+                                                                                {
+                                                                                    flatBedOpt.map((item) => (
+                                                                                        <div key={item.id} className='flex items-center gap-3'>
+                                                                                            <Checkbox
+                                                                                                className=" h-5 w-5 rounded-[6px] border-2 border-[#22886B] data-[state=checked]:bg-white data-[state=checked]:text-[#22886B] data-[state=checked]:border-[#22886B]"
+                                                                                            />
+                                                                                            <span className='text-(--dark4) text-[16px] font-medium'>{item.label}</span>
+                                                                                        </div>
+                                                                                    ))
+                                                                                }
+
+
+                                                                            </div>
+                                                                        </div>
+
+
+
+                                                                    </div>
+                                                                    : null
+
+                                                            }
+                                                            {
+                                                                comodities.includes('GeneralDryVan') ?
+                                                                    <div className='col-span-2 bg-white border border-(--grey5) rounded-3xl p-4'>
+                                                                        <div className='bg-(--grey4) rounded-[12px] p-3 text-(--green1) text-[16px] font-medium'>
+                                                                            General/Dry Van
+                                                                        </div>
+
+                                                                        <div className='w-full'>
+                                                                            <div className='grid grid-cols-1 md:grid-cols-3 gap-3 mt-5'>
+                                                                                {
+                                                                                    generalDryOpt.map((item) => (
+                                                                                        <div key={item.id} className='flex items-center gap-3'>
+                                                                                            <Checkbox
+                                                                                                className=" h-5 w-5 rounded-[6px] border-2 border-[#22886B] data-[state=checked]:bg-white data-[state=checked]:text-[#22886B] data-[state=checked]:border-[#22886B]"
+                                                                                            />
+                                                                                            <span className='text-(--dark4) text-[16px] font-medium'>{item.label}</span>
+                                                                                        </div>
+                                                                                    ))
+                                                                                }
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    : null
+                                                            }
+
+
+                                                        </div>
+
+
                                                     </div>
-                                                </div>}
+
+                                                }
                                                 {occupationalAccident && <div className='border border-(--light2) rounded-3xl bg-white px-4 py-8 flex items-start gap-3 mt-4'>
                                                     <span>
                                                         <svg width="36" height="36" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M7.42014 71.8996C26.0926 64.0068 24.8153 64.5895 25.4148 64.1905L24.9074 61.0903L18.8717 53.4861L17.8992 56.9362L3.03554 63.2189C0.415185 64.3265 -0.727462 67.1676 0.483218 69.5649C1.69367 71.9612 4.79885 73.0076 7.42014 71.8996Z" fill="#899DFF" /> <path d="M55.4701 16.5155C60.4554 16.5155 64.4968 12.8184 64.4968 8.25777C64.4968 3.69713 60.4554 0 55.4701 0C50.4848 0 46.4434 3.69713 46.4434 8.25777C46.4434 12.8184 50.4848 16.5155 55.4701 16.5155Z" fill="#899DFF" /> <path d="M79.2376 11.9197C77.9004 10.1139 75.2682 9.67482 73.3584 10.9395L58.4228 20.8298L49.2288 19.873C49.2288 19.873 49.2484 19.7695 40.5042 12.6508C38.0305 10.6368 34.2989 10.9007 32.1692 13.2401L12.2528 35.1196L12.2656 35.1199C10.8829 36.7623 10.7598 39.1332 12.1275 40.9148L26.1891 59.2279L28.8312 75.918C29.2465 78.5387 31.8287 80.3376 34.591 79.9466C37.358 79.5548 39.2651 77.1162 38.851 74.4995L36.0255 56.6514C35.9053 55.8905 35.5925 55.1684 35.1149 54.5458L32.3934 45.4057L27.5275 39.0251L35.5488 24.9804L43.9261 39.4956C44.62 40.6596 45.8834 41.4187 47.2947 41.5169L64.4513 42.7142C66.7756 42.8758 68.7997 41.2242 68.9703 39.0251C69.1411 36.8255 67.3941 34.9128 65.0693 34.7514L50.5062 33.7403L42.6231 20.5134L50.2917 28.0162L59.0795 28.9308C60.086 29.0353 61.1129 28.7954 61.9627 28.2327L78.2006 17.4797C80.1108 16.2151 80.5751 13.7258 79.2376 11.9197Z" fill="#899DFF" /> </svg>
@@ -1044,7 +1285,8 @@ export default function Page() {
                                                         </h3>
 
                                                         <div className='mt-3'>
-                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                            {/* <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' /> */}
+                                                            <input type="text" className='border-2 border-[hsl(0, 0%, 80%)] bg-[#fcfcfc] w-full h-[38px] px-3 text-[12px] font-normal rounded-[4px] shadow-none' />
                                                         </div>
 
                                                     </div>
@@ -1058,7 +1300,7 @@ export default function Page() {
                                                             Trailer Interchange
                                                         </h3>
 
-                                                        <div className='mt-3'>
+                                                        <div className='mt-3 leadSelectContainer'>
                                                             <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                         </div>
 

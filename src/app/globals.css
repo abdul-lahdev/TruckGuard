@@ -313,23 +313,24 @@ button[data-dialog-close] {
 .multiReactSelectContainer{
 
   .react-select__control--is-focused{
-        background-color: #212224 !important;
+        background-color: #F5F7FA !important;
   }
 
   .css-13cymwt-control{
-    background-color: #212224 !important;
-    box-shadow: 0px 1px 2px 0px #1018280D !important;
-   border: 1px solid #373737 !important;
+    background-color: #F5F7FA !important;
+    box-shadow: none !important;
+   border: none !important;
    border-radius: 8px !important;
   
   }
   .css-1p3m7a8-multiValue{
-    background-color:#FFFFFF1A;
-    border: 1px solid #FFFFFF3D;
+    /* background-color:#F5F7FA; */
+    background-color:#4A96FD1F !important;
+    border: none;
     border-radius:8px !important;
-    color:#FFFFFFB2;
+    color:#1C1C1CB2 !important;
     .css-9jq23d{
-      color: #FFFFFFB2;
+      /* color: #FFFFFFB2; */
     }
 
     
@@ -337,16 +338,16 @@ button[data-dialog-close] {
 
 
   .react-select__menu{
-    background-color: #202224 !important;
+    background-color: #F5F7FA !important;
   }
   .react-select__option{
     &:hover,&:focus-visible,&:focus{
-       background-color: #323436 !important;
+       background-color: rgb(190, 190, 190) !important;
     }
   }
 
   .react-select__single-value{
-    color: #fff !important;
+    /* color: #fff !important; */
   }
 }
 .react-select__option {
@@ -533,5 +534,17 @@ input[type=number] {
 @keyframes spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+
+.leadSelectContainer{
+  .css-13cymwt-control{
+        background-color: #F5F7FA !important;
+    border: none !important;
+    border-radius: 8px !important;
+  }
+  .css-1u9des2-indicatorSeparator{
+    display: none !important;
   }
 }
