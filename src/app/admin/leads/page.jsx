@@ -755,7 +755,7 @@ export default function Page() {
                                                                 <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
                                                             </Button>
                                                         </PopoverTrigger>
-                                                        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
+                                                        <PopoverContent className="w-auto overflow-hidden p-0 z-10" align="start">
                                                             <Calendar
                                                                 mode="single"
                                                                 selected={dateAuthorityVal}
