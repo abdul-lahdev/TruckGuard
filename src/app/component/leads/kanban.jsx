@@ -27,7 +27,7 @@ const STATUS_OPTIONS = [
 const columns = [
     { id: faker.string.uuid(), name: 'New Lead', color: '#3B82F6', number: 1 },
     { id: faker.string.uuid(), name: 'Incomplete File', color: '#A78BFA', number: 2 },
-    { id: faker.string.uuid(), name: 'Application Ready', color: '#FACC15', number: 3 },
+    // { id: faker.string.uuid(), name: 'Application Ready', color: '#FACC15', number: 3 },
     { id: faker.string.uuid(), name: 'Application Submitted', color: '#4ADE80', number: 4 },
     { id: faker.string.uuid(), name: 'Quote Received', color: '#FB923C', number: 5 },
     { id: faker.string.uuid(), name: 'Proposal Sent', color: '#F43F5E', number: 6 },
@@ -41,7 +41,7 @@ const columns = [
 const STATUS_MAPPING = {
     'New Lead': 'New Lead',
     'Incomplete File': 'Incomplete File',
-    'Application Ready': 'Application Ready',
+    // 'Application Ready': 'Application Ready',
     'Application Submitted': 'Application Submitted',
     'Quote Received': 'Quote Received',
     'Proposal Sent': 'Proposal Sent',
@@ -124,11 +124,18 @@ const KanvanCard = ({ newLead, dispatch }) => {
                     Add New</button>
             </div >
 
+            <div className='bg-[url(/images/dashboard/motivation.png)] bg-cover bg-center bg-no-repeat border border-(--yellow2) rounded-xl min-h-[72px] p-3 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center mt-4 '>
+                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS</span>
+                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL PREMIUM QUOTED</span>
+                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS COVERTED</span>
+                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS PREMIUM CONVERTED</span>
+            </div>
+
             <div className='bg-white border border-(--grey5) px-4 pt-6 rounded-3xl mt-4   '>
 
 
                 <KanbanProvider
-                    className='grid grid-cols-[300px_300px_300px_300px_300px_300px_300px] overflow-x-scroll min-h-[800px]'
+                    className='grid grid-cols-[300px_300px_300px_300px_300px_300px] overflow-x-scroll min-h-[800px]'
                     columns={columns}
                     data={features}
                     onDataChange={(updatedFeatures) => {
@@ -172,12 +179,15 @@ const KanvanCard = ({ newLead, dispatch }) => {
                                         <div >
                                             <div className='flex justify-between items-center'>
                                                 <span className='bg-(--light3) h-6 rounded-2xl px-2 text-(--grey2) font-semibold text-[12px]/[12px] flex items-center justify-center'>DOT: #85764</span>
-                                                <span className='flex items-center justify-center w-7 h-7 rounded-full text-(--green3) text-[14px]/[12px] font-medium bg-(--green2) '>SD</span>
+                                                <span className='flex items-center justify-center w-7 h-7 rounded-full text-(--green3) text-[12px]/[11px] font-medium bg-(--green2) '>SD</span>
                                             </div>
-                                            <h1 className='text-(--dark2) text-[18px]/[20px] font-semibold mt-3'>
-                                                {item.name}
-                                            </h1>
-                                            <div className='flex flex-col gap-2 mt-3'>
+                                            <div className='flex items-center justify-between mt-3'>
+                                                <h1 className='text-(--dark2) text-[17px]/[20px] font-semibold '>
+                                                    {item.name}
+                                                </h1>
+                                                <span className='text-(--grey2) text-[12px]/[12px] font-medium'>10 Days</span>
+                                            </div>
+                                            {/* <div className='flex flex-col gap-2 mt-3'>
                                                 <div className='flex items-center gap-2'>
                                                     <span>
                                                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M14.333 12L9.90444 7.99999M6.09491 7.99999L1.66636 12M1.33301 4.66666L6.77629 8.47695C7.21707 8.7855 7.43746 8.93977 7.67718 8.99953C7.88894 9.05231 8.11041 9.05231 8.32217 8.99953C8.56189 8.93977 8.78228 8.7855 9.22306 8.47695L14.6663 4.66666M4.53301 13.3333H11.4663C12.5864 13.3333 13.1465 13.3333 13.5743 13.1153C13.9506 12.9236 14.2566 12.6176 14.4484 12.2413C14.6663 11.8135 14.6663 11.2534 14.6663 10.1333V5.86666C14.6663 4.74655 14.6663 4.1865 14.4484 3.75868C14.2566 3.38235 13.9506 3.07639 13.5743 2.88464C13.1465 2.66666 12.5864 2.66666 11.4663 2.66666H4.53301C3.4129 2.66666 2.85285 2.66666 2.42503 2.88464C2.0487 3.07639 1.74274 3.38235 1.55099 3.75868C1.33301 4.1865 1.33301 4.74655 1.33301 5.86666V10.1333C1.33301 11.2534 1.33301 11.8135 1.55099 12.2413C1.74274 12.6176 2.0487 12.9236 2.42503 13.1153C2.85285 13.3333 3.4129 13.3333 4.53301 13.3333Z" stroke="#606C80" strokeLinecap="round" strokeLinejoin="round" /> </svg>
@@ -190,10 +200,10 @@ const KanvanCard = ({ newLead, dispatch }) => {
                                                     </span>
                                                     <span className='text-(--grey2) text-[12px]/[12px] font-medium'>{item.phone}</span>
                                                 </div>
-                                            </div>
-                                            <p className='text-(--grey2) font-medium text-[12px]/[12px] mt-3'>
+                                            </div> */}
+                                            {/* <p className='text-(--grey2) font-medium text-[12px]/[12px] mt-3'>
                                                 {item.amount}
-                                            </p>
+                                            </p> */}
                                             <Separator className='bg-(--light2) mt-3' />
 
                                             <div className='mt-3 flex items-center justify-between gap-2'>
