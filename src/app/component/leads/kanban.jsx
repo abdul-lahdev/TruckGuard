@@ -145,7 +145,7 @@ const KanvanCard = ({ newLead, dispatch }) => {
                     Add New</button>
             </div >
 
-            <div className='grid grid-cols-4 gap-3 justify-between mt-4'>
+            <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 justify-between mt-4'>
                 {
                     leadsCard.map((item, index) => (
                         <div key={index} className=' flex gap-3 items-center justify-between px-5 py-3 rounded-2xl bg-white text-[#1C1C1CB2] text-[13px] font-semibold '>
