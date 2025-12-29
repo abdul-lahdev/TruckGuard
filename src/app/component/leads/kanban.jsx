@@ -35,6 +35,27 @@ const columns = [
 ];
 
 
+const leadsCard = [
+
+    {
+        name: 'TOTAL LEADS',
+        num: '4434',
+    },
+    {
+        name: 'TOTAL PREMIUM QUOTED',
+        num: '444',
+    },
+    {
+        name: 'TOTAL LEADS COVERTED',
+        num: '4445',
+    },
+    {
+        name: 'TOTAL LEADS PREMIUM CONVERTED',
+        num: '45',
+    },
+
+]
+
 
 
 // Mapping of column names to status types
@@ -124,11 +145,24 @@ const KanvanCard = ({ newLead, dispatch }) => {
                     Add New</button>
             </div >
 
-            <div className='bg-[url(/images/dashboard/motivation.png)] bg-cover bg-center bg-no-repeat border border-(--yellow2) rounded-xl min-h-[54px] p-3 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center mt-4 '>
-                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS</span>
-                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL PREMIUM QUOTED</span>
-                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS COVERTED</span>
-                <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS PREMIUM CONVERTED</span>
+            <div className='grid grid-cols-4 gap-3 justify-between mt-4'>
+                {
+                    leadsCard.map((item, index) => (
+                        <div key={index} className=' flex gap-3 items-center justify-between px-5 py-3 rounded-2xl bg-white text-[#1C1C1CB2] text-[13px] font-semibold '>
+                            <div className='flex flex-col'>
+                                <span>
+                                    {item.name}
+                                </span>
+                                <span className='text-[22px] font-medium'>
+                                    {item.num}
+                                </span>
+                            </div>
+                            <span><svg width="34" height="34" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"> <g > <rect x="8" y="8" width="48" height="48" rx="24" fill="#22886b" fillOpacity="0.18" /> <g opacity="0.8" filter="url(#filter1_d_1_4435)"> <path d="M31.9999 36.0833H26.7499C25.1218 36.0833 24.3077 36.0833 23.6453 36.2843C22.1538 36.7367 20.9866 37.9039 20.5342 39.3953C20.3333 40.0578 20.3333 40.8718 20.3333 42.5M36.6666 39L38.9999 41.3333L43.6666 36.6667M34.9166 26.75C34.9166 29.6495 32.5661 32 29.6666 32C26.7671 32 24.4166 29.6495 24.4166 26.75C24.4166 23.8505 26.7671 21.5 29.6666 21.5C32.5661 21.5 34.9166 23.8505 34.9166 26.75Z" stroke="#22886b" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </g> </g> <defs> <filter id="filter0_ii_1_4435" x="8" y="6" width="48" height="52" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"> <feFlood floodOpacity="0" result="BackgroundImageFix" /> <feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape" /> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" /> <feOffset dy="2" /> <feGaussianBlur stdDeviation="4" /> <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" /> <feColorMatrix type="matrix" values="0 0 0 0 0.305882 0 0 0 0 0.623529 0 0 0 0 1 0 0 0 0.24 0" /> <feBlend mode="normal" in2="shape" result="effect1_innerShadow_1_4435" /> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" /> <feOffset dy="-2" /> <feGaussianBlur stdDeviation="3" /> <feComposite in2="hardAlpha" operator="arithmetic" k2="-1" k3="1" /> <feColorMatrix type="matrix" values="0 0 0 0 0.305882 0 0 0 0 0.623529 0 0 0 0 1 0 0 0 0.32 0" /> <feBlend mode="normal" in2="effect1_innerShadow_1_4435" result="effect2_innerShadow_1_4435" /> </filter> <filter id="filter1_d_1_4435" x="14" y="18" width="36" height="36" filterUnits="userSpaceOnUse" colorInterpolationFilters="sRGB"> <feFlood floodOpacity="0" result="BackgroundImageFix" /> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha" /> <feOffset dy="4" /> <feGaussianBlur stdDeviation="2" /> <feComposite in2="hardAlpha" operator="out" /> <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0.482353 0 0 0 0 1 0 0 0 0.01 0" /> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_4435" /> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_4435" result="shape" /> </filter> </defs> </svg></span>
+                        </div>
+                    ))
+                }
+
+
             </div>
 
             <div className='bg-white border border-(--grey5) px-4 pt-6 rounded-3xl mt-4   '>
