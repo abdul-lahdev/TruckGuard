@@ -1182,7 +1182,10 @@ export default function Page() {
                                                                     </label>
                                                                     <Select options={
                                                                         [
-                                                                            { value: '100,000', label: '100,000' },
+                                                                            { value: '100000', label: '$ 100,000' },
+                                                                            { value: '150000', label: '$ 150,000' },
+                                                                            { value: '200000', label: '$ 200,000' },
+                                                                            { value: '250000', label: '$ 250,000' },
                                                                         ]
                                                                     } classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                                 </div>
