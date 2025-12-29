@@ -124,7 +124,7 @@ const KanvanCard = ({ newLead, dispatch }) => {
                     Add New</button>
             </div >
 
-            <div className='bg-[url(/images/dashboard/motivation.png)] bg-cover bg-center bg-no-repeat border border-(--yellow2) rounded-xl min-h-[72px] p-3 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center mt-4 '>
+            <div className='bg-[url(/images/dashboard/motivation.png)] bg-cover bg-center bg-no-repeat border border-(--yellow2) rounded-xl min-h-[54px] p-3 flex flex-col md:flex-row gap-3 md:gap-0 justify-between items-center mt-4 '>
                 <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS</span>
                 <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL PREMIUM QUOTED</span>
                 <span className='text-(--yellow3) text-[13px] font-semibold '>TOTAL LEADS COVERTED</span>
