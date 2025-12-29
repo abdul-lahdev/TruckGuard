@@ -456,6 +456,12 @@ export default function Page() {
         { value: '$ 750,000', label: '$ 750,000' },
         { value: '$ 750,500', label: '$ 750,500' },
     ]
+
+    const physicalDamageData = [
+        { value: '1000', label: '$ 1,000 DED' },
+        { value: '2500', label: '$ 2,500 DED' },
+    ]
+
     const makeData = [
         {
             value: 'VNL', label: 'VNL'
@@ -503,6 +509,8 @@ export default function Page() {
         { value: 'florida', label: 'Florida' },
         { value: 'new_york', label: 'New York' },
     ]
+
+
 
 
 
@@ -1069,7 +1077,7 @@ export default function Page() {
                                                         </h3>
 
                                                         <div className='mt-3 leadSelectContainer'>
-                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                            <Select options={physicalDamageData} classNamePrefix="react-select w-full" placeholder='Select Price' />
                                                         </div>
 
                                                     </div>
@@ -1183,7 +1191,7 @@ export default function Page() {
                                                             </div>
                                                         </div>
 
-                                                        <div className=' grid grid-cols-2 gap-7 mt-4'>
+                                                        <div className=' grid grid-cols-2 gap-7 mt-4' ref={pricingRef}>
                                                             {
                                                                 comodities.includes('Refrigerated') ?
                                                                     <div className='col-span-2 xl:col-span-1 bg-white border border-(--grey5) rounded-3xl p-4'>
@@ -1285,8 +1293,8 @@ export default function Page() {
                                                         </h3>
 
                                                         <div className='mt-3'>
-                                                            {/* <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' /> */}
-                                                            <input type="text" className='border-2 border-[hsl(0, 0%, 80%)] bg-[#fcfcfc] w-full h-[38px] px-3 text-[12px] font-normal rounded-[4px] shadow-none' />
+                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                            {/* <input type="text" className='border-2 border-[hsl(0, 0%, 80%)] bg-[#fcfcfc] w-full h-[38px] px-3 text-[12px] font-normal rounded-[4px] shadow-none' /> */}
                                                         </div>
 
                                                     </div>
@@ -1301,7 +1309,9 @@ export default function Page() {
                                                         </h3>
 
                                                         <div className='mt-3 leadSelectContainer'>
-                                                            <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' />
+                                                            <input type="text" className='border-2 border-[hsl(0, 0%, 80%)] bg-[#fcfcfc] w-full h-[38px] px-3 text-[12px] font-normal rounded-[4px] shadow-none' />
+
+                                                            {/* <Select options={pricingData} classNamePrefix="react-select w-full" placeholder='Select Price' /> */}
                                                         </div>
 
                                                     </div>
