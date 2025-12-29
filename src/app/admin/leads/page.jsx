@@ -515,8 +515,6 @@ export default function Page() {
 
 
 
-
-
     return (
         <div className='pt-5 h-full'>
 
@@ -1191,7 +1189,7 @@ export default function Page() {
                                                             </div>
                                                         </div>
 
-                                                        <div className=' grid grid-cols-2 gap-7 mt-4' ref={pricingRef}>
+                                                        <div className=' grid grid-cols-2 gap-7 mt-4'>
                                                             {
                                                                 comodities.includes('Refrigerated') ?
                                                                     <div className='col-span-2 xl:col-span-1 bg-white border border-(--grey5) rounded-3xl p-4'>
