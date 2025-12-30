@@ -17,7 +17,7 @@ export default function LeadCard({ dot, name, email, phone, amount, status }) {
 
             </div>
 
-            <div className="mt-2 space-y-2 text-sm">
+            {/* <div className="mt-2 space-y-2 text-sm">
                 <p className="flex items-center gap-2">
                     <Mail className="w-4 h-4 stroke-[#606C80]" /> <span className="text-[12px]/[10px] xl:text-[14px]/[12px] font-medium text-(--grey2)">{email}</span>
                 </p>
@@ -25,7 +25,7 @@ export default function LeadCard({ dot, name, email, phone, amount, status }) {
                     <Phone className="w-4 h-4 stroke-[#606C80]" /> <span className="text-[12px]/[10px] xl:text-[14px]/[12px] font-medium text-(--grey2)">{phone}</span>
                 </p>
                 <p className="text-(--grey2) text-[16px]/[12px] font-medium mt-3">${amount}</p>
-            </div>
+            </div> */}
 
             <div className="flex items-center justify-between mt-3 border-t pt-3">
                 <div className="flex gap-2 text-gray-500">
