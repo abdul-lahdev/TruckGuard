@@ -17,13 +17,23 @@ import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+
+
+
 
 import FileUpload from '@/app/component/leads/file-upload';
 import Image from 'next/image';
+import RightDrawer from '@/app/component/leads/right-drawer';
 
 
 export default function Page() {
@@ -384,13 +394,16 @@ export default function Page() {
 
     const [stepIndex, setStepIndex] = useState(0)
     // const [checkboxVal, setCheckboxVal] = useState(false)
+
+    const [draweropen, setDrawerOpen] = useState(false)
+
     const currForm = steps[stepIndex].id
     const [selectedDocType, setSelectedDocType] = useState(documentTypes[0]?.value || "")
     const [documentLists, setDocumentLists] = useState(initialDocumentSections)
     const [uploadQueue, setUploadQueue] = useState([])
     const [isDragging, setIsDragging] = useState(false)
     const [comodities, setComodities] = useState([])
-
+    const [open, setOpen] = useState(false)
     const formatFileSize = (size) => {
         if (!size && size !== 0) return ""
         const kb = size / 1024
@@ -1330,7 +1343,200 @@ export default function Page() {
                                                 Power Units:
                                             </label>
                                             <Separator className='mt-3 bg-(--green1)' />
-                                            <div className='relative flex justify-end mt-4'>
+
+                                            <Dialog className="min-w-[60%]" open={open} onOpenChange={setOpen}>
+                                                <DialogContent className="min-w-[95%] md:min-w-[60%]">
+                                                    <DialogHeader>
+                                                        <DialogTitle>Add Power Units</DialogTitle>
+                                                        <DialogDescription>
+                                                            Fill the details below to add a power unit.
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+
+                                                    {/* FORM CONTENT (MOVED OUTSIDE DialogDescription) */}
+                                                    <div>
+                                                        {/* VIN */}
+                                                        <div className="relative flex justify-end ">
+                                                            <svg
+                                                                className="absolute translate-y-6.5 -translate-x-3"
+                                                                width="14"
+                                                                height="14"
+                                                                viewBox="0 0 14 14"
+                                                                fill="none"
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                            >
+                                                                <path
+                                                                    d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z"
+                                                                    stroke="#717182"
+                                                                    strokeWidth="1.5"
+                                                                    strokeLinecap="round"
+                                                                    strokeLinejoin="round"
+                                                                />
+                                                            </svg>
+
+                                                            <input
+                                                                type="text"
+                                                                value={powerUnitForm.vin || ""}
+                                                                onChange={(e) =>
+                                                                    dispatch({
+                                                                        type: "setPowerUnitField",
+                                                                        field: "vin",
+                                                                        value: e.target.value,
+                                                                    })
+                                                                }
+                                                                className="w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]"
+                                                                placeholder="VIN Number"
+                                                            />
+                                                        </div>
+
+                                                        {/* GRID FIELDS */}
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 mt-4">
+                                                            {/* Make */}
+                                                            <div className="leadReactSelectSetting">
+                                                                <Select
+                                                                    options={makeData}
+                                                                    classNamePrefix="react-select"
+                                                                    placeholder="Make"
+                                                                    value={
+                                                                        powerUnitForm.make
+                                                                            ? makeData.find((m) => m.value === powerUnitForm.make)
+                                                                            : null
+                                                                    }
+                                                                    onChange={(opt) =>
+                                                                        dispatch({
+                                                                            type: "setPowerUnitField",
+                                                                            field: "make",
+                                                                            value: opt?.value || "",
+                                                                        })
+                                                                    }
+                                                                />
+                                                            </div>
+
+                                                            {/* Model */}
+                                                            <div className="leadReactSelectSetting">
+                                                                <Select
+                                                                    options={modelData}
+                                                                    classNamePrefix="react-select"
+                                                                    placeholder="Model"
+                                                                    value={
+                                                                        powerUnitForm.model
+                                                                            ? modelData.find((m) => m.value === powerUnitForm.model)
+                                                                            : null
+                                                                    }
+                                                                    onChange={(opt) =>
+                                                                        dispatch({
+                                                                            type: "setPowerUnitField",
+                                                                            field: "model",
+                                                                            value: opt?.value || "",
+                                                                        })
+                                                                    }
+                                                                />
+                                                            </div>
+
+                                                            {/* GVW Class */}
+                                                            <div className="leadReactSelectSetting">
+                                                                <Select
+                                                                    options={classData}
+                                                                    classNamePrefix="react-select"
+                                                                    placeholder="GVW Class"
+                                                                    value={
+                                                                        powerUnitForm.class
+                                                                            ? classData.find((m) => m.value === powerUnitForm.class)
+                                                                            : null
+                                                                    }
+                                                                    onChange={(opt) =>
+                                                                        dispatch({
+                                                                            type: "setPowerUnitField",
+                                                                            field: "class",
+                                                                            value: opt?.value || "",
+                                                                        })
+                                                                    }
+                                                                />
+                                                            </div>
+
+                                                            {/* Truck Type */}
+                                                            <div className="leadReactSelectSetting">
+                                                                <Select
+                                                                    options={truckType}
+                                                                    classNamePrefix="react-select"
+                                                                    placeholder="Truck Type"
+                                                                    value={
+                                                                        powerUnitForm.truckType
+                                                                            ? truckType.find((m) => m.value === powerUnitForm.truckType)
+                                                                            : null
+                                                                    }
+                                                                    onChange={(opt) =>
+                                                                        dispatch({
+                                                                            type: "setPowerUnitField",
+                                                                            field: "truckType",
+                                                                            value: opt?.value || "",
+                                                                        })
+                                                                    }
+                                                                />
+                                                            </div>
+
+                                                            {/* ZIP Code */}
+                                                            <div className="leadReactSelectSetting">
+                                                                <Select
+                                                                    options={zipCode}
+                                                                    classNamePrefix="react-select"
+                                                                    placeholder="ZIP Code"
+                                                                    value={
+                                                                        powerUnitForm.zipCode
+                                                                            ? zipCode.find((m) => m.value === powerUnitForm.zipCode)
+                                                                            : null
+                                                                    }
+                                                                    onChange={(opt) =>
+                                                                        dispatch({
+                                                                            type: "setPowerUnitField",
+                                                                            field: "zipCode",
+                                                                            value: opt?.value || "",
+                                                                        })
+                                                                    }
+                                                                />
+                                                            </div>
+
+                                                            {/* Year */}
+                                                            <div>
+                                                                <input
+                                                                    type="text"
+                                                                    value={powerUnitForm.year || ""}
+                                                                    onChange={(e) =>
+                                                                        dispatch({
+                                                                            type: "setPowerUnitField",
+                                                                            field: "year",
+                                                                            value: e.target.value,
+                                                                        })
+                                                                    }
+                                                                    className="w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]"
+                                                                    placeholder="yyyy"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {/* FOOTER */}
+                                                    <div className="flex justify-end gap-2 mt-6">
+                                                        <Button variant="secondary" onClick={() => setOpen(false)}>
+                                                            Cancel
+                                                        </Button>
+                                                        <button
+                                                            type='button'
+                                                            onClick={() => {
+
+                                                                dispatch({ type: 'addPowerUnit' })
+                                                                setOpen(false)
+                                                            }}
+                                                            className='px-8 btn-primary'
+                                                        >
+                                                            Add
+                                                        </button>
+                                                        {/* <Button variant="destructive">Confirm</Button> */}
+                                                    </div>
+                                                </DialogContent>
+                                            </Dialog>
+
+                                            {/* <div className='relative flex justify-end mt-4'>
                                                 <svg className='absolute translate-y-6.5 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
                                                 <input
                                                     type="text"
@@ -1340,6 +1546,9 @@ export default function Page() {
                                                     placeholder='VIN Number'
                                                 />
                                             </div>
+
+
+
 
                                             <div className='grid grid-cols-1 md:grid-col-2 xl:grid-cols-6 gap-4 mt-4'>
                                                 <div className='leadReactSelectSetting' >
@@ -1399,22 +1608,31 @@ export default function Page() {
                                                         placeholder='yyyy'
                                                     />
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             <div className='flex justify-end mt-6'>
                                                 <button
+                                                    type='button'
+                                                    onClick={() => setOpen(true)}
+                                                    className='px-8 btn-primary'
+                                                >
+                                                    Add
+                                                </button>
+                                                {/* <button
                                                     type='button'
                                                     onClick={() => dispatch({ type: 'addPowerUnit' })}
                                                     className='px-8 btn-primary'
                                                 >
                                                     Add
-                                                </button>
+                                                </button> */}
                                             </div>
+
+                                            <RightDrawer draweropen={draweropen} setDrawerOpen={setDrawerOpen} />
 
                                             <div className='mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'>
 
                                                 {
                                                     powerUnitData.map((item, index) => (
-                                                        <div key={index} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3'>
+                                                        <div key={index} onClick={() => setDrawerOpen(true)} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3 cursor-pointer'>
                                                             <div className='flex items-center justify-between'>
                                                                 <h2 className='text-(--dark4) text-[16px] font-normal'><span className='font-semibold'>VIN:</span> {item.vin}</h2>
                                                                 <div className='flex items-center gap-2'>
@@ -1436,7 +1654,9 @@ export default function Page() {
                                                                 </span>
 
                                                             </div>
-                                                            <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+
+
+                                                            {/* <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
                                                                 <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Make</span>
                                                                 <span className='text-(--grey7) text-[14px] font-medium'>
                                                                     {item.make}
@@ -1463,7 +1683,7 @@ export default function Page() {
                                                                     {item.zipCode}
                                                                 </span>
 
-                                                            </div>
+                                                            </div> */}
 
                                                         </div>
                                                     ))
