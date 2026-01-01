@@ -6,7 +6,16 @@ import { Calendar } from '@/components/ui/calendar';
 
 import KanvanCard from '@/app/component/leads/kanban';
 import Select from 'react-select'
-
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
 import {
     NativeSelect,
     NativeSelectOption,
@@ -33,8 +42,6 @@ import {
 
 import FileUpload from '@/app/component/leads/file-upload';
 import Image from 'next/image';
-import RightDrawer from '@/app/component/leads/right-drawer';
-
 
 export default function Page() {
 
@@ -395,7 +402,44 @@ export default function Page() {
     const [stepIndex, setStepIndex] = useState(0)
     // const [checkboxVal, setCheckboxVal] = useState(false)
 
+
+    const driverData = [
+        {
+            id: 0,
+            name: 'John Lewis',
+            dob: '12/01/1985',
+            driverType: 'Owner Operator',
+            licenseNo: '643894',
+            licenseType: 'Commercial',
+            issuedDate: '23/02/2013',
+            dateHired: '12/02/2014',
+            experience: '1 yrs 2mnths',
+        },
+        {
+            id: 1,
+            name: 'Lauren kellis',
+            dob: '11/03/1995',
+            driverType: 'Owner Operator',
+            licenseNo: '643894',
+            licenseType: 'Private',
+            issuedDate: '22/02/2013',
+            dateHired: '12/02/2013',
+            experience: '2 yrs 2mnths',
+        },
+
+    ]
+
+
+
     const [draweropen, setDrawerOpen] = useState(false)
+    const [trailerDraweropen, setTrailerDrawerOpen] = useState(false)
+    const [driverDraweropen, setDriverDrawerOpen] = useState(false)
+    const [currIndex, setCurrIndex] = useState(null);
+    const [trailerCurrIndex, setTrailerCurrIndex] = useState(null);
+    const [driverCurrIndex, setDriverCurrIndex] = useState(null);
+    const selectedItem = powerUnitData[currIndex];
+    const selectedTrailer = trailersData[trailerCurrIndex]
+    const selectedDriver = driverData[driverCurrIndex]
 
     const currForm = steps[stepIndex].id
     const [selectedDocType, setSelectedDocType] = useState(documentTypes[0]?.value || "")
@@ -404,6 +448,8 @@ export default function Page() {
     const [isDragging, setIsDragging] = useState(false)
     const [comodities, setComodities] = useState([])
     const [open, setOpen] = useState(false)
+    const [trailerOpen, setTrailerOpen] = useState(false)
+    const [driverOpen, setDriverOpen] = useState(false)
     const formatFileSize = (size) => {
         if (!size && size !== 0) return ""
         const kb = size / 1024
@@ -500,6 +546,7 @@ export default function Page() {
             value: 'Sleeper Truck', label: 'Sleeper Truck'
         },
     ]
+
     const zipCode = [
         {
             value: '75600', label: '75600'
@@ -522,6 +569,9 @@ export default function Page() {
         { value: 'florida', label: 'Florida' },
         { value: 'new_york', label: 'New York' },
     ]
+
+
+
 
 
 
@@ -1517,9 +1567,9 @@ export default function Page() {
 
                                                     {/* FOOTER */}
                                                     <div className="flex justify-end gap-2 mt-6">
-                                                        <Button variant="secondary" onClick={() => setOpen(false)}>
+                                                        <button className='btn-secondary px-8' onClick={() => setOpen(false)}>
                                                             Cancel
-                                                        </Button>
+                                                        </button>
                                                         <button
                                                             type='button'
                                                             onClick={() => {
@@ -1626,13 +1676,97 @@ export default function Page() {
                                                 </button> */}
                                             </div>
 
-                                            <RightDrawer draweropen={draweropen} setDrawerOpen={setDrawerOpen} />
+                                            <Drawer
+                                                direction="right"
+                                                open={draweropen}
+                                                onOpenChange={setDrawerOpen}
+                                            >
+                                                <DrawerContent className="h-full w-[400px] right-0 left-auto">
+                                                    <DrawerHeader>
+                                                        <DrawerTitle>Power Unit Detail:</DrawerTitle>
+                                                        <DrawerDescription>
+                                                            Below is the Detail of Selected Unit.
+                                                        </DrawerDescription>
+
+                                                        {
+                                                            selectedItem && (
+                                                                <div className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 mt-4 flex flex-col gap-3 cursor-pointer'>
+                                                                    <div className='flex items-center justify-between'>
+                                                                        <h2 className='text-(--dark4) text-[16px] font-normal'><span className='font-semibold'>VIN:</span> {selectedItem.vin}</h2>
+                                                                        {/* <div className='flex items-center gap-2'>
+                                                                            <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M2.87604 18.1156C2.92198 17.7021 2.94496 17.4954 3.00751 17.3022C3.06301 17.1307 3.14143 16.9676 3.24064 16.8171C3.35246 16.6475 3.49955 16.5005 3.79373 16.2063L17 3C18.1046 1.89543 19.8955 1.89543 21 3C22.1046 4.10457 22.1046 5.89543 21 7L7.79373 20.2063C7.49955 20.5005 7.35245 20.6475 7.18289 20.7594C7.03245 20.8586 6.86929 20.937 6.69785 20.9925C6.5046 21.055 6.29786 21.078 5.88437 21.124L2.5 21.5L2.87604 18.1156Z" fill="#22886B" /> <path d="M18 10L14 6M2.5 21.5L5.88437 21.124C6.29786 21.078 6.5046 21.055 6.69785 20.9925C6.86929 20.937 7.03245 20.8586 7.18289 20.7594C7.35245 20.6475 7.49955 20.5005 7.79373 20.2063L21 7C22.1046 5.89543 22.1046 4.10457 21 3C19.8955 1.89543 18.1046 1.89543 17 3L3.79373 16.2063C3.49955 16.5005 3.35246 16.6475 3.24064 16.8171C3.14143 16.9676 3.06301 17.1307 3.00751 17.3022C2.94496 17.4954 2.92198 17.7021 2.87604 18.1156L2.5 21.5Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                            <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M3 6H21H3Z" fill="#22886B" /> <path d="M16 6V5.2C16 4.0799 16 3.51984 15.782 3.09202C15.5903 2.71569 15.2843 2.40973 14.908 2.21799C14.4802 2 13.9201 2 12.8 2H11.2C10.0799 2 9.51984 2 9.09202 2.21799C8.71569 2.40973 8.40973 2.71569 8.21799 3.09202C8 3.51984 8 4.0799 8 5.2V6M10 11.5V16.5M14 11.5V16.5M3 6H21M19 6V17.2C19 18.8802 19 19.7202 18.673 20.362C18.3854 20.9265 17.9265 21.3854 17.362 21.673C16.7202 22 15.8802 22 14.2 22H9.8C8.11984 22 7.27976 22 6.63803 21.673C6.07354 21.3854 5.6146 20.9265 5.32698 20.362C5 19.7202 5 18.8802 5 17.2V6" stroke="#ED3333" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                        </div> */}
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Year</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedItem.year}
+                                                                        </span>
+
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Model</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedItem.model}
+                                                                        </span>
+
+                                                                    </div>
+
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Make</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedItem.make}
+                                                                        </span>
+
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>GVW Class</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedItem.class}
+                                                                        </span>
+
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Truck Type</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedItem.truckType}
+                                                                        </span>
+
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>ZIP Code</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedItem.zipCode}
+                                                                        </span>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </DrawerHeader>
+
+                                                    <DrawerFooter>
+                                                        {/* <Button onClick={() => setDrawerOpen(false)}>Submit</Button> */}
+                                                        <button
+                                                            className='btn-primary'
+                                                            onClick={() => setDrawerOpen(false)}
+                                                        >
+                                                            Close
+                                                        </button>
+                                                    </DrawerFooter>
+                                                </DrawerContent>
+                                            </Drawer>
 
                                             <div className='mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4'>
 
                                                 {
                                                     powerUnitData.map((item, index) => (
-                                                        <div key={index} onClick={() => setDrawerOpen(true)} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3 cursor-pointer'>
+                                                        <div key={index} onClick={() => {
+                                                            setDrawerOpen(true)
+                                                            setCurrIndex(index);
+                                                        }} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3 cursor-pointer'>
                                                             <div className='flex items-center justify-between'>
                                                                 <h2 className='text-(--dark4) text-[16px] font-normal'><span className='font-semibold'>VIN:</span> {item.vin}</h2>
                                                                 <div className='flex items-center gap-2'>
@@ -1699,19 +1833,29 @@ export default function Page() {
 
                                             <div className='mt-4'>
 
+                                                <Dialog className="min-w-[60%]" open={trailerOpen} onOpenChange={setTrailerOpen}>
+                                                    <DialogContent className="min-w-[95%] md:min-w-[60%]">
+                                                        <DialogHeader>
+                                                            <DialogTitle>Add Power Units</DialogTitle>
+                                                            <DialogDescription>
+                                                                Fill the details below to add a power unit.
+                                                            </DialogDescription>
+                                                        </DialogHeader>
 
-                                                <div className='grid grid-cols-1 lg:grid-cols-5 gap-4 mt-4 items-center'>
-                                                    <div className='relative flex justify-end col-span-1 lg:col-span-3'>
-                                                        <svg className='absolute translate-y-6.5 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
-                                                        <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]' placeholder='VIN Number' />
-                                                    </div>
 
-                                                    <div className='flex items-center gap-3 justify-center col-span-1'>
-                                                        <div className='w-full col-span-4'>
-                                                            <div className='flex items-center gap-3'>
-                                                                <Checkbox
-                                                                    id="nonTrailer"
-                                                                    className="
+
+                                                        <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 mt-4 items-center'>
+                                                            <div className='relative flex justify-end col-span-1 lg:col-span-2'>
+                                                                <svg className='absolute translate-y-6.5 -translate-x-3' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12.25 12.25L8.75006 8.75M9.91667 5.83333C9.91667 8.0885 8.0885 9.91667 5.83333 9.91667C3.57817 9.91667 1.75 8.0885 1.75 5.83333C1.75 3.57817 3.57817 1.75 5.83333 1.75C8.0885 1.75 9.91667 3.57817 9.91667 5.83333Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                <input type="number" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl pl-3 pr-7 mt-4 h-[35px]' placeholder='VIN Number' />
+                                                            </div>
+
+                                                            <div className='flex items-center gap-3 justify-center col-span-2'>
+                                                                <div className='w-full'>
+                                                                    <div className='flex items-center gap-3'>
+                                                                        <Checkbox
+                                                                            id="nonTrailer"
+                                                                            className="
         h-5 w-5 
         rounded-[6px] 
         border-2
@@ -1720,41 +1864,142 @@ export default function Page() {
         data-[state=checked]:text-[#22886B]
         data-[state=checked]:border-[#22886B]
       "
-                                                                /> <span className='text-[14px] font-semibold text-[#656A73]'> Non-Owned Trailer</span>
+                                                                        /> <span className='text-[14px] font-semibold text-[#656A73]'> Non-Owned Trailer</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className='leadReactSelectSetting col-span-1' >
+                                                                <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+
+                                                            </div>
+                                                            <div className='col-span-1' >
+                                                                <input type="text" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]' placeholder='yyyy' />
+                                                            </div>
+                                                            <div className='leadReactSelectSetting col-span-1' >
+                                                                <Select options={modelData} classNamePrefix="react-select" placeholder='Model' />
+
+                                                            </div>
+                                                            <div className='leadReactSelectSetting col-span-1' >
+                                                                <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+
+                                                            </div>
+                                                            <div className='leadReactSelectSetting col-span-1' >
+                                                                <Select options={pricingData} classNamePrefix="react-select" placeholder='Value' />
+
+                                                            </div>
+                                                            <div className='leadReactSelectSetting col-span-1' >
+                                                                <Select options={zipCode} classNamePrefix="react-select" placeholder='zip Code' />
+
                                                             </div>
                                                         </div>
-                                                    </div>
 
-                                                    <div className='leadReactSelectSetting col-span-1' >
-                                                        <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+                                                        {/* FOOTER */}
+                                                        <div className="flex justify-end gap-2 mt-6">
+                                                            <button className='btn-secondary px-8' onClick={() => setTrailerOpen(false)}>
+                                                                Cancel
+                                                            </button>
+                                                            <button
+                                                                type='button'
+                                                                onClick={() => {
 
-                                                    </div>
-                                                    <div className='col-span-1' >
-                                                        <input type="text" className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-xl px-3 h-[35px]' placeholder='yyyy' />
-                                                    </div>
-                                                    <div className='leadReactSelectSetting col-span-1' >
-                                                        <Select options={modelData} classNamePrefix="react-select" placeholder='Model' />
+                                                                    setTrailerOpen(false)
+                                                                }}
+                                                                className='px-8 btn-primary'
+                                                            >
+                                                                Add
+                                                            </button>
+                                                            {/* <Button variant="destructive">Confirm</Button> */}
+                                                        </div>
+                                                    </DialogContent>
+                                                </Dialog>
+                                                <Drawer
+                                                    direction="right"
+                                                    open={trailerDraweropen}
+                                                    onOpenChange={setTrailerDrawerOpen}
+                                                >
+                                                    <DrawerContent className="h-full w-[400px] right-0 left-auto">
+                                                        <DrawerHeader>
+                                                            <DrawerTitle>Trailer Detail:</DrawerTitle>
+                                                            <DrawerDescription>
+                                                                Below is the Detail of Selected Trailer.
+                                                            </DrawerDescription>
+                                                            {
+                                                                selectedTrailer &&
+                                                                <div className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] mt-4 rounded-xl p-4 flex flex-col gap-3'>
+                                                                    <div className='flex items-center justify-between'>
+                                                                        <h2 className='text-(--dark4) text-[16px] font-normal'><span className='font-semibold'>VIN:</span> {selectedTrailer.vin}</h2>
+                                                                        {/* <div className='flex items-center gap-2'>
+                                                                            <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M2.87604 18.1156C2.92198 17.7021 2.94496 17.4954 3.00751 17.3022C3.06301 17.1307 3.14143 16.9676 3.24064 16.8171C3.35246 16.6475 3.49955 16.5005 3.79373 16.2063L17 3C18.1046 1.89543 19.8955 1.89543 21 3C22.1046 4.10457 22.1046 5.89543 21 7L7.79373 20.2063C7.49955 20.5005 7.35245 20.6475 7.18289 20.7594C7.03245 20.8586 6.86929 20.937 6.69785 20.9925C6.5046 21.055 6.29786 21.078 5.88437 21.124L2.5 21.5L2.87604 18.1156Z" fill="#22886B" /> <path d="M18 10L14 6M2.5 21.5L5.88437 21.124C6.29786 21.078 6.5046 21.055 6.69785 20.9925C6.86929 20.937 7.03245 20.8586 7.18289 20.7594C7.35245 20.6475 7.49955 20.5005 7.79373 20.2063L21 7C22.1046 5.89543 22.1046 4.10457 21 3C19.8955 1.89543 18.1046 1.89543 17 3L3.79373 16.2063C3.49955 16.5005 3.35246 16.6475 3.24064 16.8171C3.14143 16.9676 3.06301 17.1307 3.00751 17.3022C2.94496 17.4954 2.92198 17.7021 2.87604 18.1156L2.5 21.5Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                            <svg width="24" className='cursor-pointer' height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M3 6H21H3Z" fill="#22886B" /> <path d="M16 6V5.2C16 4.0799 16 3.51984 15.782 3.09202C15.5903 2.71569 15.2843 2.40973 14.908 2.21799C14.4802 2 13.9201 2 12.8 2H11.2C10.0799 2 9.51984 2 9.09202 2.21799C8.71569 2.40973 8.40973 2.71569 8.21799 3.09202C8 3.51984 8 4.0799 8 5.2V6M10 11.5V16.5M14 11.5V16.5M3 6H21M19 6V17.2C19 18.8802 19 19.7202 18.673 20.362C18.3854 20.9265 17.9265 21.3854 17.362 21.673C16.7202 22 15.8802 22 14.2 22H9.8C8.11984 22 7.27976 22 6.63803 21.673C6.07354 21.3854 5.6146 20.9265 5.32698 20.362C5 19.7202 5 18.8802 5 17.2V6" stroke="#ED3333" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                        </div> */}
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'> Non-Owned Trailer</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedTrailer.ownedTrailer}
+                                                                        </span>
 
-                                                    </div>
-                                                    <div className='leadReactSelectSetting col-span-1' >
-                                                        <Select options={makeData} classNamePrefix="react-select" placeholder='Make' />
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Year</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedTrailer.year}
+                                                                        </span>
 
-                                                    </div>
-                                                    <div className='leadReactSelectSetting col-span-1' >
-                                                        <Select options={pricingData} classNamePrefix="react-select" placeholder='Value' />
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Make</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedTrailer.make}
+                                                                        </span>
 
-                                                    </div>
-                                                    <div className='leadReactSelectSetting col-span-1' >
-                                                        <Select options={zipCode} classNamePrefix="react-select" placeholder='zip Code' />
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Model</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedTrailer.model}
+                                                                        </span>
 
-                                                    </div>
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Value</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedTrailer.value}
+                                                                        </span>
+
+                                                                    </div>
+                                                                    <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>ZIP Code</span>
+                                                                        <span className='text-(--grey7) text-[14px] font-medium'>
+                                                                            {selectedTrailer.zipCode}
+                                                                        </span>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            }
+
+                                                        </DrawerHeader>
+
+                                                        <DrawerFooter>
+                                                            {/* <Button onClick={() => setDrawerOpen(false)}>Submit</Button> */}
+                                                            <button
+                                                                className='btn-primary'
+                                                                onClick={() => setTrailerDrawerOpen(false)}
+                                                            >
+                                                                Close
+                                                            </button>
+                                                        </DrawerFooter>
+                                                    </DrawerContent>
+                                                </Drawer>
 
 
 
-                                                </div>
 
                                                 <div className='flex justify-end mt-6'>
-                                                    <button className='px-8 btn-primary'>Add</button>
+                                                    <button className='px-8 btn-primary' onClick={() => setTrailerOpen(true)}>Add</button>
                                                 </div>
 
 
@@ -1767,7 +2012,11 @@ export default function Page() {
 
                                                     {
                                                         trailersData.map((item, index) => (
-                                                            <div key={index} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3'>
+                                                            <div key={index} onClick={() => {
+
+                                                                setTrailerDrawerOpen(true)
+                                                                setTrailerCurrIndex(index)
+                                                            }} className='bg-(--grey4) shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-xl p-4 flex flex-col gap-3 cursor-pointer'>
                                                                 <div className='flex items-center justify-between'>
                                                                     <h2 className='text-(--dark4) text-[16px] font-normal'><span className='font-semibold'>VIN:</span> {item.vin}</h2>
                                                                     <div className='flex items-center gap-2'>
@@ -1789,7 +2038,7 @@ export default function Page() {
                                                                     </span>
 
                                                                 </div>
-                                                                <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
+                                                                {/* <div className='flex items-center gap-6 bg-white rounded-[12px] p-3'>
                                                                     <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Make</span>
                                                                     <span className='text-(--grey7) text-[14px] font-medium'>
                                                                         {item.make}
@@ -1816,7 +2065,7 @@ export default function Page() {
                                                                         {item.zipCode}
                                                                     </span>
 
-                                                                </div>
+                                                                </div> */}
 
                                                             </div>
                                                         ))
@@ -1838,114 +2087,225 @@ export default function Page() {
 
                                         </>}
                                         {currForm === 'drivers' && <>
+                                            <Dialog className="min-w-[60%]" open={driverOpen} onOpenChange={setDriverOpen}>
+                                                <DialogContent className="min-w-[95%] md:min-w-[60%]">
+                                                    <DialogHeader>
+                                                        <DialogTitle>Add Driver</DialogTitle>
+                                                        <DialogDescription>
+                                                            Fill the details below to add a driver.
+                                                        </DialogDescription>
+                                                    </DialogHeader>
+
+                                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
+                                                        <div>
+                                                            <input type="text" name='firstName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='First Name' />
+                                                        </div>
+                                                        <div>
+                                                            <input type="text" name='lastName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Last Name' />
+                                                        </div>
+
+                                                        <div>
+                                                            <Popover open={openDate} onOpenChange={() => dispatch({ type: "setOpdenDate", payload: (!openDate) })}>
+                                                                <PopoverTrigger className='w-full' asChild>
+                                                                    <Button
+                                                                        variant="outline"
+                                                                        id="date"
+                                                                        className="w-full justify-between bg-(--grey6) font-normal border border-[#BFCAD252] h-[35px] rounded-[8px] shadow-none text-[12px] text-[#98a1af]"
+                                                                        placeholder="DOB"
+                                                                    >
+                                                                        {dateVal ? dateVal.toLocaleDateString() : "Select date"}
+                                                                        <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                    </Button>
+                                                                </PopoverTrigger>
+                                                                <PopoverContent className="w-auto overflow-hidden p-0 z-30" align="start">
+                                                                    <Calendar
+                                                                        mode="single"
+                                                                        selected={dateVal}
+                                                                        captionLayout="dropdown"
+                                                                        onSelect={(date) => {
+                                                                            dispatch({ type: 'setDateVal', payload: (date) })
+                                                                            dispatch({ type: 'setOpdenDate', payload: false })
+                                                                        }}
+                                                                    />
+                                                                </PopoverContent>
+                                                            </Popover>
+                                                        </div>
+                                                        <div className='leadReactSelectSetting'>
+                                                            <Select options={dDriverType} classNamePrefix="react-select" placeholder='Driver Type' />
+                                                        </div>
+                                                        <div>
+                                                            <input type="text" name='licenseNo' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='License Number' />
+                                                        </div>
+                                                        <div className='leadReactSelectSetting'>
+                                                            <Select options={dStateType} classNamePrefix="react-select" placeholder='State' />
+                                                        </div>
+                                                        <div className='leadReactSelectSetting'>
+                                                            <Select options={dLicenseType} classNamePrefix="react-select" placeholder='License Type' />
+                                                        </div>
+                                                        <div className="flex flex-col gap-2">
+                                                            <Popover open={driverDateHiredOpen} onOpenChange={(val) => dispatch({ type: 'setDriverDateHiredOpen', payload: val })}>
+                                                                <PopoverTrigger asChild>
+                                                                    <button className="w-full flex flex-row items-center justify-between bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer ">
+                                                                        {driverDateHiredVal ? driverDateHiredVal.toLocaleDateString() : 'Date Hired'}
+                                                                        <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+
+                                                                    </button>
+                                                                </PopoverTrigger>
+                                                                <PopoverContent className="w-auto p-0 z-5" align="start">
+                                                                    <Calendar
+                                                                        mode="single"
+                                                                        selected={driverDateHiredVal}
+                                                                        onSelect={(date) => {
+                                                                            dispatch({ type: 'setDriverDateHiredVal', payload: date })
+                                                                            dispatch({ type: 'setDriverDateHiredOpen', payload: false })
+                                                                        }}
+                                                                        initialFocus
+                                                                    />
+                                                                </PopoverContent>
+                                                            </Popover>
+                                                        </div>
+                                                        <div className="md:col-span-2 w-full">
+                                                            <div className="grid grid-cols-[1fr_3fr] items-center">
+                                                                <span className='text-[14px] font-medium text-(--dark4)'>Experience</span>
+                                                                <Popover open={driverExperienceOpen} onOpenChange={(val) => dispatch({ type: 'setDriverExperienceOpen', payload: val })}>
+                                                                    <PopoverTrigger asChild>
+                                                                        <button className="w-full flex flex-row items-center justify-between bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer">
+                                                                            {driverExperienceVal ? driverExperienceVal.toLocaleDateString() : 'Issued Date'}
+                                                                            <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+
+                                                                        </button>
+                                                                    </PopoverTrigger>
+                                                                    <PopoverContent className="w-auto p-0 z-5" align="start">
+                                                                        <Calendar
+                                                                            mode="single"
+                                                                            selected={driverExperienceVal}
+                                                                            onSelect={(date) => {
+                                                                                dispatch({ type: 'setDriverExperienceVal', payload: date })
+                                                                                dispatch({ type: 'setDriverExperienceOpen', payload: false })
+                                                                            }}
+                                                                            initialFocus
+                                                                        />
+                                                                    </PopoverContent>
+                                                                </Popover>
+                                                            </div>
+                                                        </div>
+
+                                                        <div>
+                                                            <input type="text" name='dateHired' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Date Hired' />
+                                                        </div>
+                                                        <div>
+                                                            <input type="text" name='operatingExp' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Operating Experience' />
+                                                        </div>
 
 
-                                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5'>
-                                                <div>
-                                                    <input type="text" name='firstName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='First Name' />
-                                                </div>
-                                                <div>
-                                                    <input type="text" name='lastName' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Last Name' />
-                                                </div>
-
-                                                <div>
-                                                    <Popover open={openDate} onOpenChange={() => dispatch({ type: "setOpdenDate", payload: (!openDate) })}>
-                                                        <PopoverTrigger className='w-full' asChild>
-                                                            <Button
-                                                                variant="outline"
-                                                                id="date"
-                                                                className="w-full justify-between bg-(--grey6) font-normal border border-[#BFCAD252] h-[35px] rounded-[8px] shadow-none text-[12px] text-[#98a1af]"
-                                                                placeholder="DOB"
-                                                            >
-                                                                {dateVal ? dateVal.toLocaleDateString() : "Select date"}
-                                                                <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
-                                                            </Button>
-                                                        </PopoverTrigger>
-                                                        <PopoverContent className="w-auto overflow-hidden p-0 z-30" align="start">
-                                                            <Calendar
-                                                                mode="single"
-                                                                selected={dateVal}
-                                                                captionLayout="dropdown"
-                                                                onSelect={(date) => {
-                                                                    dispatch({ type: 'setDateVal', payload: (date) })
-                                                                    dispatch({ type: 'setOpdenDate', payload: false })
-                                                                }}
-                                                            />
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                </div>
-                                                <div className='leadReactSelectSetting'>
-                                                    <Select options={dDriverType} classNamePrefix="react-select" placeholder='Driver Type' />
-                                                </div>
-                                                <div>
-                                                    <input type="text" name='licenseNo' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='License Number' />
-                                                </div>
-                                                <div className='leadReactSelectSetting'>
-                                                    <Select options={dStateType} classNamePrefix="react-select" placeholder='State' />
-                                                </div>
-                                                <div className='leadReactSelectSetting'>
-                                                    <Select options={dLicenseType} classNamePrefix="react-select" placeholder='License Type' />
-                                                </div>
-                                                <div className="flex flex-col gap-2">
-                                                    <Popover open={driverDateHiredOpen} onOpenChange={(val) => dispatch({ type: 'setDriverDateHiredOpen', payload: val })}>
-                                                        <PopoverTrigger asChild>
-                                                            <button className="w-full flex flex-row items-center justify-between bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer ">
-                                                                {driverDateHiredVal ? driverDateHiredVal.toLocaleDateString() : 'Date Hired'}
-                                                                <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
-
-                                                            </button>
-                                                        </PopoverTrigger>
-                                                        <PopoverContent className="w-auto p-0 z-5" align="start">
-                                                            <Calendar
-                                                                mode="single"
-                                                                selected={driverDateHiredVal}
-                                                                onSelect={(date) => {
-                                                                    dispatch({ type: 'setDriverDateHiredVal', payload: date })
-                                                                    dispatch({ type: 'setDriverDateHiredOpen', payload: false })
-                                                                }}
-                                                                initialFocus
-                                                            />
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                </div>
-                                                <div className="md:col-span-2 w-full">
-                                                    <div className="grid grid-cols-[1fr_3fr] items-center">
-                                                        <span className='text-[14px] font-medium text-(--dark4)'>Experience</span>
-                                                        <Popover open={driverExperienceOpen} onOpenChange={(val) => dispatch({ type: 'setDriverExperienceOpen', payload: val })}>
-                                                            <PopoverTrigger asChild>
-                                                                <button className="w-full flex flex-row items-center justify-between bg-(--grey6) border border-[#BFCAD252] rounded-[8px] h-[35px] px-3 text-left font-normal shadow-none text-[12px] text-[#98a1af] cursor-pointer">
-                                                                    {driverExperienceVal ? driverExperienceVal.toLocaleDateString() : 'Issued Date'}
-                                                                    <svg width="12" height="14" viewBox="0 0 12 14" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M11.25 5.41667H0.75M8.33333 0.75V3.08333M3.66667 0.75V3.08333M3.55 12.4167H8.45C9.43009 12.4167 9.92014 12.4167 10.2945 12.2259C10.6238 12.0581 10.8915 11.7904 11.0593 11.4611C11.25 11.0868 11.25 10.5968 11.25 9.61667V4.71667C11.25 3.73657 11.25 3.24653 11.0593 2.87218C10.8915 2.5429 10.6238 2.27518 10.2945 2.10741C9.92014 1.91667 9.43009 1.91667 8.45 1.91667H3.55C2.56991 1.91667 2.07986 1.91667 1.70552 2.10741C1.37623 2.27518 1.10852 2.5429 0.940739 2.87218C0.75 3.24653 0.75 3.73657 0.75 4.71667V9.61667C0.75 10.5968 0.75 11.0868 0.940739 11.4611C1.10852 11.7904 1.37623 12.0581 1.70552 12.2259C2.07986 12.4167 2.56991 12.4167 3.55 12.4167Z" stroke="#717182" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
-
-                                                                </button>
-                                                            </PopoverTrigger>
-                                                            <PopoverContent className="w-auto p-0 z-5" align="start">
-                                                                <Calendar
-                                                                    mode="single"
-                                                                    selected={driverExperienceVal}
-                                                                    onSelect={(date) => {
-                                                                        dispatch({ type: 'setDriverExperienceVal', payload: date })
-                                                                        dispatch({ type: 'setDriverExperienceOpen', payload: false })
-                                                                    }}
-                                                                    initialFocus
-                                                                />
-                                                            </PopoverContent>
-                                                        </Popover>
                                                     </div>
-                                                </div>
-
-                                                <div>
-                                                    <input type="text" name='dateHired' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Date Hired' />
-                                                </div>
-                                                <div>
-                                                    <input type="text" name='operatingExp' className='w-full bg-(--grey6) border border-[#BFCAD252] rounded-[8px] px-3 h-[35px] text-[12px] text-[#656A73]' placeholder='Operating Experience' />
-                                                </div>
 
 
-                                            </div>
+                                                    {/* FOOTER */}
+                                                    <div className="flex justify-end gap-2 mt-6">
+                                                        <button className='btn-secondary px-8' onClick={() => setDriverOpen(false)}>
+                                                            Cancel
+                                                        </button>
+                                                        <button
+                                                            type='button'
+                                                            onClick={() => {
+
+                                                                setDriverOpen(false)
+                                                            }}
+                                                            className='px-8 btn-primary'
+                                                        >
+                                                            Add
+                                                        </button>
+                                                        {/* <Button variant="destructive">Confirm</Button> */}
+                                                    </div>
+                                                </DialogContent>
+                                            </Dialog>
+                                            <Drawer
+                                                direction="right"
+                                                open={driverDraweropen}
+                                                onOpenChange={setDriverDrawerOpen}
+                                            >
+                                                <DrawerContent className="h-full w-[400px] right-0 left-auto">
+                                                    <DrawerHeader>
+                                                        <DrawerTitle>Driver Detail:</DrawerTitle>
+                                                        <DrawerDescription>
+                                                            Below is the Detail of Selected Driver.
+                                                        </DrawerDescription>
+
+                                                        {
+                                                            selectedDriver &&
+                                                            <div className='shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-2xl mt-4 bg-(--grey4) overflow-hidden '>
+
+                                                                <div className='bg-(--green3) px-3 relative'>
+                                                                    <div className='flex justify-end absolute w-full px-6 bottom-0 -translate-y-3 '>
+                                                                        <DropdownMenu>
+                                                                            <DropdownMenuTrigger className='cursor-pointer'>
+                                                                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" fill="white" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" fill="white" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" fill="white" /> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                            </DropdownMenuTrigger>
+                                                                            <DropdownMenuContent>
+                                                                                <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                                            </DropdownMenuContent>
+                                                                        </DropdownMenu>
+                                                                    </div>
+                                                                    <div className='flex justify-center'>
+                                                                        <div className='shadow-[0_0_4px_0_#46B987] rounded-full bg-[#EDFFF5] h-[62px] w-[62px] flex items-center justify-center text-[#1C1C1CB2] font-semibold text-[24px] translate-y-5 '>
+                                                                            JS
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div className='mt-5 px-5 flex flex-col gap-3 py-4'>
+                                                                    <h1 className='text-center text-(--green1) text-[20px] font-semibold '>{selectedDriver.name}</h1>
+                                                                    <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>DOB</span>
+                                                                        <span className='text-(--grey7) font-medium text-[14px]'>{selectedDriver.dob}</span>
+                                                                    </div>
+                                                                    <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Driver Type</span>
+                                                                        <span className='text-(--grey7) font-medium text-[14px]'>{selectedDriver.driverType}</span>
+                                                                    </div>
+                                                                    <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License No.</span>
+                                                                        <span className='text-(--grey7) font-medium text-[14px]'>{selectedDriver.licenseNo}</span>
+                                                                    </div>
+                                                                    <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License Type</span>
+                                                                        <span className='text-(--grey7) font-medium text-[14px]'>{selectedDriver.licenseType}</span>
+                                                                    </div>
+                                                                    <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Issued Date</span>
+                                                                        <span className='text-(--grey7) font-medium text-[14px]'>{selectedDriver.issuedDate}</span>
+                                                                    </div>
+                                                                    <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Date Hired</span>
+                                                                        <span className='text-(--grey7) font-medium text-[14px]'>{selectedDriver.dateHired}</span>
+                                                                    </div>
+                                                                    <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                        <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Experience</span>
+                                                                        <span className='text-(--grey7) font-medium text-[14px]'>{selectedDriver.experience}</span>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>}
+
+
+                                                    </DrawerHeader>
+
+                                                    <DrawerFooter>
+                                                        {/* <Button onClick={() => setDrawerOpen(false)}>Submit</Button> */}
+                                                        <button
+                                                            className='btn-primary'
+                                                            onClick={() => setDriverDrawerOpen(false)}
+                                                        >
+                                                            Close
+                                                        </button>
+                                                    </DrawerFooter>
+                                                </DrawerContent>
+                                            </Drawer>
+
 
                                             <div className='flex justify-end mt-6'>
-                                                <button className='px-8 btn-primary'>Add</button>
+                                                <button className='px-8 btn-primary' onClick={() => setDriverOpen(true)}>Add</button>
                                             </div>
 
 
@@ -1963,59 +2323,67 @@ export default function Page() {
 
 
                                             <div className='mt-6 grid grid-col-1 md:grid-cols-2 lg:grid-cols-4 gap-4'>
-                                                <div className='shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-2xl bg-(--grey4) overflow-hidden '>
+                                                {
+                                                    driverData.map((item) => (
+                                                        <div key={item.id} onClick={() => {
+                                                            setDriverDrawerOpen(true)
+                                                            setDriverCurrIndex(item.id)
+                                                        }} className='shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-2xl bg-(--grey4) overflow-hidden cursor-pointer '>
 
-                                                    <div className='bg-(--green3) px-3 relative'>
-                                                        <div className='flex justify-end absolute w-full px-6 bottom-0 -translate-y-3 '>
-                                                            <DropdownMenu>
-                                                                <DropdownMenuTrigger className='cursor-pointer'>
-                                                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" fill="white" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" fill="white" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" fill="white" /> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
-                                                                </DropdownMenuTrigger>
-                                                                <DropdownMenuContent>
-                                                                    <DropdownMenuItem>Delete</DropdownMenuItem>
-                                                                </DropdownMenuContent>
-                                                            </DropdownMenu>
-                                                        </div>
-                                                        <div className='flex justify-center'>
-                                                            <div className='shadow-[0_0_4px_0_#46B987] rounded-full bg-[#EDFFF5] h-[62px] w-[62px] flex items-center justify-center text-[#1C1C1CB2] font-semibold text-[24px] translate-y-5 '>
-                                                                JS
+                                                            <div className='bg-(--green3) px-3 relative'>
+                                                                <div className='flex justify-end absolute w-full px-6 bottom-0 -translate-y-3 '>
+                                                                    <DropdownMenu>
+                                                                        <DropdownMenuTrigger className='cursor-pointer'>
+                                                                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" fill="white" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" fill="white" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" fill="white" /> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
+                                                                        </DropdownMenuTrigger>
+                                                                        <DropdownMenuContent>
+                                                                            <DropdownMenuItem>Delete</DropdownMenuItem>
+                                                                        </DropdownMenuContent>
+                                                                    </DropdownMenu>
+                                                                </div>
+                                                                <div className='flex justify-center'>
+                                                                    <div className='shadow-[0_0_4px_0_#46B987] rounded-full bg-[#EDFFF5] h-[62px] w-[62px] flex items-center justify-center text-[#1C1C1CB2] font-semibold text-[24px] translate-y-5 '>
+                                                                        JS
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    </div>
 
-                                                    <div className='mt-5 px-5 flex flex-col gap-3 py-4'>
-                                                        <h1 className='text-center text-(--green1) text-[20px] font-semibold '>John Lewis</h1>
-                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
-                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>DOB</span>
-                                                            <span className='text-(--grey7) font-medium text-[14px]'>12/02/1985</span>
-                                                        </div>
-                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
-                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Driver Type</span>
-                                                            <span className='text-(--grey7) font-medium text-[14px]'>Owner Operator</span>
-                                                        </div>
-                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
-                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License No.</span>
-                                                            <span className='text-(--grey7) font-medium text-[14px]'>643894</span>
-                                                        </div>
-                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
-                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License Type</span>
-                                                            <span className='text-(--grey7) font-medium text-[14px]'>Commercial</span>
-                                                        </div>
-                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
-                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Issued Date</span>
-                                                            <span className='text-(--grey7) font-medium text-[14px]'>23/03/2012</span>
-                                                        </div>
-                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
-                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Date Hired</span>
-                                                            <span className='text-(--grey7) font-medium text-[14px]'>12/02/2013</span>
-                                                        </div>
-                                                        <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
-                                                            <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Experience</span>
-                                                            <span className='text-(--grey7) font-medium text-[14px]'>2 yrs 2 mths</span>
-                                                        </div>
-                                                    </div>
+                                                            <div className='mt-5 px-5 flex flex-col gap-3 py-4'>
+                                                                <h1 className='text-center text-(--green1) text-[20px] font-semibold '>{item.name}</h1>
+                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>DOB</span>
+                                                                    <span className='text-(--grey7) font-medium text-[14px]'>{item.dob}</span>
+                                                                </div>
+                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Driver Type</span>
+                                                                    <span className='text-(--grey7) font-medium text-[14px]'>{item.driverType}</span>
+                                                                </div>
+                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License No.</span>
+                                                                    <span className='text-(--grey7) font-medium text-[14px]'>{item.licenseNo}</span>
+                                                                </div>
+                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License Type</span>
+                                                                    <span className='text-(--grey7) font-medium text-[14px]'>{item.licenseType}</span>
+                                                                </div>
+                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Issued Date</span>
+                                                                    <span className='text-(--grey7) font-medium text-[14px]'>{item.issuedDate}</span>
+                                                                </div>
+                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Date Hired</span>
+                                                                    <span className='text-(--grey7) font-medium text-[14px]'>{item.dateHired}</span>
+                                                                </div>
+                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                    <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Experience</span>
+                                                                    <span className='text-(--grey7) font-medium text-[14px]'>{item.experience}</span>
+                                                                </div>
+                                                            </div>
 
-                                                </div>
+                                                        </div>
+
+                                                    ))
+                                                }
                                             </div>
                                             <div className='mt-8 bg-[#FFFFDA] border border-l-4 border-[#FACA7B] p-3 rounded-[12px]'>
                                                 <h1 className='text-(--dark1) text-[14px] font-semibold'>
