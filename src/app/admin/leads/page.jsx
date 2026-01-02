@@ -2237,7 +2237,7 @@ export default function Page() {
                                                             <div className='shadow-[0_0_7.6px_0_#D9D9D9B2] rounded-2xl mt-4 bg-(--grey4) overflow-hidden '>
 
                                                                 <div className='bg-(--green3) px-3 relative'>
-                                                                    <div className='flex justify-end absolute w-full px-6 bottom-0 -translate-y-3 '>
+                                                                    {/* <div className='flex justify-end absolute w-full px-6 bottom-0 -translate-y-3 '>
                                                                         <DropdownMenu>
                                                                             <DropdownMenuTrigger className='cursor-pointer'>
                                                                                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" fill="white" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" fill="white" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" fill="white" /> <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /> </svg>
@@ -2246,7 +2246,7 @@ export default function Page() {
                                                                                 <DropdownMenuItem>Delete</DropdownMenuItem>
                                                                             </DropdownMenuContent>
                                                                         </DropdownMenu>
-                                                                    </div>
+                                                                    </div> */}
                                                                     <div className='flex justify-center'>
                                                                         <div className='shadow-[0_0_4px_0_#46B987] rounded-full bg-[#EDFFF5] h-[62px] w-[62px] flex items-center justify-center text-[#1C1C1CB2] font-semibold text-[24px] translate-y-5 '>
                                                                             JS
@@ -2350,15 +2350,15 @@ export default function Page() {
 
                                                             <div className='mt-5 px-5 flex flex-col gap-3 py-4'>
                                                                 <h1 className='text-center text-(--green1) text-[20px] font-semibold '>{item.name}</h1>
-                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                {/* <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
                                                                     <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>DOB</span>
                                                                     <span className='text-(--grey7) font-medium text-[14px]'>{item.dob}</span>
-                                                                </div>
+                                                                </div> */}
                                                                 <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
                                                                     <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Driver Type</span>
                                                                     <span className='text-(--grey7) font-medium text-[14px]'>{item.driverType}</span>
                                                                 </div>
-                                                                <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
+                                                                {/* <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
                                                                     <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>License No.</span>
                                                                     <span className='text-(--grey7) font-medium text-[14px]'>{item.licenseNo}</span>
                                                                 </div>
@@ -2377,7 +2377,7 @@ export default function Page() {
                                                                 <div className='bg-white rounded-[12px] flex items-center gap-4 py-2 px-3'>
                                                                     <span className='text-[#0A0A0AB2] text-[14px] font-semibold'>Experience</span>
                                                                     <span className='text-(--grey7) font-medium text-[14px]'>{item.experience}</span>
-                                                                </div>
+                                                                </div> */}
                                                             </div>
 
                                                         </div>
